@@ -6,4 +6,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Styles\_Colors.xaml" />
+    <None Remove="Styles\_FontSizes.xaml" />
+    <None Remove="Styles\_Thickness.xaml" />
+  </ItemGroup>
+
 </Project>
