@@ -7,9 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Styles\TextBlock.xaml" />
     <None Remove="Styles\_Colors.xaml" />
     <None Remove="Styles\_FontSizes.xaml" />
     <None Remove="Styles\_Thickness.xaml" />
+    <None Remove="Views\MainPage.xaml" />
+    <None Remove="Views\SecondaryPage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\TextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
