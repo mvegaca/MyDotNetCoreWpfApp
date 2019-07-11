@@ -1,46 +1,53 @@
-﻿using System;
+﻿using MyDotNetCoreWpfApp.Views;
+using System;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    internal class NavigationService
+    public class NavigationService
     {
+        private IServiceProvider _serviceProvider;
+        private ShelWindow _shellWindow;
         private Frame _frame;
 
-        internal event NavigatedEventHandler Navigated;
+        public event NavigatedEventHandler Navigated;
 
-        internal event NavigationFailedEventHandler NavigationFailed;
+        public event NavigationFailedEventHandler NavigationFailed;
 
-        internal NavigationService()
+        public NavigationService(IServiceProvider serviceProvider, ShelWindow shellWindow)
         {
-        }
-
-        internal void Initialize(Frame frame)
-        {
-            _frame = frame;
+            _serviceProvider = serviceProvider;
+            _shellWindow = shellWindow;
+            _frame = shellWindow.Content as Frame;
             _frame.Navigated += OnNavigated;
             _frame.NavigationFailed += OnNavigationFailed;
         }
 
-        internal bool Navigate<T>()
+        public bool IsNavigated()
+            => _frame.Content != null;
+
+        public void Show()
+            => _shellWindow.Show();
+
+        public bool Navigate<T>()
             where T : Page
             => Navigate(typeof(T));
 
-        internal bool Navigate<T>(object extraData)
+        public bool Navigate<T>(object extraData)
             where T : Page
             => Navigate(typeof(T), extraData);
 
-        internal bool Navigate(Type pageType)
-            => _frame.Navigate(Activator.CreateInstance(pageType));
+        public bool Navigate(Type pageType)
+            => _frame.Navigate(_serviceProvider.GetService(pageType));
 
-        internal bool Navigate(Type pageType, object extraData)
-            => _frame.Navigate(Activator.CreateInstance(pageType), extraData);
+        public bool Navigate(Type pageType, object extraData)
+            => _frame.Navigate(_serviceProvider.GetService(pageType), extraData);
 
-        internal bool Navigate(object content)
+        public bool Navigate(object content)
             => _frame.Navigate(content);
 
-        internal bool Navigate(object content, object extraData)
+        public bool Navigate(object content, object extraData)
             => _frame.Navigate(content, extraData);
 
         private void OnNavigated(object sender, NavigationEventArgs e)

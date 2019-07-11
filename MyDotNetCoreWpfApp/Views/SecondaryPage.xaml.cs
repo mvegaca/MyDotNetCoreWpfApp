@@ -19,19 +19,10 @@ namespace MyDotNetCoreWpfApp.Views
     /// </summary>
     public partial class SecondaryPage : Page
     {
-        public SecondaryViewModel ViewModel { get; } = new SecondaryViewModel();
-
-        public SecondaryPage()
+        public SecondaryPage(SecondaryViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = ViewModel;
-            App.CurrentApp.NavigationService.Navigated += OnNavigated;
-        }
-
-        private void OnNavigated(object sender, NavigationEventArgs e)
-        {
-            ViewModel.LoadData(e.ExtraData?.ToString());
-            App.CurrentApp.NavigationService.Navigated -= OnNavigated;
-        }
+            DataContext = viewModel;
+        }        
     }
 }

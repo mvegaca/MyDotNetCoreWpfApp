@@ -10,17 +10,19 @@ namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class MainViewModel : Observable
     {
+        private NavigationService _navigationService;
         private ICommand _navigateCommand;
 
         public ICommand NavigateCommand => _navigateCommand ?? (_navigateCommand = new RelayCommand(OnNavigate));
 
-        public MainViewModel()
+        public MainViewModel(NavigationService navigationService)
         {
+            _navigationService = navigationService;
         }
 
         private void OnNavigate()
         {
-            App.CurrentApp.NavigationService.Navigate<SecondaryPage>("Hello world!");
+            _navigationService.Navigate<SecondaryPage>("Hello world!");
         }
     }
 }

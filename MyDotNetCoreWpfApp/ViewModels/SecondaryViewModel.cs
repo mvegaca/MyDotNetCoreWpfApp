@@ -1,12 +1,11 @@
 ﻿using MyDotNetCoreWpfApp.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MyDotNetCoreWpfApp.Services;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class SecondaryViewModel : Observable
     {
+        private NavigationService _navigationService;
         private string _navigationExtraData;
 
         public string NavigationExtraData
@@ -15,13 +14,21 @@ namespace MyDotNetCoreWpfApp.ViewModels
             set { Set(ref _navigationExtraData, value); }
         }
 
-        public SecondaryViewModel()
+        public SecondaryViewModel(NavigationService navigationService)
         {
+            _navigationService = navigationService;
+            _navigationService.Navigated += OnNavigated;
         }
 
         public void LoadData(string extraData)
         {
             NavigationExtraData = extraData;
+        }
+
+        private void OnNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            LoadData(e.ExtraData?.ToString());
+            _navigationService.Navigated -= OnNavigated;
         }
     }
 }

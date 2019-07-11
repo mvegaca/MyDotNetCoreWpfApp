@@ -22,12 +22,10 @@ namespace MyDotNetCoreWpfApp.Views
     /// </summary>
     public partial class ShelWindow : Window
     {
-        public ShelWindowViewModel ViewModel { get; } = new ShelWindowViewModel();
-
-        public ShelWindow()
+        public ShelWindow(ShelWindowViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = ViewModel;
+            DataContext = viewModel;
         }
     }
 }

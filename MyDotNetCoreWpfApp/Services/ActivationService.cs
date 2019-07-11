@@ -1,4 +1,7 @@
-﻿using MyDotNetCoreWpfApp.Activation;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MyDotNetCoreWpfApp.Activation;
+using MyDotNetCoreWpfApp.ViewModels;
+using MyDotNetCoreWpfApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,35 +13,27 @@ namespace MyDotNetCoreWpfApp.Services
 {
     internal class ActivationService
     {
-        private Lazy<Window> _shell;
-        private Type _defaultNavItem;
+        private DefaultActivationHandler _defaultHandler;
+        private ICollection<ActivationHandler> _activationHandlers = new List<ActivationHandler>();
 
-        public ActivationService(Type defaultNavItem, Lazy<Window> shell)
+        public ActivationService(DefaultActivationHandler defaultActivationHandler)
         {
-            _defaultNavItem = defaultNavItem;
-            _shell = shell;
+            _defaultHandler = defaultActivationHandler;
         }
 
         public async Task ActivateAsync(object activationArgs)
         {
-            var activationHandler = GetActivationHandlers()
-                                    .FirstOrDefault(h => h.CanHandle(activationArgs));
+            var activationHandler = _activationHandlers.FirstOrDefault(h => h.CanHandle(activationArgs));
 
             if (activationHandler != null)
             {
                 await activationHandler.HandleAsync(activationArgs);
             }
 
-            var defaultHandler = new DefaultActivationHandler(_defaultNavItem, _shell);
-            if (defaultHandler.CanHandle(activationArgs))
+            if (_defaultHandler.CanHandle(activationArgs))
             {
-                await defaultHandler.HandleAsync(activationArgs);
+                await _defaultHandler.HandleAsync(activationArgs);
             }
-        }
-
-        private IEnumerable<ActivationHandler> GetActivationHandlers()
-        {
-            yield break;
         }
     }
 }

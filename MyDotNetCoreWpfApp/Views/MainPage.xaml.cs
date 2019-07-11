@@ -19,12 +19,10 @@ namespace MyDotNetCoreWpfApp.Views
     /// </summary>
     public partial class MainPage : Page
     {
-        public MainViewModel ViewModel { get; } = new MainViewModel();
-
-        public MainPage()
+        public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = ViewModel;
+            DataContext = viewModel;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using MyDotNetCoreWpfApp.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MyDotNetCoreWpfApp.Activation;
+using MyDotNetCoreWpfApp.Services;
+using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
 using System;
 using System.Windows;
@@ -11,32 +14,44 @@ namespace MyDotNetCoreWpfApp
     /// </summary>
     public partial class App : Application
     {
+        private ServiceProvider _serviceProvider;
         internal static App CurrentApp = (App)Current;
 
-        private Lazy<ActivationService> _activationService;
-
-        internal ActivationService ActivationService
-        {
-            get { return _activationService.Value; }
-        }
-
-        internal readonly NavigationService NavigationService = new NavigationService();
+        private ActivationService _activationService;
 
         public App()
         {
-            _activationService = new Lazy<ActivationService>(CreateActivationService);
+            _serviceProvider = ConfigureServices()
+                                .BuildServiceProvider();
+            _activationService = _serviceProvider.GetService<ActivationService>();
             DispatcherUnhandledException += OnDispatcherUnhandledException;
         }
 
-        private ActivationService CreateActivationService()
-            =>new ActivationService(typeof(MainPage), new Lazy<Window>(CreateShell));
+        private static IServiceCollection ConfigureServices()
+        {
+            var services = new ServiceCollection();
+            services.AddSingleton<ActivationService>();
+            services.AddSingleton<NavigationService>();
 
-        private Window CreateShell() => new ShelWindow();
+            // Handlers
+            services.AddTransient<DefaultActivationHandler>();
+
+            // Register Views
+            services.AddTransient<ShelWindow>();
+            services.AddTransient<MainPage>();
+            services.AddTransient<SecondaryPage>();
+
+            // Register ViewModels
+            services.AddTransient<ShelWindowViewModel>();
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<SecondaryViewModel>();
+            return services;
+        }
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
             // TODO: Restore application-scope property from isolated storage
-            await ActivationService.ActivateAsync(e);
+            await _activationService.ActivateAsync(e);
         }
 
         private void OnExit(object sender, ExitEventArgs e)
