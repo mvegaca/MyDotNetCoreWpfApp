@@ -3,7 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Styles/_Colors.xaml" />
         <ResourceDictionary Source="/Styles/_FontSizes.xaml" />
         <ResourceDictionary Source="/Styles/_Thickness.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -11,6 +10,7 @@
     <Style TargetType="TextBlock" x:Key="BaseTextBlockStyle">
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />
         <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Foreground" Value="{DynamicResource ResourceKey=TextForegroundBrush}" />
     </Style>
 
     <Style TargetType="TextBlock" x:Key="PageTitleTextBlockStyle" BasedOn="{StaticResource BaseTextBlockStyle}">

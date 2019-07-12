@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Styles\Button.xaml" />
+    <None Remove="Styles\DarkBrushes.xaml" />
+    <None Remove="Styles\LightBrushes.xaml" />
+    <None Remove="Styles\Page.xaml" />
     <None Remove="Styles\TextBlock.xaml" />
-    <None Remove="Styles\_Colors.xaml" />
     <None Remove="Styles\_FontSizes.xaml" />
     <None Remove="Styles\_Thickness.xaml" />
     <None Remove="Views\MainPage.xaml" />
@@ -20,6 +23,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyDotNetCoreWpfApp.Core\MyDotNetCoreWpfApp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\DarkBrushes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Button.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\TextBlock.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,10 +1,13 @@
 ﻿using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Services;
+using System;
+using System.Windows.Input;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class SecondaryViewModel : Observable
     {
+        private ICommand _goBackCommand;
         private NavigationService _navigationService;
         private string _navigationExtraData;
 
@@ -13,6 +16,8 @@ namespace MyDotNetCoreWpfApp.ViewModels
             get { return _navigationExtraData; }
             set { Set(ref _navigationExtraData, value); }
         }
+
+        public ICommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack));
 
         public SecondaryViewModel(NavigationService navigationService)
         {
@@ -29,6 +34,11 @@ namespace MyDotNetCoreWpfApp.ViewModels
         {
             LoadData(e.ExtraData?.ToString());
             _navigationService.Navigated -= OnNavigated;
+        }
+
+        private void OnGoBack()
+        {
+            _navigationService.GoBack();
         }
     }
 }

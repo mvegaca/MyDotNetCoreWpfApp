@@ -3,7 +3,6 @@ using MyDotNetCoreWpfApp.Activation;
 using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
-using System;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -32,6 +31,7 @@ namespace MyDotNetCoreWpfApp
             var services = new ServiceCollection();
             services.AddSingleton<ActivationService>();
             services.AddSingleton<NavigationService>();
+            services.AddSingleton<ThemeSelectorService>();
 
             // Handlers
             services.AddTransient<DefaultActivationHandler>();
@@ -49,15 +49,10 @@ namespace MyDotNetCoreWpfApp
         }
 
         private async void OnStartup(object sender, StartupEventArgs e)
-        {
-            // TODO: Restore application-scope property from isolated storage
-            await _activationService.ActivateAsync(e);
-        }
+            => await _activationService.ActivateAsync(e);
 
         private void OnExit(object sender, ExitEventArgs e)
-        {
-            // TODO: Persist application-scope property to isolated storage
-        }
+            => _activationService.Exit();
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {

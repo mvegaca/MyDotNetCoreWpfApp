@@ -15,6 +15,8 @@ namespace MyDotNetCoreWpfApp.Services
 
         public event NavigationFailedEventHandler NavigationFailed;
 
+        public bool CanGoBack => _frame.CanGoBack;
+
         public NavigationService(IServiceProvider serviceProvider, ShelWindow shellWindow)
         {
             _serviceProvider = serviceProvider;
@@ -48,7 +50,10 @@ namespace MyDotNetCoreWpfApp.Services
             => _frame.Navigate(content);
 
         public bool Navigate(object content, object extraData)
-            => _frame.Navigate(content, extraData);
+            => _frame.Navigate(content, extraData);        
+
+        public void GoBack()
+            => _frame.GoBack();
 
         private void OnNavigated(object sender, NavigationEventArgs e)
             => Navigated?.Invoke(this, e);
