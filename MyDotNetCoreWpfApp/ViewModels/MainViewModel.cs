@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
@@ -12,9 +13,17 @@ namespace MyDotNetCoreWpfApp.ViewModels
     {
         private NavigationService _navigationService;
         private ThemeSelectorService _themeSelectorService;
+        private int _data;
         private ICommand _navigateCommand;
         private ICommand _setLightThemeCommand;
         private ICommand _setDarkThemeCommand;
+        private DispatcherTimer _timer;
+
+        public int Data
+        {
+            get { return _data; }
+            set { Set(ref _data, value); }
+        }
 
         public ICommand NavigateCommand => _navigateCommand ?? (_navigateCommand = new RelayCommand(OnNavigate));
 
@@ -26,6 +35,27 @@ namespace MyDotNetCoreWpfApp.ViewModels
         {
             _navigationService = navigationService;
             _themeSelectorService = themeSelectorService;
+            _navigationService.Navigated += OnNavigated;            
+            _timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += OnTimerTick;
+        }
+
+        private void OnTimerTick(object sender, EventArgs e)
+        {
+            Data = Data + 1;
+        }        
+
+        private void OnNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (e.ExtraData is PersistAndRestoreData restoreData)
+            {
+                Data = int.Parse(restoreData.Data.ToString());
+            }
+
+            _timer.Start();
         }
 
         private void OnNavigate()

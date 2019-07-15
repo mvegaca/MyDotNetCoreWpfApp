@@ -35,6 +35,7 @@ namespace MyDotNetCoreWpfApp
 
             // Handlers
             services.AddTransient<DefaultActivationHandler>();
+            services.AddSingleton<PersistAndRestoreService>();
 
             // Register Views
             services.AddTransient<ShelWindow>();
@@ -51,8 +52,8 @@ namespace MyDotNetCoreWpfApp
         private async void OnStartup(object sender, StartupEventArgs e)
             => await _activationService.ActivateAsync(e);
 
-        private void OnExit(object sender, ExitEventArgs e)
-            => _activationService.Exit();
+        private async void OnExit(object sender, ExitEventArgs e)
+            => await _activationService.ExitAsync();
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {

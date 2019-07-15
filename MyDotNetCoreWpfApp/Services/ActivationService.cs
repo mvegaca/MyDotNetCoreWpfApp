@@ -15,12 +15,15 @@ namespace MyDotNetCoreWpfApp.Services
     {
         private DefaultActivationHandler _defaultHandler;
         private ThemeSelectorService _themeSelectorService;
+        PersistAndRestoreService _persistAndRestoreService;
         private ICollection<ActivationHandler> _activationHandlers = new List<ActivationHandler>();
 
-        public ActivationService(DefaultActivationHandler defaultActivationHandler, ThemeSelectorService themeSelectorService)
+        public ActivationService(DefaultActivationHandler defaultActivationHandler, ThemeSelectorService themeSelectorService, PersistAndRestoreService persistAndRestoreService)
         {
             _defaultHandler = defaultActivationHandler;
             _themeSelectorService = themeSelectorService;
+            _persistAndRestoreService = persistAndRestoreService;
+            _activationHandlers.Add(persistAndRestoreService);
         }
 
         public async Task ActivateAsync(object activationArgs)
@@ -47,6 +50,7 @@ namespace MyDotNetCoreWpfApp.Services
         private async Task InitializeAsync()
         {
             await Task.CompletedTask;
+            FilesService.Initialize();
             App.Current.RestoreProperties();
             _themeSelectorService.SetTheme();
         }
@@ -56,8 +60,9 @@ namespace MyDotNetCoreWpfApp.Services
             await Task.CompletedTask;           
         }
 
-        internal void Exit()
+        public async Task ExitAsync()
         {
+            await _persistAndRestoreService.PersistDataAsync();
             App.Current.SaveProperties();
         }
     }

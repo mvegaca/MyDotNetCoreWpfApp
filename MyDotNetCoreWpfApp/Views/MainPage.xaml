@@ -28,18 +28,27 @@
                 Margin="{StaticResource MediumTopMargin}"
                 Style="{StaticResource BaseTextBlockStyle}"
                 Text="Set theme" />
-            <Button
-                Content="Set Light Theme"
-                Margin="{StaticResource SmallTopMargin}"
-                Width="300"
-                Style="{StaticResource BaseButtonStyle}"
-                Command="{Binding SetLightThemeCommand}" />
-            <Button
-                Content="Set Dark Theme"
-                Margin="{StaticResource SmallTopMargin}"
-                Width="300"
-                Style="{StaticResource BaseButtonStyle}"
-                Command="{Binding SetDarkThemeCommand}" />
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource SmallTopMargin}">
+                <Button
+                    Content="Set Light Theme"
+                    Width="300"
+                    Style="{StaticResource BaseButtonStyle}"
+                    Command="{Binding SetLightThemeCommand}" />
+                <Button
+                    Content="Set Dark Theme"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Width="300"
+                    Style="{StaticResource BaseButtonStyle}"
+                    Command="{Binding SetDarkThemeCommand}" />
+            </StackPanel>
+
+            <TextBlock
+                Margin="{StaticResource MediumTopMargin}"
+                Style="{StaticResource BaseTextBlockStyle}"
+                Text="This data will persist on app closing." />
+            <TextBlock
+                Text="{Binding Data}"
+                Margin="{StaticResource MediumTopMargin}" />
         </StackPanel>
 
     </Grid>

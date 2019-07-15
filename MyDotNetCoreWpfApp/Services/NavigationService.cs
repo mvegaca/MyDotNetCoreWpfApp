@@ -7,6 +7,7 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public class NavigationService
     {
+        private bool _isNavigated = false;
         private IServiceProvider _serviceProvider;
         private ShelWindow _shellWindow;
         private Frame _frame;
@@ -27,7 +28,7 @@ namespace MyDotNetCoreWpfApp.Services
         }
 
         public bool IsNavigated()
-            => _frame.Content != null;
+            => _isNavigated;
 
         public void Show()
             => _shellWindow.Show();
@@ -41,16 +42,34 @@ namespace MyDotNetCoreWpfApp.Services
             => Navigate(typeof(T), extraData);
 
         public bool Navigate(Type pageType)
-            => _frame.Navigate(_serviceProvider.GetService(pageType));
+        {
+            return _frame.Navigate(_serviceProvider.GetService(pageType));
+        }
 
         public bool Navigate(Type pageType, object extraData)
-            => _frame.Navigate(_serviceProvider.GetService(pageType), extraData);
+            =>  Navigate(_serviceProvider.GetService(pageType), extraData);
 
         public bool Navigate(object content)
-            => _frame.Navigate(content);
+        {
+            var navigated = _frame.Navigate(content);
+            if (navigated)
+            {
+                _isNavigated = true;
+            }
+
+            return navigated;
+        }
 
         public bool Navigate(object content, object extraData)
-            => _frame.Navigate(content, extraData);        
+        {
+            var navigated = _frame.Navigate(content, extraData);
+            if (navigated)
+            {
+                _isNavigated = true;
+            }
+
+            return navigated;
+        }
 
         public void GoBack()
             => _frame.GoBack();

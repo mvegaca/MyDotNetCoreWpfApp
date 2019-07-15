@@ -1,4 +1,5 @@
-﻿using MyDotNetCoreWpfApp.ViewModels;
+﻿using MyDotNetCoreWpfApp.Services;
+using MyDotNetCoreWpfApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,10 +20,19 @@ namespace MyDotNetCoreWpfApp.Views
     /// </summary>
     public partial class MainPage : Page
     {
-        public MainPage(MainViewModel viewModel)
+        private MainViewModel _viewModel;
+
+        public MainPage(MainViewModel viewModel, PersistAndRestoreService persistAndRestoreService)
         {
+            _viewModel = viewModel;
             InitializeComponent();
-            DataContext = viewModel;
+            DataContext = _viewModel;
+            persistAndRestoreService.OnPersistData += OnPersistData;
+        }
+
+        private void OnPersistData(object sender, PersistAndRestoreArgs e)
+        {
+            e.PersistAndRestoreData.Data = _viewModel.Data;
         }
     }
 }

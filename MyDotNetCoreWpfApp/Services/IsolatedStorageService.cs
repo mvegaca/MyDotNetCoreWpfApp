@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace MyDotNetCoreWpfApp.Services
 {
+    public enum AppDirectory
+    {
+        LocalAppData
+    }
+
     public static class IsolatedStorageService
     {
         public static IEnumerable<string> ReadLines(string fileName)
