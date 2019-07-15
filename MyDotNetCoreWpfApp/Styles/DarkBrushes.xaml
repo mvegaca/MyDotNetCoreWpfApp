@@ -5,6 +5,7 @@
 
     <SolidColorBrush po:Freeze="True" x:Key="PageBackgroundBrush" Color="#FF000000" />
     <SolidColorBrush po:Freeze="True" x:Key="TextForegroundBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush po:Freeze="True" x:Key="FocusStyleBorderBrush" Color="#FFFFFFFF" />
 
     <!--Button-->
     <SolidColorBrush po:Freeze="True" x:Key="ButtonBackgroundBrush" Color="#FF333333" />

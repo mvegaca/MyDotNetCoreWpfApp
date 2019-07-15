@@ -2,18 +2,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Styles/_FontSizes.xaml" />
-        <ResourceDictionary Source="/Styles/_Thickness.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
-    <Style TargetType="TextBlock" x:Key="BaseTextBlockStyle">
+    <Style TargetType="{x:Type TextBlock}" x:Key="BaseTextBlockStyle">
         <Setter Property="FontSize" Value="{StaticResource NormalFontSize}" />
+        <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Foreground" Value="{DynamicResource ResourceKey=TextForegroundBrush}" />
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="PageTitleTextBlockStyle" BasedOn="{StaticResource BaseTextBlockStyle}">
+    <Style TargetType="{x:Type TextBlock}" x:Key="PageTitleTextBlockStyle" BasedOn="{StaticResource BaseTextBlockStyle}">
         <Setter Property="FontSize" Value="{StaticResource LargeFontSize}" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>

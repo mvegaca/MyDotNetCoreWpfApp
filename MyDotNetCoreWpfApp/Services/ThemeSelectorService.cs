@@ -31,28 +31,34 @@ namespace MyDotNetCoreWpfApp.Services
 
         public void SetTheme(string theme = null)
         {
-            if (_isHighContrastActive)
+            try
             {
-                theme = HighContrastTheme;
-            }
-            else if (string.IsNullOrEmpty(theme))
-            {
-                if (App.Current.Properties.Contains("Theme"))
+                if (_isHighContrastActive)
                 {
-                    // Saved theme
-                    theme = App.Current.Properties["Theme"]?.ToString();
-                }                
-                else
-                {
-                    // Default theme
-                    theme = LightTheme;
+                    theme = HighContrastTheme;
                 }
-            }
+                else if (string.IsNullOrEmpty(theme))
+                {
+                    if (App.Current.Properties.Contains("Theme"))
+                    {
+                        // Saved theme
+                        theme = App.Current.Properties["Theme"]?.ToString();
+                    }
+                    else
+                    {
+                        // Default theme
+                        theme = LightTheme;
+                    }
+                }
 
-            App.Current.Resources.MergedDictionaries.Remove(this.themeResourceDictionaty);
-            themeResourceDictionaty = new ResourceDictionary() { Source = _brushes[theme] };
-            App.Current.Resources.MergedDictionaries.Add(this.themeResourceDictionaty);
-            App.Current.Properties["Theme"] = theme.ToString();
+                App.Current.Resources.MergedDictionaries.Remove(this.themeResourceDictionaty);
+                themeResourceDictionaty = new ResourceDictionary() { Source = _brushes[theme] };
+                App.Current.Resources.MergedDictionaries.Add(this.themeResourceDictionaty);
+                App.Current.Properties["Theme"] = theme.ToString();
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
         private void OnUserPreferenceChanging(object sender, UserPreferenceChangingEventArgs e)

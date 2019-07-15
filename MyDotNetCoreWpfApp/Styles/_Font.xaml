@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=System.Runtime">
 
-    <sys:Double x:Key="NormalFontSize">12</sys:Double>
-    <sys:Double x:Key="LargeFontSize">16</sys:Double>
+    <sys:Double x:Key="NormalFontSize">14</sys:Double>
+    <sys:Double x:Key="LargeFontSize">18</sys:Double>
+    <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
 </ResourceDictionary>
