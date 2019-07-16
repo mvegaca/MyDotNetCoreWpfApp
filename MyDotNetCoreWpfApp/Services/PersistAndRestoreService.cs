@@ -65,12 +65,12 @@ namespace MyDotNetCoreWpfApp.Services
         private async Task<PersistAndRestoreArgs> GetPersistAndRestoreData()
         {
             var persistData = await FilesService.ReadAsync<PersistAndRestoreArgs>(_persistAndRestoreFilePath);
-            //if (persistData?.Target != null && typeof(Page).IsAssignableFrom(persistData.Target))
-            //{
+            if (persistData?.Target != null && typeof(Page).IsAssignableFrom(persistData.Target))
+            {
                 return persistData;
-            //}
+            }
 
-            //return null;
+            return null;
         }
     }
 }

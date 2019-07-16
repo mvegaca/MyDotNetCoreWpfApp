@@ -1,5 +1,8 @@
-﻿using MyDotNetCoreWpfApp.Views;
+﻿using MahApps.Metro.Controls;
+using MyDotNetCoreWpfApp.ViewModels;
+using MyDotNetCoreWpfApp.Views;
 using System;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -10,7 +13,11 @@ namespace MyDotNetCoreWpfApp.Services
         private bool _isNavigated = false;
         private IServiceProvider _serviceProvider;
         private ShelWindow _shellWindow;
+        private HamburgerMenu _hamburgerMenu;
+        private HamburgerMenuItemCollection _menuItems;
         private Frame _frame;
+
+        private ShelWindowViewModel ShelViewModel => _shellWindow.DataContext as ShelWindowViewModel;
 
         public event NavigatedEventHandler Navigated;
 
@@ -22,7 +29,11 @@ namespace MyDotNetCoreWpfApp.Services
         {
             _serviceProvider = serviceProvider;
             _shellWindow = shellWindow;
-            _frame = shellWindow.Content as Frame;
+            _hamburgerMenu = shellWindow.Content as HamburgerMenu;
+            _menuItems = _hamburgerMenu.ItemsSource as HamburgerMenuItemCollection;
+            _frame = _hamburgerMenu.Content as Frame;
+
+            _hamburgerMenu.ItemInvoked += OnMenuItemInvoked;
             _frame.Navigated += OnNavigated;
             _frame.NavigationFailed += OnNavigationFailed;
         }
@@ -42,9 +53,7 @@ namespace MyDotNetCoreWpfApp.Services
             => Navigate(typeof(T), extraData);
 
         public bool Navigate(Type pageType)
-        {
-            return _frame.Navigate(_serviceProvider.GetService(pageType));
-        }
+            => Navigate(_serviceProvider.GetService(pageType));
 
         public bool Navigate(Type pageType, object extraData)
             =>  Navigate(_serviceProvider.GetService(pageType), extraData);
@@ -75,9 +84,24 @@ namespace MyDotNetCoreWpfApp.Services
             => _frame.GoBack();
 
         private void OnNavigated(object sender, NavigationEventArgs e)
-            => Navigated?.Invoke(this, e);
+        {
+            var pageType = e.Content.GetType();
+            var item = _menuItems
+                .OfType<HamburgerMenuItem>()
+                .First(i => i.TargetPageType == pageType);
+            _hamburgerMenu.SelectedItem = item;
+            Navigated?.Invoke(this, e);
+        }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
             => NavigationFailed?.Invoke(this, e);
+
+        private void OnMenuItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs args)
+        {
+            if (args.InvokedItem is HamburgerMenuItem item)
+            {
+                Navigate(item.TargetPageType);
+            }
+        }
     }
 }

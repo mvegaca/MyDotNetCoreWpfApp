@@ -36,16 +36,17 @@ namespace MyDotNetCoreWpfApp
             // Handlers
             services.AddTransient<DefaultActivationHandler>();
             services.AddSingleton<PersistAndRestoreService>();
-
-            // Register Views
+            
+            // Views
             services.AddTransient<ShelWindow>();
-            services.AddTransient<MainPage>();
-            services.AddTransient<SecondaryPage>();
-
-            // Register ViewModels
             services.AddTransient<ShelWindowViewModel>();
+
+            services.AddTransient<MainPage>();
             services.AddTransient<MainViewModel>();
+
+            services.AddTransient<SecondaryPage>();
             services.AddTransient<SecondaryViewModel>();
+
             return services;
         }
 

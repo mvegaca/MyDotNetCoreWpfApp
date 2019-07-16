@@ -1,4 +1,5 @@
-﻿using MyDotNetCoreWpfApp.Services;
+﻿using MahApps.Metro.Controls;
+using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace MyDotNetCoreWpfApp.Views
@@ -20,7 +20,7 @@ namespace MyDotNetCoreWpfApp.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ShelWindow : Window
+    public partial class ShelWindow : MetroWindow
     {
         public ShelWindow(ShelWindowViewModel viewModel)
         {
