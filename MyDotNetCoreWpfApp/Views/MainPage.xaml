@@ -22,6 +22,7 @@
         Style="{StaticResource PageTitleTextBlockStyle}"
         -->
         <TextBlock
+            x:Name="Title"
             Text="Main" />
         <StackPanel Grid.Row="1" Margin="{StaticResource SmallTopMargin}">
             <!--

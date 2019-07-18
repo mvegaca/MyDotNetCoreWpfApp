@@ -9,6 +9,16 @@
     mc:Ignorable="d"
     ShowTitleBar="True"
     Title="MyDotNetCoreWpfApp" Height="450" Width="800">
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            <Button
+                Height="24"
+                Width="48"
+                Foreground="White"
+                Content="&#xE72B;"
+                FontFamily="Segoe MDL2 Assets" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
     <controls:MetroWindow.Resources>
         <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
             <Grid Height="48">

@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
 using System;
@@ -16,7 +17,7 @@ namespace MyDotNetCoreWpfApp.Services
         private HamburgerMenu _hamburgerMenu;
         private HamburgerMenuItemCollection _menuItems;
         private Frame _frame;
-
+        private Button _goBackButton;
         private ShelWindowViewModel ShelViewModel => _shellWindow.DataContext as ShelWindowViewModel;
 
         public event NavigatedEventHandler Navigated;
@@ -32,6 +33,8 @@ namespace MyDotNetCoreWpfApp.Services
             _hamburgerMenu = shellWindow.Content as HamburgerMenu;
             _menuItems = _hamburgerMenu.ItemsSource as HamburgerMenuItemCollection;
             _frame = _hamburgerMenu.Content as Frame;
+            _goBackButton = _shellWindow.LeftWindowCommands.Items.GetItemAt(0) as Button;
+            _goBackButton.Command = new RelayCommand(GoBack, () => CanGoBack);
 
             _hamburgerMenu.ItemInvoked += OnMenuItemInvoked;
             _frame.Navigated += OnNavigated;
@@ -90,6 +93,7 @@ namespace MyDotNetCoreWpfApp.Services
                 .OfType<HamburgerMenuItem>()
                 .First(i => i.TargetPageType == pageType);
             _hamburgerMenu.SelectedItem = item;
+            ((RelayCommand)_goBackButton.Command).OnCanExecuteChanged();
             Navigated?.Invoke(this, e);
         }
 

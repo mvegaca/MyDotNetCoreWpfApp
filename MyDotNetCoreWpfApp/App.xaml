@@ -11,7 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/_Thickness.xaml" />
                 <!--
-                <ResourceDictionary Source="/Styles/_Font.xaml" />                
+                <ResourceDictionary Source="/Styles/_Font.xaml" />
 
                 <ResourceDictionary Source="/Styles/Button.xaml" />
                 <ResourceDictionary Source="/Styles/Page.xaml" />
