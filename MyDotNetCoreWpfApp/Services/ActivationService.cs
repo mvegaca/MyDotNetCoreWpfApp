@@ -1,13 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MyDotNetCoreWpfApp.Activation;
-using MyDotNetCoreWpfApp.ViewModels;
-using MyDotNetCoreWpfApp.Views;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Navigation;
+using MyDotNetCoreWpfApp.Activation;
 
 namespace MyDotNetCoreWpfApp.Services
 {

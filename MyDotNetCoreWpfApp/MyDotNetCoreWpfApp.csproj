@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Styles\Button.xaml" />
-    <None Remove="Styles\DarkBrushes.xaml" />
-    <None Remove="Styles\LightBrushes.xaml" />
-    <None Remove="Styles\Page.xaml" />
-    <None Remove="Styles\TextBlock.xaml" />
-    <None Remove="Styles\_Font.xaml" />
     <None Remove="Styles\_Thickness.xaml" />
     <None Remove="Views\MainPage.xaml" />
     <None Remove="Views\SecondaryPage.xaml" />
@@ -21,25 +15,11 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0391" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyDotNetCoreWpfApp.Core\MyDotNetCoreWpfApp.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Styles\DarkBrushes.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\Button.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\Page.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\TextBlock.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
 </Project>

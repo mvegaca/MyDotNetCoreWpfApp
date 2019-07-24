@@ -1,6 +1,6 @@
-﻿using MyDotNetCoreWpfApp.Services;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
+using MyDotNetCoreWpfApp.Services;
 
 namespace MyDotNetCoreWpfApp
 {

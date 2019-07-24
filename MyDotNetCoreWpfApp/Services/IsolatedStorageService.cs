@@ -1,8 +1,8 @@
-﻿using MyDotNetCoreWpfApp.Core.Helpers;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Threading.Tasks;
+using MyDotNetCoreWpfApp.Core.Helpers;
 
 namespace MyDotNetCoreWpfApp.Services
 {

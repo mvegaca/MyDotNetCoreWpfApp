@@ -1,7 +1,6 @@
-﻿using MyDotNetCoreWpfApp.Helpers;
+﻿using System.Windows.Input;
+using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Services;
-using System;
-using System.Windows.Input;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {

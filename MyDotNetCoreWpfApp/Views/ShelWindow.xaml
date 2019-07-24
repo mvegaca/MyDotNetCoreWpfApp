@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:views="clr-namespace:MyDotNetCoreWpfApp.Views"
     mc:Ignorable="d"
     ShowTitleBar="True"
     Title="MyDotNetCoreWpfApp" Height="450" Width="800">
@@ -16,7 +15,8 @@
                 Width="48"
                 Foreground="White"
                 Content="&#xE72B;"
-                FontFamily="Segoe MDL2 Assets" />
+                FontFamily="Segoe MDL2 Assets"
+                Command="{Binding GoBackCommand}" />
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>
     <controls:MetroWindow.Resources>
@@ -45,17 +45,15 @@
     </controls:MetroWindow.Resources>
     <controls:MetroWindow.Content>
         <controls:HamburgerMenu
+            x:Name="hamburgerMenu"
             Foreground="White"
             IsPaneOpen="False"
             PaneBackground="#FF444444"
-            DisplayMode="CompactInline"
+            DisplayMode="CompactInline"            
+            ItemsSource="{Binding MenuItems}"
+            SelectedItem="{Binding SelectedMenuItem}"
+            ItemCommand="{Binding MenuItemInvokedCommand}"            
             ItemTemplate="{StaticResource MenuItemTemplate}">
-            <controls:HamburgerMenu.ItemsSource>
-                <controls:HamburgerMenuItemCollection>
-                    <controls:HamburgerMenuGlyphItem Label="Main" Glyph="&#xE8A5;" TargetPageType="views:MainPage" />
-                    <controls:HamburgerMenuGlyphItem Label="Secondary" Glyph="&#xE8A5;" TargetPageType="views:SecondaryPage" />
-                </controls:HamburgerMenuItemCollection>
-            </controls:HamburgerMenu.ItemsSource>
             <controls:HamburgerMenu.Content>
                 <Frame
                     x:Name="shellFrame"

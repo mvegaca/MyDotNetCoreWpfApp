@@ -1,19 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace MyDotNetCoreWpfApp.Views
 {
@@ -22,10 +9,11 @@ namespace MyDotNetCoreWpfApp.Views
     /// </summary>
     public partial class ShelWindow : MetroWindow
     {
-        public ShelWindow(ShelWindowViewModel viewModel)
+        public ShelWindow(ShelWindowViewModel viewModel, NavigationService navigationService)
         {
             InitializeComponent();
             DataContext = viewModel;
+            navigationService.Initialize(shellFrame);
         }
     }
 }

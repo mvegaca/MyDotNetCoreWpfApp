@@ -1,11 +1,9 @@
-﻿using MyDotNetCoreWpfApp.Helpers;
-using MyDotNetCoreWpfApp.Services;
-using MyDotNetCoreWpfApp.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MyDotNetCoreWpfApp.Helpers;
+using MyDotNetCoreWpfApp.Services;
+using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
@@ -64,9 +62,9 @@ namespace MyDotNetCoreWpfApp.ViewModels
         }
 
         private void OnSetLightTheme()
-            => _themeSelectorService.SetTheme(ThemeSelectorService.LightTheme);
+            => _themeSelectorService.SetTheme(ThemeSelectorService.BaseLightTheme);
 
         private void OnSetDarkTheme()
-            => _themeSelectorService.SetTheme(ThemeSelectorService.DarkTheme);
+            => _themeSelectorService.SetTheme(ThemeSelectorService.BaseDarkTheme);
     }
 }

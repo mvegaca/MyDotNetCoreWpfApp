@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Windows;
+using System.Windows.Threading;
+using Microsoft.Extensions.DependencyInjection;
 using MyDotNetCoreWpfApp.Activation;
 using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace MyDotNetCoreWpfApp
 {
@@ -38,8 +38,8 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<PersistAndRestoreService>();
             
             // Views
-            services.AddTransient<ShelWindow>();
-            services.AddTransient<ShelWindowViewModel>();
+            services.AddSingleton<ShelWindow>();
+            services.AddSingleton<ShelWindowViewModel>();
 
             services.AddTransient<MainPage>();
             services.AddTransient<MainViewModel>();

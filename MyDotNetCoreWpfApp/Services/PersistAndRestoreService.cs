@@ -1,10 +1,9 @@
-﻿using MyDotNetCoreWpfApp.Activation;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using MyDotNetCoreWpfApp.Activation;
+using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
@@ -14,12 +13,14 @@ namespace MyDotNetCoreWpfApp.Services
             Path.Combine(FilesService.ConfigurationFolderPath, "PersistAndRestoreData.json");
 
         private NavigationService _navigationService;
+        private ShelWindow _shelWindow;
 
         public event EventHandler<PersistAndRestoreArgs> OnPersistData;
 
-        public PersistAndRestoreService(NavigationService navigationService)
+        public PersistAndRestoreService(NavigationService navigationService, ShelWindow shelWindow)
         {
             _navigationService = navigationService;
+            _shelWindow = shelWindow;
         }
 
         public override bool CanHandle(object args)
@@ -30,7 +31,7 @@ namespace MyDotNetCoreWpfApp.Services
             var persistData = await GetPersistAndRestoreData();
             if (persistData?.Target != null && typeof(Page).IsAssignableFrom(persistData.Target))
             {
-                _navigationService.Show();
+                _shelWindow.Show();
                 bool navigated = _navigationService.Navigate(persistData.Target, persistData.PersistAndRestoreData);
             }
         }
