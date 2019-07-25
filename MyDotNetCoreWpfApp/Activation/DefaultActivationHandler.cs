@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MyDotNetCoreWpfApp.Activation
 {
-    internal class DefaultActivationHandler : ActivationHandler
+    internal class DefaultActivationHandler : IActivationHandler
     {
         private NavigationService _navigationService;
         private ShelWindow _shelWindow;
@@ -15,10 +15,10 @@ namespace MyDotNetCoreWpfApp.Activation
             _shelWindow = shelWindow;
         }
 
-        public override bool CanHandle(object args)
+        public bool CanHandle(object args)
             => !_navigationService.IsNavigated();
 
-        public override async Task HandleAsync(object args)
+        public async Task HandleAsync(object args)
         {
             await Task.CompletedTask;
             _shelWindow.Show();

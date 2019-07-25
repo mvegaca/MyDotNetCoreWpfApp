@@ -13,16 +13,12 @@ namespace MyDotNetCoreWpfApp
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider _serviceProvider;
-        internal static App CurrentApp = (App)Current;
-
         private ActivationService _activationService;
 
         public App()
         {
-            _serviceProvider = ConfigureServices()
-                                .BuildServiceProvider();
-            _activationService = _serviceProvider.GetService<ActivationService>();
+            var serviceProvider = ConfigureServices().BuildServiceProvider();
+            _activationService = serviceProvider.GetService<ActivationService>();
             DispatcherUnhandledException += OnDispatcherUnhandledException;
         }
 

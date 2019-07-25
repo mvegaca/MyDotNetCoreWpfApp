@@ -7,7 +7,7 @@ using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    public class PersistAndRestoreService : ActivationHandler
+    public class PersistAndRestoreService : IActivationHandler
     {
         private string _persistAndRestoreFilePath =
             Path.Combine(FilesService.ConfigurationFolderPath, "PersistAndRestoreData.json");
@@ -23,10 +23,10 @@ namespace MyDotNetCoreWpfApp.Services
             _shelWindow = shelWindow;
         }
 
-        public override bool CanHandle(object args)
+        public bool CanHandle(object args)
             => !_navigationService.IsNavigated();
 
-        public override async Task HandleAsync(object args)
+        public async Task HandleAsync(object args)
         {
             var persistData = await GetPersistAndRestoreData();
             if (persistData?.Target != null && typeof(Page).IsAssignableFrom(persistData.Target))

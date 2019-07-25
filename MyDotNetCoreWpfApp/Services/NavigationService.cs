@@ -53,7 +53,10 @@ namespace MyDotNetCoreWpfApp.Services
             return false;
         }
 
-        public bool Navigate(object content, object extraData)
+        public void GoBack()
+            => _frame.GoBack();
+
+        private bool Navigate(object content, object extraData)
         {
             var navigated = _frame.Navigate(content, extraData);
             if (navigated)
@@ -64,9 +67,6 @@ namespace MyDotNetCoreWpfApp.Services
 
             return navigated;
         }
-
-        public void GoBack()
-            => _frame.GoBack();
 
         private void OnNavigated(object sender, NavigationEventArgs e)
             => Navigated?.Invoke(this, e);

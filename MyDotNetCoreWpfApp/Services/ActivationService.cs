@@ -10,7 +10,7 @@ namespace MyDotNetCoreWpfApp.Services
         private DefaultActivationHandler _defaultHandler;
         private ThemeSelectorService _themeSelectorService;
         PersistAndRestoreService _persistAndRestoreService;
-        private ICollection<ActivationHandler> _activationHandlers = new List<ActivationHandler>();
+        private ICollection<IActivationHandler> _activationHandlers = new List<IActivationHandler>();
 
         public ActivationService(DefaultActivationHandler defaultActivationHandler, ThemeSelectorService themeSelectorService, PersistAndRestoreService persistAndRestoreService)
         {
