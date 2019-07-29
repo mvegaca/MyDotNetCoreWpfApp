@@ -1,0 +1,50 @@
+﻿<Page x:Class="MyDotNetCoreWpfMvvmLightApp.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      DataContext="{Binding MainViewModel, Source={StaticResource Locator}}"
+      Style="{DynamicResource MetroPage}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Main">
+
+    <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            x:Name="Title"
+            Text="Main" />
+        <StackPanel Grid.Row="1" Margin="{StaticResource SmallTopMargin}">
+            <Button
+                Content="Navigate to Secondary Page"
+                HorizontalAlignment="Left"
+                Width="300"
+                Command="{Binding NavigateCommand}" />
+            <TextBlock
+                Text="Set theme"
+                Margin="{StaticResource MediumTopMargin}" />
+            <StackPanel Orientation="Horizontal" Margin="{StaticResource SmallTopMargin}">
+                <Button
+                    Content="Set Light Theme"
+                    HorizontalAlignment="Left"
+                    Width="300"
+                    Command="{Binding SetLightThemeCommand}" />
+                <Button
+                    Content="Set Dark Theme"
+                    HorizontalAlignment="Left"
+                    Width="300"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Command="{Binding SetDarkThemeCommand}" />
+            </StackPanel>
+            <TextBlock
+                Text="This data will persist on app closing."
+                Margin="{StaticResource MediumTopMargin}" />
+            <TextBlock
+                Text="{Binding Data}"
+                Margin="{StaticResource MediumTopMargin}" />
+        </StackPanel>
+    </Grid>
+</Page>

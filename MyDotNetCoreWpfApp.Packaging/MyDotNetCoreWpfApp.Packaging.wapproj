@@ -111,6 +111,12 @@
     <ProjectReference Include="..\MyDotNetCoreWpfApp\MyDotNetCoreWpfApp.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
     </ProjectReference>
+    <ProjectReference Include="..\MyDotNetCoreWpfMvvmLightApp\MyDotNetCoreWpfMvvmLightApp.csproj">
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
+    <ProjectReference Include="..\MyDotNetCoreWpfPrismApp\MyDotNetCoreWpfPrismApp.csproj">
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
