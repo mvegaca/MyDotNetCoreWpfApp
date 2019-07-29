@@ -7,9 +7,9 @@ namespace MyDotNetCoreWpfApp.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ShelWindow : MetroWindow
+    public partial class ShellWindow : MetroWindow
     {
-        public ShelWindow(ShelWindowViewModel viewModel, NavigationService navigationService)
+        public ShellWindow(ShelWindowViewModel viewModel, NavigationService navigationService)
         {
             InitializeComponent();
             DataContext = viewModel;

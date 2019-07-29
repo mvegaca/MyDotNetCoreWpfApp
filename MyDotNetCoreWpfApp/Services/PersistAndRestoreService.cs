@@ -13,11 +13,11 @@ namespace MyDotNetCoreWpfApp.Services
             Path.Combine(FilesService.ConfigurationFolderPath, "PersistAndRestoreData.json");
 
         private NavigationService _navigationService;
-        private ShelWindow _shelWindow;
+        private ShellWindow _shelWindow;
 
         public event EventHandler<PersistAndRestoreArgs> OnPersistData;
 
-        public PersistAndRestoreService(NavigationService navigationService, ShelWindow shelWindow)
+        public PersistAndRestoreService(NavigationService navigationService, ShellWindow shelWindow)
         {
             _navigationService = navigationService;
             _shelWindow = shelWindow;

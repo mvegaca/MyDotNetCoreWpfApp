@@ -7,9 +7,9 @@ namespace MyDotNetCoreWpfApp.Activation
     internal class DefaultActivationHandler : IActivationHandler
     {
         private NavigationService _navigationService;
-        private ShelWindow _shelWindow;
+        private ShellWindow _shelWindow;
 
-        public DefaultActivationHandler(NavigationService navigationService, ShelWindow shelWindow)
+        public DefaultActivationHandler(NavigationService navigationService, ShellWindow shelWindow)
         {
             _navigationService = navigationService;
             _shelWindow = shelWindow;

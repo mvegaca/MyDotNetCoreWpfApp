@@ -34,7 +34,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<PersistAndRestoreService>();
             
             // Views
-            services.AddSingleton<ShelWindow>();
+            services.AddSingleton<ShellWindow>();
             services.AddSingleton<ShelWindowViewModel>();
 
             services.AddTransient<MainPage>();

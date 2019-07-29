@@ -1,22 +1,25 @@
 ﻿<controls:MetroWindow
-    x:Class="MyDotNetCoreWpfApp.Views.ShelWindow"
+    x:Class="MyDotNetCoreWpfApp.Views.ShellWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     mc:Ignorable="d"
     ShowTitleBar="True"
     Title="MyDotNetCoreWpfApp" Height="450" Width="800">
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
             <Button
-                Height="24"
-                Width="48"
                 Foreground="White"
-                Content="&#xE72B;"
-                FontFamily="Segoe MDL2 Assets"
-                Command="{Binding GoBackCommand}" />
+                Width="{Binding ElementName=hamburgerMenu, Path=CompactPaneLength}"
+                Command="{Binding GoBackCommand}">
+                <iconPacks:PackIconMaterial
+                    Kind="ArrowLeft"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+            </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>
     <controls:MetroWindow.Resources>
