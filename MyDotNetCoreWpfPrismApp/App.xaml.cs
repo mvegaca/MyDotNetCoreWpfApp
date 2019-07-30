@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows;
 using MyDotNetCoreWpfPrismApp.Views;
 using Prism.Ioc;
+using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Unity;
 
 namespace MyDotNetCoreWpfPrismApp
@@ -18,6 +16,12 @@ namespace MyDotNetCoreWpfPrismApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog.AddModule<ModuleA.ModuleAModule>();
         }
     }
 }

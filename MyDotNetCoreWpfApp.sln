@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDotNetCoreWpfApp.Core", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDotNetCoreWpfMvvmLightApp", "MyDotNetCoreWpfMvvmLightApp\MyDotNetCoreWpfMvvmLightApp.csproj", "{488359F7-E19A-4C49-8092-57DAEA640D46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDotNetCoreWpfPrismApp", "MyDotNetCoreWpfPrismApp\MyDotNetCoreWpfPrismApp.csproj", "{6A5AF851-28B8-4DD0-9E7E-AE791D967BF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDotNetCoreWpfPrismApp", "MyDotNetCoreWpfPrismApp\MyDotNetCoreWpfPrismApp.csproj", "{6A5AF851-28B8-4DD0-9E7E-AE791D967BF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModuleA", "ModuleA\ModuleA.csproj", "{DC29B99F-0732-4C4A-ADC7-450261F47593}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +139,26 @@ Global
 		{6A5AF851-28B8-4DD0-9E7E-AE791D967BF4}.Release|x64.Build.0 = Release|Any CPU
 		{6A5AF851-28B8-4DD0-9E7E-AE791D967BF4}.Release|x86.ActiveCfg = Release|Any CPU
 		{6A5AF851-28B8-4DD0-9E7E-AE791D967BF4}.Release|x86.Build.0 = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|ARM.Build.0 = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|x64.Build.0 = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Debug|x86.Build.0 = Debug|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|ARM.ActiveCfg = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|ARM.Build.0 = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|ARM64.Build.0 = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|x64.ActiveCfg = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|x64.Build.0 = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|x86.ActiveCfg = Release|Any CPU
+		{DC29B99F-0732-4C4A-ADC7-450261F47593}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

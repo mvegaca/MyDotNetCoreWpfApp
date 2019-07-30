@@ -16,10 +16,10 @@
     <Folder Include="Helpers\" />
     <Folder Include="Activation\" />
     <Folder Include="Styles\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
     <ProjectReference Include="..\MyDotNetCoreWpfApp.Core\MyDotNetCoreWpfApp.Core.csproj" />
   </ItemGroup>
 
