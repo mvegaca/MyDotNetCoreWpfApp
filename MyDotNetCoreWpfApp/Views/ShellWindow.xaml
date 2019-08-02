@@ -35,13 +35,11 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontFamily="Segoe MDL2 Assets"
-                    Foreground="White"
                     Text="{Binding Glyph}" />
                 <TextBlock
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     FontSize="16"
-                    Foreground="White"
                     Text="{Binding Label}" />
             </Grid>
         </DataTemplate>
@@ -49,9 +47,7 @@
     <controls:MetroWindow.Content>
         <controls:HamburgerMenu
             x:Name="hamburgerMenu"
-            Foreground="White"
             IsPaneOpen="False"
-            PaneBackground="#FF444444"
             DisplayMode="CompactInline"            
             ItemsSource="{Binding MenuItems}"
             SelectedItem="{Binding SelectedMenuItem}"

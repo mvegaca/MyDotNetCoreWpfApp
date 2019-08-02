@@ -45,6 +45,5 @@
                 Text="{Binding Data}"
                 Margin="{StaticResource MediumTopMargin}" />
         </StackPanel>
-
     </Grid>
 </Page>
