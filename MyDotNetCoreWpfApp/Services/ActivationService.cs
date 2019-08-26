@@ -2,21 +2,32 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MyDotNetCoreWpfApp.Activation;
+using MyDotNetCoreWpfApp.Core.Helpers;
+using MyDotNetCoreWpfApp.Core.Services;
+using MyDotNetCoreWpfApp.Helpers;
+using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    internal class ActivationService
+    internal class ActivationService : IActivationService
     {
         private DefaultActivationHandler _defaultHandler;
-        private ThemeSelectorService _themeSelectorService;
-        PersistAndRestoreService _persistAndRestoreService;
+        private IThemeSelectorService _themeSelectorService;
+        private IPersistAndRestoreService _persistAndRestoreService;
+        private IIsolatedStorageService _storageService;
+        private INavigationService _navigationService;
         private ICollection<IActivationHandler> _activationHandlers = new List<IActivationHandler>();
+        private IShellWindow _shellWindow;
 
-        public ActivationService(DefaultActivationHandler defaultActivationHandler, ThemeSelectorService themeSelectorService, PersistAndRestoreService persistAndRestoreService)
+        public ActivationService(DefaultActivationHandler defaultActivationHandler, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIsolatedStorageService storageService, INavigationService navigationService, IShellWindow shellWindow)
         {
             _defaultHandler = defaultActivationHandler;
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
+            _storageService = storageService;
+            _navigationService = navigationService;
+            _shellWindow = shellWindow;
+            _navigationService.Initialize(_shellWindow.GetNavigationFrame());
             _activationHandlers.Add(persistAndRestoreService);
         }
 
@@ -26,6 +37,8 @@ namespace MyDotNetCoreWpfApp.Services
             await InitializeAsync();
 
             var activationHandler = _activationHandlers.FirstOrDefault(h => h.CanHandle(activationArgs));
+
+            _shellWindow.ShowWindow();
 
             if (activationHandler != null)
             {
@@ -44,20 +57,22 @@ namespace MyDotNetCoreWpfApp.Services
         private async Task InitializeAsync()
         {
             await Task.CompletedTask;
-            FilesService.Initialize();
-            App.Current.RestoreProperties();
+            var properties = _storageService.ReadLines(FileNames.AppProperties);
+            App.Current.SetProperties(properties);
             _themeSelectorService.SetTheme();
         }
 
         private async Task StartupAsync()
         {
-            await Task.CompletedTask;           
+            await Task.CompletedTask;
         }
 
         public async Task ExitAsync()
         {
-            await _persistAndRestoreService.PersistDataAsync();
-            App.Current.SaveProperties();
+            await Task.CompletedTask;
+            var properties = App.Current.GetProperties();
+            _storageService.SaveLines(FileNames.AppProperties, properties);
+            _persistAndRestoreService.PersistData();
         }
     }
 }

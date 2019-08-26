@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
+using System.Windows.Navigation;
 using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Services;
 
@@ -7,7 +9,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
     public class SecondaryViewModel : Observable
     {
         private ICommand _goBackCommand;
-        private NavigationService _navigationService;
+        private INavigationService _navigationService;
         private string _navigationExtraData;
 
         public string NavigationExtraData
@@ -16,12 +18,13 @@ namespace MyDotNetCoreWpfApp.ViewModels
             set { Set(ref _navigationExtraData, value); }
         }
 
-        public ICommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack));
+        public ICommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack, CanGoBack));
 
-        public SecondaryViewModel(NavigationService navigationService)
+        public SecondaryViewModel(INavigationService navigationService, IPersistAndRestoreService persistAndRestoreService)
         {
             _navigationService = navigationService;
             _navigationService.Navigated += OnNavigated;
+            persistAndRestoreService.OnPersistData += OnPersistData;
         }
 
         public void LoadData(string extraData)
@@ -29,15 +32,31 @@ namespace MyDotNetCoreWpfApp.ViewModels
             NavigationExtraData = extraData;
         }
 
-        private void OnNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void OnNavigated(object sender, NavigationEventArgs e)
         {
-            LoadData(e.ExtraData?.ToString());
-            _navigationService.Navigated -= OnNavigated;
+            if (e.IsFromViewModel())
+            {
+                _navigationService.Navigated -= OnNavigated;
+                if (e.ExtraData is PersistAndRestoreData restoreData)
+                {
+                    LoadData(restoreData.Data.ToString());
+                }
+                else
+                {
+                    LoadData(e.ExtraData?.ToString());
+                }
+            }
         }
 
+        private bool CanGoBack()
+            => _navigationService.CanGoBack;
+
         private void OnGoBack()
+            =>_navigationService.GoBack();
+
+        private void OnPersistData(object sender, PersistAndRestoreArgs e)
         {
-            _navigationService.GoBack();
+            e.PersistAndRestoreData.Data = "Data restored!";
         }
     }
 }

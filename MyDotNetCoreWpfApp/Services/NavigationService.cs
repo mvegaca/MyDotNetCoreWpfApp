@@ -1,17 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    public class NavigationService
+    public class NavigationService : INavigationService
     {
         private bool _isNavigated = false;
         private IServiceProvider _serviceProvider;
         private Frame _frame;
         private object _lastExtraDataUsed;
+        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
 
         public event NavigatedEventHandler Navigated;
+
+        public event NavigatingCancelEventHandler Navigating;
 
         public event NavigationFailedEventHandler NavigationFailed;
 
@@ -28,48 +33,66 @@ namespace MyDotNetCoreWpfApp.Services
             {
                 _frame = shellFrame;
                 _frame.Navigated += OnNavigated;
+                _frame.Navigating += OnNavigating;
                 _frame.NavigationFailed += OnNavigationFailed;
+            }
+        }
+
+        public void Configure(string key, Type pageType)
+        {
+            lock (_pages)
+            {
+                if (_pages.ContainsKey(key))
+                {
+                    throw new ArgumentException($"The key {key} is already configured in NavigationService");
+                }
+
+                if (_pages.Any(p => p.Value == pageType))
+                {
+                    throw new ArgumentException($"This type is already configured with key {_pages.First(p => p.Value == pageType).Key}");
+                }
+
+                _pages.Add(key, pageType);
             }
         }
 
         public bool IsNavigated()
             => _isNavigated;
 
-        public bool Navigate<T>()
-            where T : Page
-            => Navigate(typeof(T));
+        public void GoBack()
+            => _frame.GoBack();
 
-        public bool Navigate<T>(object extraData)
-            where T : Page
-            => Navigate(typeof(T), extraData);
-
-        public bool Navigate(Type pageType, object extraData = null)
+        public bool Navigate(string pageKey, object extraData = null)
         {
+            Type pageType;
+            lock (_pages)
+            {
+                if (!_pages.TryGetValue(pageKey, out pageType))
+                {
+                    throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?");
+                }
+            }
             if (_frame.Content?.GetType() != pageType || (extraData != null && !extraData.Equals(_lastExtraDataUsed)))
             {
-                return Navigate(_serviceProvider.GetService(pageType), extraData);
+                var page = _serviceProvider.GetService(pageType);
+                var navigated = _frame.Navigate(page, extraData);
+                if (navigated)
+                {
+                    _lastExtraDataUsed = extraData;
+                    _isNavigated = true;
+                }
+
+                return navigated;
             }
 
             return false;
         }
 
-        public void GoBack()
-            => _frame.GoBack();
-
-        private bool Navigate(object content, object extraData)
-        {
-            var navigated = _frame.Navigate(content, extraData);
-            if (navigated)
-            {
-                _lastExtraDataUsed = extraData;
-                _isNavigated = true;
-            }
-
-            return navigated;
-        }
-
         private void OnNavigated(object sender, NavigationEventArgs e)
             => Navigated?.Invoke(this, e);
+
+        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
+            => Navigating?.Invoke(this, e);
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
             => NavigationFailed?.Invoke(this, e);

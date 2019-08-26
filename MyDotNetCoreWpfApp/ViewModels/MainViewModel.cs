@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using System.Windows.Threading;
+using MyDotNetCoreWpfApp.Core.Helpers;
 using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Services;
-using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class MainViewModel : Observable
     {
-        private NavigationService _navigationService;
-        private ThemeSelectorService _themeSelectorService;
+        private INavigationService _navigationService;
+        private IThemeSelectorService _themeSelectorService;
         private int _data;
         private ICommand _navigateCommand;
         private ICommand _setLightThemeCommand;
@@ -29,11 +30,13 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public ICommand SetDarkThemeCommand => _setDarkThemeCommand ?? (_setDarkThemeCommand = new RelayCommand(OnSetDarkTheme));
 
-        public MainViewModel(NavigationService navigationService, ThemeSelectorService themeSelectorService)
+        public MainViewModel(INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService)
         {
             _navigationService = navigationService;
             _themeSelectorService = themeSelectorService;
-            _navigationService.Navigated += OnNavigated;            
+            _navigationService.Navigated += OnNavigated;
+            _navigationService.Navigating += OnNavigating;
+            persistAndRestoreService.OnPersistData += OnPersistData;
             _timer = new DispatcherTimer()
             {
                 Interval = TimeSpan.FromSeconds(1)
@@ -41,30 +44,46 @@ namespace MyDotNetCoreWpfApp.ViewModels
             _timer.Tick += OnTimerTick;
         }
 
+        private void OnPersistData(object sender, PersistAndRestoreArgs e)
+        {
+            e.PersistAndRestoreData.Data = Data;
+        }
+
         private void OnTimerTick(object sender, EventArgs e)
         {
             Data = Data + 1;
         }        
 
-        private void OnNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void OnNavigated(object sender, NavigationEventArgs e)
         {
-            if (e.ExtraData is PersistAndRestoreData restoreData)
+            if (e.IsFromViewModel())
             {
-                Data = int.Parse(restoreData.Data.ToString());
-            }
+                if (e.ExtraData is PersistAndRestoreData restoreData)
+                {
+                    Data = int.Parse(restoreData.Data.ToString());
+                }
 
-            _timer.Start();
+                _timer.Start();
+            }
+        }
+
+        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (!e.IsFromThisViewModel())
+            {
+                _timer.Stop();
+            }
         }
 
         private void OnNavigate()
         {
-            _navigationService.Navigate<SecondaryPage>("Hello world!");
+            _navigationService.Navigate(typeof(SecondaryViewModel).FullName, "Navigation data as navigation parameter!");
         }
 
         private void OnSetLightTheme()
-            => _themeSelectorService.SetTheme(ThemeSelectorService.BaseLightTheme);
+            => _themeSelectorService.SetTheme(Themes.BaseLightTheme);
 
         private void OnSetDarkTheme()
-            => _themeSelectorService.SetTheme(ThemeSelectorService.BaseDarkTheme);
+            => _themeSelectorService.SetTheme(Themes.BaseDarkTheme);
     }
 }

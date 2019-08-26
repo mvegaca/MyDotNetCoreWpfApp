@@ -1,5 +1,5 @@
-﻿using MahApps.Metro.Controls;
-using MyDotNetCoreWpfApp.Services;
+﻿using System.Windows.Controls;
+using MahApps.Metro.Controls;
 using MyDotNetCoreWpfApp.ViewModels;
 
 namespace MyDotNetCoreWpfApp.Views
@@ -7,13 +7,18 @@ namespace MyDotNetCoreWpfApp.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ShellWindow : MetroWindow
+    public partial class ShellWindow : MetroWindow, IShellWindow
     {
-        public ShellWindow(ShelWindowViewModel viewModel, NavigationService navigationService)
+        public ShellWindow(ShellWindowViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
-            navigationService.Initialize(shellFrame);
         }
+
+        public Frame GetNavigationFrame()
+            => shellFrame;
+
+        public void ShowWindow()
+            => Show();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MyDotNetCoreWpfApp.Services;
+using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
 using System.Threading.Tasks;
 
@@ -6,13 +7,11 @@ namespace MyDotNetCoreWpfApp.Activation
 {
     internal class DefaultActivationHandler : IActivationHandler
     {
-        private NavigationService _navigationService;
-        private ShellWindow _shelWindow;
+        private INavigationService _navigationService;
 
-        public DefaultActivationHandler(NavigationService navigationService, ShellWindow shelWindow)
+        public DefaultActivationHandler(INavigationService navigationService)
         {
             _navigationService = navigationService;
-            _shelWindow = shelWindow;
         }
 
         public bool CanHandle(object args)
@@ -21,8 +20,7 @@ namespace MyDotNetCoreWpfApp.Activation
         public async Task HandleAsync(object args)
         {
             await Task.CompletedTask;
-            _shelWindow.Show();
-            _navigationService.Navigate<MainPage>();
+            _navigationService.Navigate(typeof(MainViewModel).FullName);
         }
     }
 }

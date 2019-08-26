@@ -14,7 +14,6 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-            x:Name="Title"
             Text="Main" />
         <StackPanel Grid.Row="1" Margin="{StaticResource SmallTopMargin}">
             <Button

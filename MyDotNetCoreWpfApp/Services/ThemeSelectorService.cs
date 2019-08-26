@@ -1,14 +1,12 @@
 ﻿using System.Windows;
 using MahApps.Metro;
 using Microsoft.Win32;
+using MyDotNetCoreWpfApp.Core.Helpers;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    public class ThemeSelectorService
+    public class ThemeSelectorService : IThemeSelectorService
     {
-        public const string BaseLightTheme = "Light.Blue";
-        public const string BaseDarkTheme = "Dark.Blue";
-
         private bool _isHighContrastActive
                         => SystemParameters.HighContrast;
 
@@ -33,7 +31,7 @@ namespace MyDotNetCoreWpfApp.Services
                 else
                 {
                     // Default theme
-                    themeName = BaseLightTheme;
+                    themeName = Themes.BaseLightTheme;
                 }
             }
 
