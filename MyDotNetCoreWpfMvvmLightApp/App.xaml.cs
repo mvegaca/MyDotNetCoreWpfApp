@@ -25,6 +25,10 @@ namespace MyDotNetCoreWpfMvvmLightApp
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            // TODO WTS: Handle the exception before the application will be closed
+            // Do whatever you need in case of an unhandled exception was thrown
+            // Mark exception as handled
+            // e.Handled = true;
         }
     }
 }

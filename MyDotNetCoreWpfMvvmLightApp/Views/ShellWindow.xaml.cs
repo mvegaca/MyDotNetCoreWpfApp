@@ -1,17 +1,22 @@
-﻿using MahApps.Metro.Controls;
-using MyDotNetCoreWpfMvvmLightApp.Services;
+﻿using System.Windows.Controls;
+using MahApps.Metro.Controls;
 
 namespace MyDotNetCoreWpfMvvmLightApp.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ShellWindow : MetroWindow
+    public partial class ShellWindow : MetroWindow, IShellWindow
     {
-        public ShellWindow(NavigationService navigationService)
+        public ShellWindow()
         {
             InitializeComponent();
-            navigationService.Initialize(shellFrame);
         }
+
+        public Frame GetNavigationFrame()
+            => shellFrame;
+
+        public void ShowWindow()
+            => Show();
     }
 }

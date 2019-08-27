@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfMvvmLightApp.Activation;
 using MyDotNetCoreWpfMvvmLightApp.Services;
 using MyDotNetCoreWpfMvvmLightApp.Views;
@@ -6,14 +7,14 @@ namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
 {
     public class ViewModelLocator
     {
-        public ActivationService ActivationService
-            => SimpleIoc.Default.GetInstance<ActivationService>();
+        public IActivationService ActivationService
+            => SimpleIoc.Default.GetInstance<IActivationService>();
 
-        public NavigationService NavigationService
-            => SimpleIoc.Default.GetInstance<NavigationService>();
+        public INavigationService NavigationService
+            => SimpleIoc.Default.GetInstance<INavigationService>();
 
-        public ShellViewModel ShellViewModel
-            => SimpleIoc.Default.GetInstance<ShellViewModel>();
+        public ShellWindowViewModel ShellViewModel
+            => SimpleIoc.Default.GetInstance<ShellWindowViewModel>();
 
         public MainViewModel MainViewModel
             => SimpleIoc.Default.GetInstance<MainViewModel>();
@@ -24,12 +25,15 @@ namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
         public ViewModelLocator()
         {
             SimpleIoc.Default.Register<DefaultActivationHandler>();
-            SimpleIoc.Default.Register<ThemeSelectorService>();
-            SimpleIoc.Default.Register<PersistAndRestoreService>();
-            SimpleIoc.Default.Register<ActivationService>();
-            SimpleIoc.Default.Register<NavigationService>();
+            SimpleIoc.Default.Register<IThemeSelectorService, ThemeSelectorService>();
+            SimpleIoc.Default.Register<IFilesService, FilesService>();
+            SimpleIoc.Default.Register<IIsolatedStorageService, IsolatedStorageService>();
+            SimpleIoc.Default.Register<IPersistAndRestoreService, PersistAndRestoreService>();
+            SimpleIoc.Default.Register<IActivationService, ActivationService>();
+            SimpleIoc.Default.Register<INavigationService, NavigationService>();
 
-            Register<ShellWindow, ShellViewModel>();
+            SimpleIoc.Default.Register<IShellWindow, ShellWindow>();
+            SimpleIoc.Default.Register<ShellWindowViewModel>();
             Register<MainViewModel, MainPage>();
             Register<SecondaryViewModel, SecondaryPage>();
         }

@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MyDotNetCoreWpfApp.Core.Helpers;
 using MyDotNetCoreWpfMvvmLightApp.Services;
 
 namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private NavigationService _navigationService;
-        private ThemeSelectorService _themeSelectorService;
-
+        private INavigationService _navigationService;
+        private IThemeSelectorService _themeSelectorService;
         private int _data;
         private ICommand _navigateCommand;
         private ICommand _setLightThemeCommand;
@@ -30,56 +31,58 @@ namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
 
         public ICommand SetDarkThemeCommand => _setDarkThemeCommand ?? (_setDarkThemeCommand = new RelayCommand(OnSetDarkTheme));
 
-        public MainViewModel(NavigationService navigationService, ThemeSelectorService themeSelectorService, PersistAndRestoreService persistAndRestoreService)
+        public MainViewModel(INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService)
         {
-            if (IsInDesignMode)
+            _navigationService = navigationService;
+            _themeSelectorService = themeSelectorService;
+            _navigationService.Navigated += OnNavigated;
+            _navigationService.Navigating += OnNavigating;
+            persistAndRestoreService.OnPersistData += OnPersistData;
+            _timer = new DispatcherTimer()
             {
-            }
-            else
-            {
-                _navigationService = navigationService;
-                _themeSelectorService = themeSelectorService;
-                _navigationService.Navigated += OnNavigated;
-                persistAndRestoreService.OnPersistData += OnPersistData;
-                _timer = new DispatcherTimer()
-                {
-                    Interval = TimeSpan.FromSeconds(1)
-                };
-
-                _timer.Tick += OnTimerTick;
-            }
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += OnTimerTick;
         }
 
         private void OnPersistData(object sender, PersistAndRestoreArgs e)
         {
             e.PersistAndRestoreData.Data = Data;
-            e.PersistAndRestoreData.PersistDate = DateTime.Now;
         }
 
         private void OnTimerTick(object sender, EventArgs e)
         {
             Data = Data + 1;
+        }        
+
+        private void OnNavigated(object sender, NavigationEventArgs e)
+        {
+            if (e.IsFromViewModel())
+            {
+                if (e.ExtraData is PersistAndRestoreData restoreData)
+                {
+                    Data = int.Parse(restoreData.Data.ToString());
+                }
+
+                _timer.Start();
+            }
         }
 
-        private void OnNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
         {
-            if (e.ExtraData is PersistAndRestoreData restoreData)
+            if (!e.IsFromThisViewModel())
             {
-                Data = int.Parse(restoreData.Data.ToString());
+                _timer.Stop();
             }
-
-            _timer.Start();
         }
 
         private void OnNavigate()
-        {
-            _navigationService.Navigate(typeof(SecondaryViewModel).FullName, "Hello world!");
-        }
+            => _navigationService.Navigate(typeof(SecondaryViewModel).FullName, "Navigation data as navigation parameter!");
 
         private void OnSetLightTheme()
-            => _themeSelectorService.SetTheme(ThemeSelectorService.BaseLightTheme);
+            => _themeSelectorService.SetTheme(Themes.BaseLightTheme);
 
         private void OnSetDarkTheme()
-            => _themeSelectorService.SetTheme(ThemeSelectorService.BaseDarkTheme);
+            => _themeSelectorService.SetTheme(Themes.BaseDarkTheme);
     }
 }

@@ -1,25 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using MyDotNetCoreWpfMvvmLightApp.Activation;
-using MyDotNetCoreWpfMvvmLightApp.Views;
+using MyDotNetCoreWpfApp.Core.Helpers;
+using MyDotNetCoreWpfApp.Core.Services;
 
 namespace MyDotNetCoreWpfMvvmLightApp.Services
 {
-    public class PersistAndRestoreService : IActivationHandler
+    public class PersistAndRestoreService : IPersistAndRestoreService
     {
-        private string _persistAndRestoreFilePath =
-            Path.Combine(FilesService.ConfigurationFolderPath, "PersistAndRestoreData.json");
-
-        private NavigationService _navigationService;
-        private ShellWindow _shelWindow;
+        private INavigationService _navigationService;
+        private IFilesService _filesService;
 
         public event EventHandler<PersistAndRestoreArgs> OnPersistData;
 
-        public PersistAndRestoreService(NavigationService navigationService, ShellWindow shelWindow)
+        public PersistAndRestoreService(INavigationService navigationService, IFilesService filesService)
         {
             _navigationService = navigationService;
-            _shelWindow = shelWindow;
+            _filesService = filesService;
         }
 
         public bool CanHandle(object args)
@@ -27,15 +24,15 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
 
         public async Task HandleAsync(object args)
         {
-            var persistData = await GetPersistAndRestoreData();
-            if (!string.IsNullOrEmpty(persistData?.ViewModelName))
+            await Task.CompletedTask;
+            var persistData = GetPersistAndRestoreData();
+            if (persistData != null)
             {
-                _shelWindow.Show();
-                bool navigated = _navigationService.Navigate(persistData.ViewModelName, persistData.PersistAndRestoreData);
+                _navigationService.Navigate(persistData.ViewModelName, persistData.PersistAndRestoreData);
             }
         }
 
-        public async Task<bool> PersistDataAsync()
+        public bool PersistData()
         {
             if (OnPersistData == null)
             {
@@ -53,7 +50,7 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
                 var persistArgs = new PersistAndRestoreArgs(persistData, target.FullName);
                 OnPersistData?.Invoke(this, persistArgs);
 
-                await FilesService.SaveAsync(_persistAndRestoreFilePath, persistArgs);
+                _filesService.Save(FolderPaths.Configurations, FileNames.PersistAndRestoreData, persistArgs);
                 return true;
             }
             catch (Exception)
@@ -62,9 +59,9 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
             }
         }
 
-        private async Task<PersistAndRestoreArgs> GetPersistAndRestoreData()
+        private PersistAndRestoreArgs GetPersistAndRestoreData()
         {
-            var persistData = await FilesService.ReadAsync<PersistAndRestoreArgs>(_persistAndRestoreFilePath);
+            var persistData = _filesService.Read<PersistAndRestoreArgs>(Path.Combine(FolderPaths.Configurations, FileNames.PersistAndRestoreData));
             if (!string.IsNullOrEmpty(persistData?.ViewModelName))
             {
                 return persistData;

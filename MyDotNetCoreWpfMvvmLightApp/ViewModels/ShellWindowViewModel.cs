@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MahApps.Metro.Controls;
@@ -9,9 +10,9 @@ using MyDotNetCoreWpfMvvmLightApp.Services;
 
 namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
 {
-    public class ShellViewModel : ViewModelBase
+    public class ShellWindowViewModel : ViewModelBase, IDisposable
     {
-        private NavigationService _navigationService;
+        private INavigationService _navigationService;
         private RelayCommand _goBackCommand;
         private ICommand _menuItemInvokedCommand;
         private HamburgerMenuItem _selectedMenuItem;
@@ -24,15 +25,15 @@ namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
 
         public ObservableCollection<HamburgerMenuItem> MenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
         {
-            new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", Tag = typeof(MainViewModel).FullName },
-            new HamburgerMenuGlyphItem() { Label = "Secondary", Glyph = "\uE8A5", Tag = typeof(SecondaryViewModel).FullName }
+            new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", TargetPageType = typeof(MainViewModel) },
+            new HamburgerMenuGlyphItem() { Label = "Secondary", Glyph = "\uE8A5", TargetPageType = typeof(SecondaryViewModel) }
         };
 
         public RelayCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack, CanGoBack));
 
         public ICommand MenuItemInvokedCommand => _menuItemInvokedCommand ?? (_menuItemInvokedCommand = new RelayCommand(MenuItemInvoked));
 
-        public ShellViewModel(NavigationService navigationService)
+        public ShellWindowViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             _navigationService.Navigated += OnNavigated;
@@ -49,17 +50,17 @@ namespace MyDotNetCoreWpfMvvmLightApp.ViewModels
         private void OnGoBack()
             => _navigationService.GoBack();
 
-        private void OnNavigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void OnNavigated(object sender, NavigationEventArgs e)
         {
-            var page = e.Content as FrameworkElement;
-            var viewmodelName = page.DataContext;
+            //var page = e.Content as FrameworkElement;
+            //var viewModelType = page.DataContext.GetType();
             SelectedMenuItem = MenuItems
                                 .OfType<HamburgerMenuItem>()
-                                .First(i => i.Tag.ToString() == viewmodelName.GetType().FullName);
+                                .First(i => e.IsFromViewModel(i.TargetPageType));
             GoBackCommand.RaiseCanExecuteChanged();
         }
 
-        private void MenuItemInvoked()
-            => _navigationService.Navigate(SelectedMenuItem.Tag.ToString());
+        private void MenuItemInvoked()        
+            => _navigationService.Navigate(SelectedMenuItem.TargetPageType.FullName);        
     }
 }

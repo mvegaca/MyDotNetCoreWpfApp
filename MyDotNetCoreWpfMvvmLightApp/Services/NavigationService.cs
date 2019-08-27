@@ -7,14 +7,16 @@ using GalaSoft.MvvmLight.Ioc;
 
 namespace MyDotNetCoreWpfMvvmLightApp.Services
 {
-    public class NavigationService
+    public class NavigationService : INavigationService
     {
         private bool _isNavigated = false;
-        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
         private Frame _frame;
         private object _lastExtraDataUsed;
+        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
 
         public event NavigatedEventHandler Navigated;
+
+        public event NavigatingCancelEventHandler Navigating;
 
         public event NavigationFailedEventHandler NavigationFailed;
 
@@ -30,12 +32,10 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
             {
                 _frame = shellFrame;
                 _frame.Navigated += OnNavigated;
+                _frame.Navigating += OnNavigating;
                 _frame.NavigationFailed += OnNavigationFailed;
             }
         }
-
-        public bool IsNavigated()
-            => _isNavigated;
 
         public void Configure(string key, Type pageType)
         {
@@ -54,6 +54,10 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
                 _pages.Add(key, pageType);
             }
         }
+
+        public bool IsNavigated()
+            => _isNavigated;
+
         public void GoBack()
             => _frame.GoBack();
 
@@ -67,7 +71,6 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
                     throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?");
                 }
             }
-
             if (_frame.Content?.GetType() != pageType || (extraData != null && !extraData.Equals(_lastExtraDataUsed)))
             {
                 var page = SimpleIoc.Default.GetInstance(pageType);
@@ -86,6 +89,9 @@ namespace MyDotNetCoreWpfMvvmLightApp.Services
 
         private void OnNavigated(object sender, NavigationEventArgs e)
             => Navigated?.Invoke(this, e);
+
+        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
+            => Navigating?.Invoke(this, e);
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
             => NavigationFailed?.Invoke(this, e);
