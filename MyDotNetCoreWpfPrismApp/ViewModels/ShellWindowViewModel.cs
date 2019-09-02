@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 using MahApps.Metro.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -25,53 +26,33 @@ namespace MyDotNetCoreWpfPrismApp.ViewModels
             new HamburgerMenuGlyphItem() { Label = "Secondary", Glyph = "\uE8A5", Tag = "Secondary" }
         };
 
-        public DelegateCommand MenuItemInvokedCommand { get; private set; }
-
         public DelegateCommand<string> NavigateCommand { get; private set; }
 
-        public DelegateCommand GoBackCommand { get; private set; }
+        public DelegateCommand SelectionChangedCommand { get; private set; }
+
+        public DelegateCommand LoadedCommand { get; private set; }
 
         public ShellWindowViewModel(IRegionManager regionManager)
         {
-            _regionManager = regionManager;            
-            MenuItemInvokedCommand = new DelegateCommand(OnMenuItemInvoked);
+            _regionManager = regionManager;
             NavigateCommand = new DelegateCommand<string>(Navigate);
-            GoBackCommand = new DelegateCommand(OnGoBack, CanGoBack);
+            SelectionChangedCommand = new DelegateCommand(OnSelectionChanged);
+            LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
-        internal void Initialize()
+        private void OnLoaded()
         {
-            //_regionManager.Regions["MainRegion"].NavigationService.Navigated += OnNavigated;
+            SelectedMenuItem = MenuItems.First();
+            OnSelectionChanged();
         }
-
-        private void OnNavigated(object? sender, RegionNavigationEventArgs e)
-            => GoBackCommand.RaiseCanExecuteChanged();
 
         private void Navigate(string navigationPath)
-            => _regionManager.RequestNavigate("MainRegion", navigationPath, NavigationComplete);
+            => _regionManager.RequestNavigate("MainRegion", navigationPath);
 
-        private void OnMenuItemInvoked()
-            => _regionManager.RequestNavigate("MainRegion", SelectedMenuItem.Tag.ToString(), NavigationComplete);
-
-        private bool CanGoBack()
+        private void OnSelectionChanged()
         {
-            if (_regionManager.Regions.Any())
-            {
-                var mainRegion = _regionManager.Regions["MainRegion"];
-                if (mainRegion != null)
-                {
-                    return mainRegion.NavigationService.Journal.CanGoBack;
-                }
-            }            
-
-            return false;
-        }
-
-        private void OnGoBack()
-            => _regionManager.Regions["MainRegion"].NavigationService.Journal.GoBack();
-
-        private void NavigationComplete(NavigationResult obj)
-        {
+            var viewName = (string)SelectedMenuItem.Tag;
+            _regionManager.RequestNavigate("MainRegion", viewName);
         }
     }
 }

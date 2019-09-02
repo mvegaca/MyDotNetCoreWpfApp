@@ -5,25 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"    
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:prism="http://prismlibrary.com/"
-    prism:ViewModelLocator.AutoWireViewModel="True"    
+    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
-    Loaded="OnLoaded"
     Height="450" Width="800">
-    <controls:MetroWindow.LeftWindowCommands>
-        <controls:WindowCommands>
-            <Button
-                Foreground="White"
-                Width="{Binding ElementName=hamburgerMenu, Path=CompactPaneLength}"
-                Command="{Binding GoBackCommand}">
-                <iconPacks:PackIconMaterial
-                    Kind="ArrowLeft"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
-            </Button>
-        </controls:WindowCommands>
-    </controls:MetroWindow.LeftWindowCommands>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <controls:MetroWindow.Resources>
         <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
             <Grid Height="48">
@@ -46,8 +37,7 @@
             </Grid>
         </DataTemplate>
     </controls:MetroWindow.Resources>
-    <!--        
-    -->
+    <!--  
     <controls:MetroWindow.Content>
         <controls:HamburgerMenu
             IsPaneOpen="False"
@@ -59,20 +49,27 @@
                 <ContentControl prism:RegionManager.RegionName="MainRegion" />
             </controls:HamburgerMenu.Content>
         </controls:HamburgerMenu>
-    </controls:MetroWindow.Content>
-
-    <!--
+    </controls:MetroWindow.Content>      
+    -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListView
+        <ListView            
+            x:Name="menuItemsList"
             SelectionMode="Single"
             ItemsSource="{Binding MenuItems}"
             ItemTemplate="{StaticResource MenuItemTemplate}"
-            SelectionChanged="ListView_SelectionChanged"/>
-        <ContentControl Grid.Column="1" prism:RegionManager.RegionName="MainRegion" />
+            SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+        <ContentControl
+            Grid.Column="1"
+            prism:RegionManager.RegionName="MainRegion" />
     </Grid>
-    -->
 </controls:MetroWindow>
