@@ -37,20 +37,6 @@
             </Grid>
         </DataTemplate>
     </controls:MetroWindow.Resources>
-    <!--  
-    <controls:MetroWindow.Content>
-        <controls:HamburgerMenu
-            IsPaneOpen="False"
-            DisplayMode="CompactInline"
-            ItemTemplate="{StaticResource MenuItemTemplate}"
-            ItemCommand="{Binding MenuItemInvokedCommand}"
-            SelectedItem="{Binding SelectedMenuItem}">
-            <controls:HamburgerMenu.Content>
-                <ContentControl prism:RegionManager.RegionName="MainRegion" />
-            </controls:HamburgerMenu.Content>
-        </controls:HamburgerMenu>
-    </controls:MetroWindow.Content>      
-    -->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
