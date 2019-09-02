@@ -13,14 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
     <Folder Include="Activation\" />
-    <Folder Include="Styles\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ModuleA\ModuleA.csproj" />
     <ProjectReference Include="..\MyDotNetCoreWpfApp.Core\MyDotNetCoreWpfApp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Styles\_Thickness.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>
