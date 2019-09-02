@@ -8,7 +8,12 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d" 
     d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel>
-        <TextBlock Text="SecondaryPage" />
-    </StackPanel>
+    <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Text="Secondary" />
+    </Grid>
 </UserControl>
