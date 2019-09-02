@@ -33,16 +33,19 @@
     </controls:MetroWindow.Resources>
 
     <controls:MetroWindow.Content>
-        <controls:HamburgerMenu
-            IsPaneOpen="False"
-            DisplayMode="CompactInline"
-            ItemTemplate="{StaticResource MenuItemTemplate}"
-            ItemCommand="{Binding MenuItemInvokedCommand}"
-            SelectedItem="{Binding SelectedMenuItem}"
-            ItemsSource="{Binding MenuItems}">
-            <controls:HamburgerMenu.Content>
-                <ContentControl prism:RegionManager.RegionName="MainRegion" />
-            </controls:HamburgerMenu.Content>
-        </controls:HamburgerMenu>
+        <Grid>
+            <controls:HamburgerMenu
+                IsPaneOpen="False"
+                DisplayMode="CompactInline"                
+                ItemTemplate="{StaticResource MenuItemTemplate}"
+                ItemCommand="{Binding MenuItemInvokedCommand}"
+                SelectedItem="{Binding SelectedMenuItem}"
+                ItemsSource="{Binding MenuItems}"
+                prism:RegionManager.RegionName="MainRegion">
+            </controls:HamburgerMenu>
+            <!--<ContentControl
+                Margin="48,0,0,0"
+                prism:RegionManager.RegionName="MainRegion" />-->
+        </Grid>
     </controls:MetroWindow.Content>
 </controls:MetroWindow>

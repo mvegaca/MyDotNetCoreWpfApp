@@ -37,6 +37,12 @@ namespace MyDotNetCoreWpfPrismApp
             themeSelectorService.SetTheme();
         }
 
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
+        {
+            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
+            regionAdapterMappings.RegisterMapping(typeof(HamburgerMenu), Container.Resolve<HamburgerMenuRegionAdapter>());
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Core Services
