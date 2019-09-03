@@ -42,7 +42,7 @@ namespace MyDotNetCoreWpfPrismApp
 
             // App Services
             containerRegistry.Register<IThemeSelectorService, ThemeSelectorService>();            
-            containerRegistry.Register<IPersistAndRestoreService, PersistAndRestoreService>();
+            containerRegistry.RegisterSingleton<IPersistAndRestoreService, PersistAndRestoreService>();
 
             // Views
             containerRegistry.RegisterForNavigation<ShellWindow>();

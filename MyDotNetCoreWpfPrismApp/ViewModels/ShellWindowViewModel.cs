@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using MahApps.Metro.Controls;
 using MyDotNetCoreWpfApp.Core.Helpers;
+using MyDotNetCoreWpfPrismApp.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,6 +15,7 @@ namespace MyDotNetCoreWpfPrismApp.ViewModels
         private IRegionManager _regionManager;
         private HamburgerMenuItem _selectedMenuItem;
         private IRegionNavigationService _navigationService;
+        private IPersistAndRestoreService _persistAndRestoreService;
 
         public HamburgerMenuItem SelectedMenuItem
         {
@@ -33,18 +35,28 @@ namespace MyDotNetCoreWpfPrismApp.ViewModels
 
         public DelegateCommand MenuItemInvokedCommand { get; private set; }
 
-        public ShellWindowViewModel(IRegionManager regionManager)
+        public ShellWindowViewModel(IRegionManager regionManager, IPersistAndRestoreService persistAndRestoreService)
         {
             _regionManager = regionManager;
+            _persistAndRestoreService = persistAndRestoreService;
             LoadedCommand = new DelegateCommand(OnLoaded);
             GoBackCommand = new DelegateCommand(OnGoBack, CanGoBack);
-            MenuItemInvokedCommand = new DelegateCommand(OnMenuItemInvoked);
+            MenuItemInvokedCommand = new DelegateCommand(() => Navigate());
         }
 
         private void OnLoaded()
         {
-            SelectedMenuItem = MenuItems.First();
-            OnMenuItemInvoked();
+            var persistData = _persistAndRestoreService.GetPersistAndRestoreData();
+            if (persistData != null)
+            {
+                SelectedMenuItem = MenuItems.FirstOrDefault(m => $"{m.Tag}ViewModel" == persistData.Target.Name);
+                Navigate(persistData.PersistAndRestoreData.GetNavigationParameters());
+            }
+            else
+            {
+                SelectedMenuItem = MenuItems.First();
+                Navigate();
+            }
             _navigationService = _regionManager.Regions[RegionNames.MainRegion].NavigationService;
             _navigationService.Navigated += OnNavigated;
         }
@@ -55,9 +67,9 @@ namespace MyDotNetCoreWpfPrismApp.ViewModels
         private void OnGoBack()
             => _navigationService.Journal.GoBack();
 
-        private void OnMenuItemInvoked()
+        private void Navigate(NavigationParameters parameters = null)
         {
-            _regionManager.RequestNavigate(RegionNames.MainRegion, SelectedMenuItem.Tag.ToString());
+            _regionManager.RequestNavigate(RegionNames.MainRegion, SelectedMenuItem.Tag.ToString(), parameters);
         }
 
         private void OnNavigated(object sender, RegionNavigationEventArgs e)

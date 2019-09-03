@@ -64,10 +64,13 @@ namespace MyDotNetCoreWpfPrismApp.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //if (navigationContext.Parameters[0] is PersistAndRestoreData restoreData)
-            //{
-            //    Data = int.Parse(restoreData.Data.ToString());
-            //}
+            foreach (var param in navigationContext.Parameters)
+            {
+                if (param.Key == nameof(PersistAndRestoreData))
+                {
+                    Data = Int32.Parse(param.Value.ToString());
+                }
+            }
 
             _timer.Start();
         }

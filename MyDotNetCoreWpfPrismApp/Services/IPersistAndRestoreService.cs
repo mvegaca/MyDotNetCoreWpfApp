@@ -7,5 +7,7 @@ namespace MyDotNetCoreWpfPrismApp.Services
         event EventHandler<PersistAndRestoreArgs> OnPersistData;
 
         bool PersistData();
+
+        PersistAndRestoreArgs GetPersistAndRestoreData();
     }
 }

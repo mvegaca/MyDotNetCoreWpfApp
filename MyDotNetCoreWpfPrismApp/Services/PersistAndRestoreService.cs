@@ -17,19 +17,6 @@ namespace MyDotNetCoreWpfPrismApp.Services
             _filesService = filesService;
         }
 
-        //public bool CanHandle(object args)
-        //    => !_navigationService.IsNavigated();
-
-        public async Task HandleAsync(object args)
-        {
-            await Task.CompletedTask;
-            var persistData = GetPersistAndRestoreData();
-            //if (persistData != null)
-            //{
-            //    _navigationService.Navigate(persistData.Target.FullName, persistData.PersistAndRestoreData);
-            //}
-        }
-
         public bool PersistData()
         {
             if (OnPersistData == null)
@@ -57,7 +44,7 @@ namespace MyDotNetCoreWpfPrismApp.Services
             }
         }
 
-        private PersistAndRestoreArgs GetPersistAndRestoreData()
+        public PersistAndRestoreArgs GetPersistAndRestoreData()
         {
             var persistData = _filesService.Read<PersistAndRestoreArgs>(Path.Combine(FolderPaths.Configurations, FileNames.PersistAndRestoreData));
             if (persistData?.Target != null)
