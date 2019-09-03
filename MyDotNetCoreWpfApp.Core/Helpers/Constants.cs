@@ -23,4 +23,9 @@ namespace MyDotNetCoreWpfApp.Core.Helpers
 
         public const string PersistAndRestoreData = "PersistAndRestoreData.json";
     }
+
+    public class RegionNames
+    {
+        public const string MainRegion = "MainRegion";
+    }
 }

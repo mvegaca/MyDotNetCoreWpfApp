@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Threading;
 using MahApps.Metro.Controls;
@@ -8,9 +7,7 @@ using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfPrismApp.Helpers;
 using MyDotNetCoreWpfPrismApp.Services;
 using MyDotNetCoreWpfPrismApp.Views;
-using Prism.Commands;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 
@@ -37,12 +34,6 @@ namespace MyDotNetCoreWpfPrismApp
             themeSelectorService.SetTheme();
         }
 
-        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
-        {
-            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
-            regionAdapterMappings.RegisterMapping(typeof(HamburgerMenu), Container.Resolve<HamburgerMenuRegionAdapter>());
-        }
-
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Core Services
@@ -58,17 +49,6 @@ namespace MyDotNetCoreWpfPrismApp
             containerRegistry.RegisterForNavigation<Main>();
             containerRegistry.RegisterForNavigation<Secondary>();
         }
-
-        //protected override void ConfigureViewModelLocator()
-        //{
-        //    base.ConfigureViewModelLocator();
-        //    ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
-        //    {
-        //        var viewName = viewType.Name.Substring(0, viewType.Name.Length - 4);
-        //        var viewModelTypeName = string.Format(CultureInfo.InvariantCulture, "MyDotNetCoreWpfPrismApp.ViewModels.{0}ViewModel, MyDotNetCoreWpfPrismApp", viewName);
-        //        return Type.GetType(viewModelTypeName);
-        //    });
-        //}
 
         private void OnExit(object sender, ExitEventArgs e)
         {

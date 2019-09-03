@@ -76,7 +76,7 @@ namespace MyDotNetCoreWpfPrismApp.ViewModels
         {
             var parameters = new NavigationParameters();
             parameters.Add("pram1", "Navigation data as navigation parameter!");
-            _regionManager.RequestNavigate("MainRegion", "Secondary", parameters);
+            _regionManager.RequestNavigate(RegionNames.MainRegion, "Secondary", parameters);
         }
 
         private void OnSetLightTheme()        

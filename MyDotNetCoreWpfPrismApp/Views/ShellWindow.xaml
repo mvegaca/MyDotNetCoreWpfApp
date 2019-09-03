@@ -4,11 +4,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"    
     mc:Ignorable="d"
     Height="450" Width="800">
+    <controls:MetroWindow.LeftWindowCommands>
+        <controls:WindowCommands>
+            <Button
+                Foreground="White"
+                Width="{Binding ElementName=hamburgerMenu, Path=CompactPaneLength}"
+                Command="{Binding GoBackCommand}">
+                <iconPacks:PackIconMaterial
+                    Kind="ArrowLeft"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" />
+            </Button>
+        </controls:WindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" >
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <controls:MetroWindow.Resources>
         <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type controls:HamburgerMenuGlyphItem}">
             <Grid Height="48">
@@ -39,7 +59,10 @@
             ItemTemplate="{StaticResource MenuItemTemplate}"
             ItemCommand="{Binding MenuItemInvokedCommand}"
             SelectedItem="{Binding SelectedMenuItem}"
-            ItemsSource="{Binding MenuItems}"
-            prism:RegionManager.RegionName="MainRegion" />
+            ItemsSource="{Binding MenuItems}">
+            <controls:HamburgerMenu.Content>
+                <ContentControl x:Name="hamburgerMenuContentControl" />
+            </controls:HamburgerMenu.Content>
+        </controls:HamburgerMenu>
     </controls:MetroWindow.Content>
 </controls:MetroWindow>
