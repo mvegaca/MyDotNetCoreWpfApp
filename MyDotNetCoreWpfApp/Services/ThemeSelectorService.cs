@@ -15,7 +15,7 @@ namespace MyDotNetCoreWpfApp.Services
             SystemEvents.UserPreferenceChanging += OnUserPreferenceChanging;
         }
 
-        public void SetTheme(string themeName = null)
+        public bool SetTheme(string themeName = null)
         {
             if (_isHighContrastActive)
             {
@@ -31,7 +31,7 @@ namespace MyDotNetCoreWpfApp.Services
                 else
                 {
                     // Default theme
-                    themeName = Themes.BaseLightTheme;
+                    themeName = Constants.ThemeLight;
                 }
             }
 
@@ -40,7 +40,16 @@ namespace MyDotNetCoreWpfApp.Services
             {
                 ThemeManager.ChangeTheme(Application.Current, themeName);
                 App.Current.Properties["Theme"] = themeName.ToString();
+                return true;
             }
+
+            return false;
+        }
+
+        public string GetCurrentThemeName()
+        {
+            var themeName = App.Current.Properties["Theme"]?.ToString();
+            return !string.IsNullOrEmpty(themeName) ? themeName : Constants.ThemeLight;
         }
 
         private void OnUserPreferenceChanging(object sender, UserPreferenceChangingEventArgs e)

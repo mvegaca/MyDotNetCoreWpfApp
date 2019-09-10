@@ -1,62 +1,90 @@
 ﻿using System;
 using System.Windows.Input;
 using System.Windows.Navigation;
+using MyDotNetCoreWpfApp.Core.Helpers;
+using MyDotNetCoreWpfApp.Core.Models;
+using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Services;
+using Newtonsoft.Json;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class SecondaryViewModel : Observable
     {
-        private ICommand _goBackCommand;
         private INavigationService _navigationService;
-        private string _navigationExtraData;
+        private IFilesService _filesService;
+        private string _name;
+        private string _surname;
+        private int _age;
 
-        public string NavigationExtraData
+        public string Name
         {
-            get { return _navigationExtraData; }
-            set { Set(ref _navigationExtraData, value); }
+            get { return _name; }
+            set
+            {
+                Set(ref _name, value);
+                SaveData();
+            }
         }
 
-        public ICommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack, CanGoBack));
+        public string Surname
+        {
+            get { return _surname; }
+            set
+            {
+                Set(ref _surname, value);
+                SaveData();
+            }
+        }
 
-        public SecondaryViewModel(INavigationService navigationService, IPersistAndRestoreService persistAndRestoreService)
+        public int Age
+        {
+            get { return _age; }
+            set
+            {
+                Set(ref _age, value);
+                SaveData();
+            }
+        }
+
+        public SecondaryViewModel(INavigationService navigationService, IFilesService filesService)
         {
             _navigationService = navigationService;
+            _filesService = filesService;
             _navigationService.Navigated += OnNavigated;
-            persistAndRestoreService.OnPersistData += OnPersistData;
-        }
-
-        public void LoadData(string extraData)
-        {
-            NavigationExtraData = extraData;
         }
 
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
             if (e.IsFromViewModel())
             {
+                LoadData();
                 _navigationService.Navigated -= OnNavigated;
-                if (e.ExtraData is PersistAndRestoreData restoreData)
-                {
-                    LoadData(restoreData.Data.ToString());
-                }
-                else
-                {
-                    LoadData(e.ExtraData?.ToString());
-                }
             }
         }
 
-        private bool CanGoBack()
-            => _navigationService.CanGoBack;
-
-        private void OnGoBack()
-            =>_navigationService.GoBack();
-
-        private void OnPersistData(object sender, PersistAndRestoreArgs e)
+        private void LoadData()
         {
-            e.PersistAndRestoreData.Data = "Data restored!";
+            var student = _filesService.Read<Student>(Constants.FolderConfigurations, "Student.json");
+            if (student != null)
+            {
+                Name = student.Name;
+                Surname = student.Surname;
+                Age = student.Age;
+            }
+        }
+
+        private void SaveData()
+        {
+            var student = new Student()
+            {
+                Name = Name,
+                Surname = Surname,
+                Age = Age
+            };
+
+            _filesService.Save(Constants.FolderConfigurations, "Student.json", student);
         }
     }
 }

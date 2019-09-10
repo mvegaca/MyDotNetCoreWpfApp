@@ -1,12 +1,9 @@
-﻿using System;
-using MyDotNetCoreWpfApp.Activation;
-
-namespace MyDotNetCoreWpfApp.Services
+﻿namespace MyDotNetCoreWpfApp.Services
 {
-    public interface IPersistAndRestoreService : IActivationHandler
+    public interface IPersistAndRestoreService
     {
-        event EventHandler<PersistAndRestoreArgs> OnPersistData;
+        void RestoreData();
 
-        bool PersistData();
+        void PersistData();
     }
 }

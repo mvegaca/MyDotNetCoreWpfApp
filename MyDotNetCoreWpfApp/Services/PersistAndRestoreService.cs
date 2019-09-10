@@ -1,73 +1,38 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
 using MyDotNetCoreWpfApp.Core.Helpers;
 using MyDotNetCoreWpfApp.Core.Services;
+using MyDotNetCoreWpfApp.Helpers;
 
 namespace MyDotNetCoreWpfApp.Services
 {
     public class PersistAndRestoreService : IPersistAndRestoreService
     {
-        private INavigationService _navigationService;
         private IFilesService _filesService;
 
-        public event EventHandler<PersistAndRestoreArgs> OnPersistData;
-
-        public PersistAndRestoreService(INavigationService navigationService, IFilesService filesService)
+        public PersistAndRestoreService(IFilesService filesService)
         {
-            _navigationService = navigationService;
             _filesService = filesService;
         }
 
-        public bool CanHandle(object args)
-            => !_navigationService.IsNavigated();
-
-        public async Task HandleAsync(object args)
+        public void PersistData()
         {
-            await Task.CompletedTask;
-            var persistData = GetPersistAndRestoreData();
-            if (persistData != null)
+            if (App.Current.Properties != null)
             {
-                _navigationService.Navigate(persistData.Target.FullName, persistData.PersistAndRestoreData);
+                _filesService.Save(Constants.FolderConfigurations, Constants.FileNameAppProperties, App.Current.Properties);
             }
         }
 
-        public bool PersistData()
+        public void RestoreData()
         {
-            if (OnPersistData == null)
+            var properties = _filesService.Read<IDictionary>(Constants.FolderConfigurations, Constants.FileNameAppProperties);
+            if (properties != null)
             {
-                return false;
-            }
-
-            try
-            {
-                var persistData = new PersistAndRestoreData()
+                foreach (DictionaryEntry property in properties)
                 {
-                    PersistDate = DateTime.Now
-                };
-
-                var target = OnPersistData.Target.GetType();
-                var persistArgs = new PersistAndRestoreArgs(persistData, target);
-                OnPersistData?.Invoke(this, persistArgs);
-
-                _filesService.Save(FolderPaths.Configurations, FileNames.PersistAndRestoreData, persistArgs);
-                return true;
+                    App.Current.Properties.Add(property.Key, property.Value);
+                }
             }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        private PersistAndRestoreArgs GetPersistAndRestoreData()
-        {
-            var persistData = _filesService.Read<PersistAndRestoreArgs>(Path.Combine(FolderPaths.Configurations, FileNames.PersistAndRestoreData));
-            if (persistData?.Target != null)
-            {
-                return persistData;
-            }
-
-            return null;
         }
     }
 }

@@ -2,6 +2,8 @@
 {
     public interface IThemeSelectorService
     {
-        void SetTheme(string themeName = null);
+        bool SetTheme(string themeName = null);
+
+        string GetCurrentThemeName();
     }
 }

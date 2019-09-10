@@ -2,6 +2,7 @@
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MyDotNetCoreWpfApp.Activation
 {
@@ -14,10 +15,10 @@ namespace MyDotNetCoreWpfApp.Activation
             _navigationService = navigationService;
         }
 
-        public bool CanHandle(object args)
+        public bool CanHandle(StartupEventArgs args)
             => !_navigationService.IsNavigated();
 
-        public async Task HandleAsync(object args)
+        public async Task HandleAsync(StartupEventArgs args)
         {
             await Task.CompletedTask;
             _navigationService.Navigate(typeof(MainViewModel).FullName);

@@ -30,7 +30,6 @@ namespace MyDotNetCoreWpfApp
         {
             var services = new ServiceCollection();
             services.AddSingleton<IActivationService, ActivationService>();
-            services.AddSingleton<IIsolatedStorageService, IsolatedStorageService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IFilesService, FilesService>();
@@ -42,8 +41,15 @@ namespace MyDotNetCoreWpfApp
             // Views
             services.AddTransient<IShellWindow, ShellWindow>();
             services.AddTransient<ShellWindowViewModel>();
-            Register<MainViewModel, MainPage>(services, true);
-            Register<SecondaryViewModel, SecondaryPage>(services);
+
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<MainPage>();
+
+            services.AddTransient<SecondaryViewModel>();
+            services.AddTransient<SecondaryPage>();
+
+            services.AddTransient<SettingsViewModel>();
+            services.AddTransient<SettingsPage>();
 
             return services;
         }
@@ -52,22 +58,7 @@ namespace MyDotNetCoreWpfApp
         {
             _navigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
             _navigationService.Configure(typeof(SecondaryViewModel).FullName, typeof(SecondaryPage));
-        }
-
-        private static void Register<VM, V>(ServiceCollection services, bool isSingletonPage = false)
-            where VM : class
-            where V : class
-        {
-            if (isSingletonPage)
-            {
-                services.AddSingleton<VM>();
-                services.AddSingleton<V>();
-            }
-            else
-            {
-                services.AddTransient<VM>();
-                services.AddTransient<V>();
-            }            
+            _navigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
 
         private async void OnStartup(object sender, StartupEventArgs e)

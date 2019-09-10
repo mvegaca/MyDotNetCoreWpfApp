@@ -48,14 +48,19 @@
         <controls:HamburgerMenu
             x:Name="hamburgerMenu"
             IsPaneOpen="False"
-            DisplayMode="CompactInline"            
+            DisplayMode="CompactInline"
             ItemsSource="{Binding MenuItems}"
+            OptionsItemsSource="{Binding OptionMenuItems}"
             SelectedItem="{Binding SelectedMenuItem}"
-            ItemCommand="{Binding MenuItemInvokedCommand}"            
-            ItemTemplate="{StaticResource MenuItemTemplate}">
+            SelectedOptionsItem="{Binding SelectedMenuItem}"
+            ItemCommand="{Binding MenuItemInvokedCommand}"
+            OptionsItemCommand="{Binding MenuItemInvokedCommand}"
+            ItemTemplate="{StaticResource MenuItemTemplate}"
+            OptionsItemTemplate="{StaticResource MenuItemTemplate}">
             <controls:HamburgerMenu.Content>
                 <Frame
                     x:Name="shellFrame"
+                    Grid.Row="1"
                     NavigationUIVisibility="Hidden"
                     Focusable="False" />
             </controls:HamburgerMenu.Content>

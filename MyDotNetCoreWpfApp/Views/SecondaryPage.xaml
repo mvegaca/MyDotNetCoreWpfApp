@@ -9,23 +9,28 @@
     d:DesignHeight="450" d:DesignWidth="800"
     Title="SecondaryPage">
     <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock
-            Text="Secondary" />
-        <StackPanel Grid.Row="1" Margin="{StaticResource SmallTopMargin}">
+        <StackPanel>
             <TextBlock
-                Text="Navigation extra data" />
+                Text="Secondary" />
             <TextBlock
-                Text="{Binding NavigationExtraData}"
+                Text="The data you write here will be persist when you close the app if the app is closed on this page." />
+            <TextBlock
+                Text="Name"
                 Margin="{StaticResource SmallTopMargin}" />
-            <Button
-                Content="GoBack"
-                HorizontalAlignment="Left"
-                Width="150"
-                Command="{Binding GoBackCommand}"
+            <TextBox
+                Text="{Binding Name, Mode=TwoWay}"
+                Margin="{StaticResource SmallTopMargin}" />
+            <TextBlock
+                Text="Surname"
+                Margin="{StaticResource SmallTopMargin}" />
+            <TextBox
+                Text="{Binding Surname, Mode=TwoWay}"
+                Margin="{StaticResource SmallTopMargin}" />
+            <TextBlock
+                Text="Age"
+                Margin="{StaticResource SmallTopMargin}" />
+            <TextBox
+                Text="{Binding Age, Mode=TwoWay}"
                 Margin="{StaticResource SmallTopMargin}" />
         </StackPanel>
 

@@ -16,10 +16,23 @@
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0391" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyDotNetCoreWpfApp.Core\MyDotNetCoreWpfApp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\SettingsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\SettingsPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
 </Project>

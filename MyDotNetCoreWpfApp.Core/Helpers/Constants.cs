@@ -3,29 +3,19 @@ using System.IO;
 
 namespace MyDotNetCoreWpfApp.Core.Helpers
 {
-    public class Themes
+    public class Constants
     {
-        public const string BaseLightTheme = "Light.Blue";
-        public const string BaseDarkTheme = "Dark.Blue";
-    }
-
-    public class FolderPaths
-    {
+        public const string ThemeLight = "Light.Blue";
+        public const string ThemeDark = "Dark.Blue";
         private const string _configurationsPath = @"MyDotNetCoreWpfApp\Configurations";
 
-        public static readonly string Configurations =
+        public static readonly string FolderConfigurations =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), _configurationsPath);
-    }
+        
+        public const string FileNameAppProperties = "AppProperties.txt";
 
-    public class FileNames
-    {
-        public const string AppProperties = "AppProperties.txt";
+        public const string FileNamePersistAndRestoreData = "PersistAndRestoreData.json";
 
-        public const string PersistAndRestoreData = "PersistAndRestoreData.json";
-    }
-
-    public class RegionNames
-    {
-        public const string MainRegion = "MainRegion";
+        public const string RegionMain = "RegionMain";
     }
 }
