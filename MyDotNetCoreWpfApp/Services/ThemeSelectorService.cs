@@ -1,12 +1,16 @@
 ﻿using System.Windows;
 using MahApps.Metro;
 using Microsoft.Win32;
-using MyDotNetCoreWpfApp.Core.Helpers;
+using MyDotNetCoreWpfApp.Helpers;
 
 namespace MyDotNetCoreWpfApp.Services
 {
     public class ThemeSelectorService : IThemeSelectorService
     {
+        public const string ThemeLight = "Light.Blue";
+
+        public const string ThemeDark = "Dark.Blue";
+
         private bool _isHighContrastActive
                         => SystemParameters.HighContrast;
 
@@ -31,7 +35,7 @@ namespace MyDotNetCoreWpfApp.Services
                 else
                 {
                     // Default theme
-                    themeName = Constants.ThemeLight;
+                    themeName = ThemeLight;
                 }
             }
 
@@ -49,7 +53,7 @@ namespace MyDotNetCoreWpfApp.Services
         public string GetCurrentThemeName()
         {
             var themeName = App.Current.Properties["Theme"]?.ToString();
-            return !string.IsNullOrEmpty(themeName) ? themeName : Constants.ThemeLight;
+            return !string.IsNullOrEmpty(themeName) ? themeName : ThemeLight;
         }
 
         private void OnUserPreferenceChanging(object sender, UserPreferenceChangingEventArgs e)
@@ -60,5 +64,11 @@ namespace MyDotNetCoreWpfApp.Services
                 SetTheme();
             }
         }
+
+        public bool IsLightThemeSelected()
+            => GetCurrentThemeName() == ThemeLight;
+
+        public bool IsDarkThemeSelected()
+            => GetCurrentThemeName() == ThemeDark;
     }
 }

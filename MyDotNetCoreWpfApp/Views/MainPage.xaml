@@ -15,5 +15,8 @@
         </Grid.RowDefinitions>
         <TextBlock
             Text="Main" />
+        <TextBox
+            Grid.Row="1"
+            Text="{Binding Data, Mode=TwoWay}" />
     </Grid>
 </Page>

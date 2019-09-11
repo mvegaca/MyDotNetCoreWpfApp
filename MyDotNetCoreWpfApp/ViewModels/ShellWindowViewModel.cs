@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Navigation;
 using MahApps.Metro.Controls;
@@ -54,16 +55,16 @@ namespace MyDotNetCoreWpfApp.ViewModels
         private void OnGoBack()
             => _navigationService.GoBack();
 
-        private void OnNavigated(object sender, NavigationEventArgs e)
+        private void OnNavigated(object sender, string viewModelName)
         {
             var item = MenuItems
                         .OfType<HamburgerMenuItem>()
-                        .FirstOrDefault(i => e.IsFromViewModel(i.TargetPageType));
+                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
             if (item == null)
             {
                 item = OptionMenuItems
                         .OfType<HamburgerMenuItem>()
-                        .FirstOrDefault(i => e.IsFromViewModel(i.TargetPageType));
+                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
             }
 
             SelectedMenuItem = item;
@@ -71,6 +72,6 @@ namespace MyDotNetCoreWpfApp.ViewModels
         }
 
         private void MenuItemInvoked()
-            => _navigationService.Navigate(SelectedMenuItem.TargetPageType.FullName);        
+            => _navigationService.Navigate(SelectedMenuItem.TargetPageType.FullName);
     }
 }

@@ -3,9 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using MyDotNetCoreWpfApp.Activation;
-using MyDotNetCoreWpfApp.Core.Helpers;
-using MyDotNetCoreWpfApp.Core.Services;
-using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
@@ -31,6 +28,7 @@ namespace MyDotNetCoreWpfApp.Services
 
         public async Task ActivateAsync(StartupEventArgs activationArgs)
         {
+            // Consider user activationArgs...
             // Initialize services that you need before app activation
             await InitializeAsync();
 

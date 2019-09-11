@@ -1,18 +1,14 @@
-﻿using System;
-using System.Windows.Input;
-using System.Windows.Navigation;
+﻿using System.Windows.Navigation;
 using MyDotNetCoreWpfApp.Core.Helpers;
 using MyDotNetCoreWpfApp.Core.Models;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.Helpers;
 using MyDotNetCoreWpfApp.Services;
-using Newtonsoft.Json;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
-    public class SecondaryViewModel : Observable
+    public class SecondaryViewModel : Observable, INavigationAware
     {
-        private INavigationService _navigationService;
         private IFilesService _filesService;
         private string _name;
         private string _surname;
@@ -48,31 +44,24 @@ namespace MyDotNetCoreWpfApp.ViewModels
             }
         }
 
-        public SecondaryViewModel(INavigationService navigationService, IFilesService filesService)
+        public SecondaryViewModel(IFilesService filesService)
         {
-            _navigationService = navigationService;
             _filesService = filesService;
-            _navigationService.Navigated += OnNavigated;
         }
 
-        private void OnNavigated(object sender, NavigationEventArgs e)
+        public void OnNavigatedTo(object extraData)
         {
-            if (e.IsFromViewModel())
-            {
-                LoadData();
-                _navigationService.Navigated -= OnNavigated;
-            }
-        }
-
-        private void LoadData()
-        {
-            var student = _filesService.Read<Student>(Constants.FolderConfigurations, "Student.json");
+            var student = _filesService.Read<Student>(Config.FolderData, "Student.json");
             if (student != null)
             {
                 Name = student.Name;
                 Surname = student.Surname;
                 Age = student.Age;
             }
+        }
+
+        public void OnNavigatingFrom()
+        {
         }
 
         private void SaveData()
@@ -84,7 +73,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
                 Age = Age
             };
 
-            _filesService.Save(Constants.FolderConfigurations, "Student.json", student);
+            _filesService.Save(Config.FolderData, "Student.json", student);
         }
     }
 }

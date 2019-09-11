@@ -6,11 +6,7 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public interface INavigationService
     {
-        event NavigatedEventHandler Navigated;
-
-        event NavigatingCancelEventHandler Navigating;
-
-        event NavigationFailedEventHandler NavigationFailed;
+        event EventHandler<string> Navigated;
 
         bool CanGoBack { get; }
 

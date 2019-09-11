@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -14,11 +15,7 @@ namespace MyDotNetCoreWpfApp.Services
         private object _lastExtraDataUsed;
         private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
 
-        public event NavigatedEventHandler Navigated;
-
-        public event NavigatingCancelEventHandler Navigating;
-
-        public event NavigationFailedEventHandler NavigationFailed;
+        public event EventHandler<string> Navigated;
 
         public bool CanGoBack => _frame.CanGoBack;
 
@@ -33,7 +30,6 @@ namespace MyDotNetCoreWpfApp.Services
             {
                 _frame = shellFrame;
                 _frame.Navigated += OnNavigated;
-                _frame.Navigating += OnNavigating;
                 _frame.NavigationFailed += OnNavigationFailed;
             }
         }
@@ -75,6 +71,13 @@ namespace MyDotNetCoreWpfApp.Services
             if (_frame.Content?.GetType() != pageType || (extraData != null && !extraData.Equals(_lastExtraDataUsed)))
             {
                 var page = _serviceProvider.GetService(pageType);
+                if (_frame.Content is FrameworkElement element)
+                {
+                    if (element.DataContext is INavigationAware navigationAware)
+                    {
+                        navigationAware.OnNavigatingFrom();
+                    }
+                }
                 var navigated = _frame.Navigate(page, extraData);
                 if (navigated)
                 {
@@ -89,12 +92,20 @@ namespace MyDotNetCoreWpfApp.Services
         }
 
         private void OnNavigated(object sender, NavigationEventArgs e)
-            => Navigated?.Invoke(this, e);
+        {
+            if (e.Content is FrameworkElement element)
+            {
+                if (element.DataContext is INavigationAware navigationAware)
+                {
+                    navigationAware.OnNavigatedTo(e.ExtraData);
+                }
 
-        private void OnNavigating(object sender, NavigatingCancelEventArgs e)
-            => Navigating?.Invoke(this, e);
+                Navigated?.Invoke(sender, element.DataContext.GetType().FullName);
+            }
+        }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-            => NavigationFailed?.Invoke(this, e);
+        {
+        }
     }
 }

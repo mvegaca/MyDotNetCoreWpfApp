@@ -4,6 +4,10 @@
     {
         bool SetTheme(string themeName = null);
 
+        bool IsLightThemeSelected();
+
+        bool IsDarkThemeSelected();
+
         string GetCurrentThemeName();
     }
 }

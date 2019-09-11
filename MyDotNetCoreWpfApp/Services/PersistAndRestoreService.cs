@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using MyDotNetCoreWpfApp.Core.Helpers;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.Helpers;
 
@@ -19,13 +17,13 @@ namespace MyDotNetCoreWpfApp.Services
         {
             if (App.Current.Properties != null)
             {
-                _filesService.Save(Constants.FolderConfigurations, Constants.FileNameAppProperties, App.Current.Properties);
+                _filesService.Save(Config.FolderConfigurations, Config.FileNameAppProperties, App.Current.Properties);
             }
         }
 
         public void RestoreData()
         {
-            var properties = _filesService.Read<IDictionary>(Constants.FolderConfigurations, Constants.FileNameAppProperties);
+            var properties = _filesService.Read<IDictionary>(Config.FolderConfigurations, Config.FileNameAppProperties);
             if (properties != null)
             {
                 foreach (DictionaryEntry property in properties)
