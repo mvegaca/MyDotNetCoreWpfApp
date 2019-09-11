@@ -1,6 +1,4 @@
-﻿using System.Windows.Navigation;
-
-namespace MyDotNetCoreWpfApp.Services
+﻿namespace MyDotNetCoreWpfApp.Contracts.ViewModels
 {
     public interface INavigationAware
     {

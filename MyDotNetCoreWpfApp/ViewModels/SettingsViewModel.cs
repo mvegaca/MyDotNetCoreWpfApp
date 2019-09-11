@@ -1,29 +1,25 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
+using MyDotNetCoreWpfApp.Configuration;
+using MyDotNetCoreWpfApp.Contracts.Services;
+using MyDotNetCoreWpfApp.Contracts.ViewModels;
 using MyDotNetCoreWpfApp.Helpers;
-using MyDotNetCoreWpfApp.Services;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class SettingsViewModel : Observable, INavigationAware
     {
-        private bool _isLightThemeSelected;
-        private bool _isDarkThemeSelected;
+        private AppTheme _theme;
         private string _versionDescription;
         private IThemeSelectorService _themeSelectorService;
         private ICommand _setThemeCommand;
 
         public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new RelayCommand<string>(OnSetTheme));
 
-        public bool IsLightThemeSelected
+        public AppTheme Theme
         {
-            get { return _isLightThemeSelected; }
-            set { Set(ref _isLightThemeSelected, value); }
-        }
-
-        public bool IsDarkThemeSelected
-        {
-            get { return _isDarkThemeSelected; }
-            set { Set(ref _isDarkThemeSelected, value); }
+            get { return _theme; }
+            set { Set(ref _theme, value); }
         }
 
         public string VersionDescription
@@ -40,8 +36,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
         public void OnNavigatedTo(object ExtraData)
         {
             VersionDescription = GetVersionDescription();
-            IsLightThemeSelected = _themeSelectorService.IsLightThemeSelected();
-            IsDarkThemeSelected = _themeSelectorService.IsDarkThemeSelected();
+            Theme = _themeSelectorService.GetCurrentTheme();
         }
 
         public void OnNavigatingFrom()
@@ -55,6 +50,9 @@ namespace MyDotNetCoreWpfApp.ViewModels
         }
 
         private void OnSetTheme(string themeName)
-            => _themeSelectorService.SetTheme(themeName);
+        {
+            var theme = (AppTheme)Enum.Parse(typeof(AppTheme), themeName);
+            _themeSelectorService.SetTheme(theme);
+        }
     }
 }

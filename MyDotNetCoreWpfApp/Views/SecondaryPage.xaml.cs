@@ -4,7 +4,7 @@ using MyDotNetCoreWpfApp.ViewModels;
 namespace MyDotNetCoreWpfApp.Views
 {
     /// <summary>
-    /// Interaction logic for SecondaryPage.xaml
+    /// Interaction logic for MainPage.xaml
     /// </summary>
     public partial class SecondaryPage : Page
     {
@@ -12,6 +12,6 @@ namespace MyDotNetCoreWpfApp.Views
         {
             InitializeComponent();
             DataContext = viewModel;
-        }
+        }        
     }
 }

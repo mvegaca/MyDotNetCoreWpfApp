@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 
-namespace MyDotNetCoreWpfApp.Services
+namespace MyDotNetCoreWpfApp.Contracts.Services
 {
     public interface IActivationService
     {

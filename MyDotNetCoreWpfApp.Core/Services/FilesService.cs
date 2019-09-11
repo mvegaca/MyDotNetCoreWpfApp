@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using Newtonsoft.Json;
 
 namespace MyDotNetCoreWpfApp.Core.Services

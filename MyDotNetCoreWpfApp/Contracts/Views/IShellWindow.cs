@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MyDotNetCoreWpfApp.Views
+namespace MyDotNetCoreWpfApp.Contracts.Views
 {
     public interface IShellWindow
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 
-namespace MyDotNetCoreWpfApp.Services
+namespace MyDotNetCoreWpfApp.Contracts.Services
 {
     public interface INavigationService
     {

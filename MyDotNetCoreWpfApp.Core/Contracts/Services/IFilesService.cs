@@ -1,4 +1,4 @@
-﻿namespace MyDotNetCoreWpfApp.Core.Services
+﻿namespace MyDotNetCoreWpfApp.Core.Contracts.Services
 {
     public interface IFilesService
     {

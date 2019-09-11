@@ -5,10 +5,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:configuration="clr-namespace:MyDotNetCoreWpfApp.Configuration"
+    xmlns:helpers="clr-namespace:MyDotNetCoreWpfApp.Helpers"
     Style="{DynamicResource MetroPage}"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"
-    Title="SecondaryPage">
+    Title="SettingsPage">
+    <Page.Resources>
+        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="configuration:AppTheme" />
+    </Page.Resources>
     <StackPanel
             x:Name="ContentArea"
             Margin="{StaticResource MediumLeftTopRightBottomMargin}">
@@ -22,22 +27,22 @@
                     FontSize="15"
                     GroupName="AppTheme"
                     Content="Light"
-                    IsChecked="{Binding IsLightThemeSelected}">
+                    IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Light.Blue" />
+                            <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Light" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </RadioButton>
                 <RadioButton
-                    Content="Dark"
                     FontSize="15"
                     GroupName="AppTheme"
+                    Content="Dark"
                     Margin="{StaticResource XSmallTopMargin}"
-                    IsChecked="{Binding IsDarkThemeSelected}">
+                    IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Dark.Blue" />
+                            <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Dark" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </RadioButton>

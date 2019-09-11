@@ -1,16 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using MahApps.Metro;
 using Microsoft.Win32;
-using MyDotNetCoreWpfApp.Helpers;
+using MyDotNetCoreWpfApp.Configuration;
+using MyDotNetCoreWpfApp.Contracts.Services;
 
 namespace MyDotNetCoreWpfApp.Services
 {
     public class ThemeSelectorService : IThemeSelectorService
     {
-        public const string ThemeLight = "Light.Blue";
-
-        public const string ThemeDark = "Dark.Blue";
-
         private bool _isHighContrastActive
                         => SystemParameters.HighContrast;
 
@@ -19,41 +17,44 @@ namespace MyDotNetCoreWpfApp.Services
             SystemEvents.UserPreferenceChanging += OnUserPreferenceChanging;
         }
 
-        public bool SetTheme(string themeName = null)
+        public bool SetTheme(AppTheme? theme = null)
         {
             if (_isHighContrastActive)
             {
                 //TODO: Set high contrast theme name
             }
-            else if (string.IsNullOrEmpty(themeName))
+            else if (theme == null)
             {
                 if (App.Current.Properties.Contains("Theme"))
                 {
                     // Saved theme
-                    themeName = App.Current.Properties["Theme"]?.ToString();
+                    var themeName = App.Current.Properties["Theme"].ToString();
+                    theme = (AppTheme)Enum.Parse(typeof(AppTheme), themeName);
                 }
                 else
                 {
                     // Default theme
-                    themeName = ThemeLight;
+                    theme = AppTheme.Light;
                 }
             }
 
             var currentTheme = ThemeManager.DetectTheme(Application.Current);
-            if (currentTheme == null || currentTheme.Name != themeName)
+            if (currentTheme == null || currentTheme.Name != theme.ToString())
             {
-                ThemeManager.ChangeTheme(Application.Current, themeName);
-                App.Current.Properties["Theme"] = themeName.ToString();
+                ThemeManager.ChangeTheme(Application.Current, $"{theme}.Blue");
+                App.Current.Properties["Theme"] = theme;
                 return true;
             }
 
             return false;
         }
 
-        public string GetCurrentThemeName()
+        public AppTheme GetCurrentTheme()
         {
             var themeName = App.Current.Properties["Theme"]?.ToString();
-            return !string.IsNullOrEmpty(themeName) ? themeName : ThemeLight;
+            var theme = AppTheme.Light;
+            Enum.TryParse(themeName, out theme);
+            return theme;
         }
 
         private void OnUserPreferenceChanging(object sender, UserPreferenceChangingEventArgs e)
@@ -64,11 +65,5 @@ namespace MyDotNetCoreWpfApp.Services
                 SetTheme();
             }
         }
-
-        public bool IsLightThemeSelected()
-            => GetCurrentThemeName() == ThemeLight;
-
-        public bool IsDarkThemeSelected()
-            => GetCurrentThemeName() == ThemeDark;
     }
 }

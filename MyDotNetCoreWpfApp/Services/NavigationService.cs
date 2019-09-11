@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using MyDotNetCoreWpfApp.Contracts.Services;
+using MyDotNetCoreWpfApp.Contracts.ViewModels;
 
 namespace MyDotNetCoreWpfApp.Services
 {

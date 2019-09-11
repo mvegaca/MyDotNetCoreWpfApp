@@ -4,7 +4,7 @@ using MyDotNetCoreWpfApp.ViewModels;
 namespace MyDotNetCoreWpfApp.Views
 {
     /// <summary>
-    /// Interaction logic for SecondaryPage.xaml
+    /// Interaction logic for SettingsPage.xaml
     /// </summary>
     public partial class SettingsPage : Page
     {

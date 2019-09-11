@@ -2,23 +2,22 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MyDotNetCoreWpfApp.Activation;
+using MyDotNetCoreWpfApp.Contracts.Services;
+using MyDotNetCoreWpfApp.Contracts.Views;
+using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
     internal class ActivationService : IActivationService
     {
-        private DefaultActivationHandler _defaultHandler;
         private IThemeSelectorService _themeSelectorService;
         private IPersistAndRestoreService _persistAndRestoreService;
         private INavigationService _navigationService;
-        private ICollection<IActivationHandler> _activationHandlers = new List<IActivationHandler>();
         private IShellWindow _shellWindow;
 
-        public ActivationService(DefaultActivationHandler defaultActivationHandler, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, INavigationService navigationService, IShellWindow shellWindow)
+        public ActivationService(IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, INavigationService navigationService, IShellWindow shellWindow)
         {
-            _defaultHandler = defaultActivationHandler;
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
             _navigationService = navigationService;
@@ -32,18 +31,10 @@ namespace MyDotNetCoreWpfApp.Services
             // Initialize services that you need before app activation
             await InitializeAsync();
 
-            var activationHandler = _activationHandlers.FirstOrDefault(h => h.CanHandle(activationArgs));
-
             _shellWindow.ShowWindow();
-
-            if (activationHandler != null)
+            if (!_navigationService.IsNavigated())
             {
-                await activationHandler.HandleAsync(activationArgs);
-            }
-
-            if (_defaultHandler.CanHandle(activationArgs))
-            {
-                await _defaultHandler.HandleAsync(activationArgs);
+                _navigationService.Navigate(typeof(MainViewModel).FullName);
             }
 
             // Tasks after activation

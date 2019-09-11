@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using MahApps.Metro.Controls;
+using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Helpers;
-using MyDotNetCoreWpfApp.Services;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {

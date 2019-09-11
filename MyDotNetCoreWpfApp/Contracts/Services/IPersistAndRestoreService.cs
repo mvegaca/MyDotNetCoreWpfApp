@@ -1,4 +1,4 @@
-﻿namespace MyDotNetCoreWpfApp.Services
+﻿namespace MyDotNetCoreWpfApp.Contracts.Services
 {
     public interface IPersistAndRestoreService
     {

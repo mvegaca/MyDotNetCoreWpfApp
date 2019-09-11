@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using MahApps.Metro.Controls;
+using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.ViewModels;
 
 namespace MyDotNetCoreWpfApp.Views
