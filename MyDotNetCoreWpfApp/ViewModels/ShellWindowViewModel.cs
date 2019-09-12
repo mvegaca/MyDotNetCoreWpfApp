@@ -13,7 +13,9 @@ namespace MyDotNetCoreWpfApp.ViewModels
         private INavigationService _navigationService;
         private RelayCommand _goBackCommand;
         private ICommand _menuItemInvokedCommand;
+        private ICommand _optionsMenuItemInvokedCommand;
         private HamburgerMenuItem _selectedMenuItem;
+        private HamburgerMenuItem _selectedOptionsMenuItem;
 
         public HamburgerMenuItem SelectedMenuItem
         {
@@ -21,10 +23,16 @@ namespace MyDotNetCoreWpfApp.ViewModels
             set { Set(ref _selectedMenuItem, value); }
         }
 
+        public HamburgerMenuItem SelectedOptionsMenuItem
+        {
+            get { return _selectedOptionsMenuItem; }
+            set { Set(ref _selectedOptionsMenuItem, value); }
+        }
+
         public ObservableCollection<HamburgerMenuItem> MenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
         {
             new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", TargetPageType = typeof(MainViewModel) },
-            new HamburgerMenuGlyphItem() { Label = "Secondary", Glyph = "\uE8A5", TargetPageType = typeof(SecondaryViewModel) }
+            new HamburgerMenuGlyphItem() { Label = "Blank", Glyph = "\uE8A5", TargetPageType = typeof(BlankViewModel) }
         };
 
         public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
@@ -35,6 +43,8 @@ namespace MyDotNetCoreWpfApp.ViewModels
         public RelayCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new RelayCommand(OnGoBack, CanGoBack));
 
         public ICommand MenuItemInvokedCommand => _menuItemInvokedCommand ?? (_menuItemInvokedCommand = new RelayCommand(MenuItemInvoked));
+
+        public ICommand OptionsMenuItemInvokedCommand => _optionsMenuItemInvokedCommand ?? (_optionsMenuItemInvokedCommand = new RelayCommand(OptionsMenuItemInvoked));
 
         public ShellWindowViewModel(INavigationService navigationService)
         {
@@ -58,18 +68,24 @@ namespace MyDotNetCoreWpfApp.ViewModels
             var item = MenuItems
                         .OfType<HamburgerMenuItem>()
                         .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
-            if (item == null)
+            if (item != null)
             {
-                item = OptionMenuItems
+                SelectedMenuItem = item;
+            }
+            else
+            {
+                SelectedOptionsMenuItem = OptionMenuItems
                         .OfType<HamburgerMenuItem>()
-                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
+                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName); ;
             }
 
-            SelectedMenuItem = item;
             GoBackCommand.OnCanExecuteChanged();
         }
 
         private void MenuItemInvoked()
             => _navigationService.Navigate(SelectedMenuItem.TargetPageType.FullName);
+
+        private void OptionsMenuItemInvoked()
+            => _navigationService.Navigate(SelectedOptionsMenuItem.TargetPageType.FullName);
     }
 }

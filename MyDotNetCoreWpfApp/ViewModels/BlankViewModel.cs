@@ -5,7 +5,7 @@ using MyDotNetCoreWpfApp.Helpers;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
-    public class SecondaryViewModel : Observable
+    public class BlankViewModel : Observable
     {
     }
 }

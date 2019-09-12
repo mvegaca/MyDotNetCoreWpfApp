@@ -52,9 +52,9 @@
             ItemsSource="{Binding MenuItems}"
             OptionsItemsSource="{Binding OptionMenuItems}"
             SelectedItem="{Binding SelectedMenuItem}"
-            SelectedOptionsItem="{Binding SelectedMenuItem}"
+            SelectedOptionsItem="{Binding SelectedOptionsMenuItem}"
             ItemCommand="{Binding MenuItemInvokedCommand}"
-            OptionsItemCommand="{Binding MenuItemInvokedCommand}"
+            OptionsItemCommand="{Binding OptionsMenuItemInvokedCommand}"
             ItemTemplate="{StaticResource MenuItemTemplate}"
             OptionsItemTemplate="{StaticResource MenuItemTemplate}">
             <controls:HamburgerMenu.Content>

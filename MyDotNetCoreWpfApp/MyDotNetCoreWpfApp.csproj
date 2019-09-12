@@ -23,8 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\SecondaryPage.xaml.cs" />
-    <Compile Update="Views\SettingsPage.xaml.cs" />
+    <Compile Update="Views\BlankPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\SettingsPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +38,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Views\SecondaryPage.xaml">
+    <Page Update="Styles\TextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\_FontSizes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\BlankPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SettingsPage.xaml">

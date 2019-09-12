@@ -65,8 +65,8 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
 
-            services.AddTransient<SecondaryViewModel>();
-            services.AddTransient<SecondaryPage>();
+            services.AddTransient<BlankViewModel>();
+            services.AddTransient<BlankPage>();
 
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();

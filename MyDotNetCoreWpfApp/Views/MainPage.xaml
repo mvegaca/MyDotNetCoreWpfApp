@@ -8,12 +8,22 @@
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"      
     Title="MainPage">
-    <Grid Margin="{StaticResource MediumLeftTopRightBottomMargin}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-            Text="Main" />
+            Text="Main"
+            Margin="{StaticResource MediumLeftMargin}"
+            Style="{StaticResource PageHeaderTextBlockStyle}" />
+        <Grid
+            Grid.Row="1"
+            Margin="{StaticResource MediumLeftRightMargin}" Background="LightGray">
+            <!--
+                The LightGray background represents where you should place your content. 
+                Place your content here.
+            -->
+        </Grid>
     </Grid>
 </Page>
