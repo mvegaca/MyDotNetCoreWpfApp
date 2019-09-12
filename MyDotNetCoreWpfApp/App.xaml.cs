@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +44,7 @@ namespace MyDotNetCoreWpfApp
         {
             var services = new ServiceCollection();
             var config = new ConfigurationBuilder()
-                            .SetBasePath(Environment.CurrentDirectory)
+                            .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
                             .AddJsonFile(_settingsFileName)
                             .Build();
 
@@ -63,8 +65,8 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
 
-            services.AddTransient<SecondaryViewModel>();
-            services.AddTransient<SecondaryPage>();
+            services.AddTransient<BlankViewModel>();
+            services.AddTransient<BlankPage>();
 
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
@@ -75,7 +77,7 @@ namespace MyDotNetCoreWpfApp
         private void ConfigureNavigation()
         {
             _navigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
-            _navigationService.Configure(typeof(SecondaryViewModel).FullName, typeof(SecondaryPage));
+            _navigationService.Configure(typeof(BlankViewModel).FullName, typeof(BlankPage));
             _navigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
 

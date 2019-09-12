@@ -32,7 +32,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
         public ObservableCollection<HamburgerMenuItem> MenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
         {
             new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", TargetPageType = typeof(MainViewModel) },
-            new HamburgerMenuGlyphItem() { Label = "Secondary", Glyph = "\uE8A5", TargetPageType = typeof(SecondaryViewModel) }
+            new HamburgerMenuGlyphItem() { Label = "Blank", Glyph = "\uE8A5", TargetPageType = typeof(BlankViewModel) }
         };
 
         public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
