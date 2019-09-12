@@ -11,13 +11,13 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public class PersistAndRestoreService : IPersistAndRestoreService
     {
-        private IFilesService _filesService;
-        private AppConfig _config;
+        private readonly IFilesService _filesService;
+        private readonly AppConfig _config;
 
-        public PersistAndRestoreService(IFilesService filesService, IOptions<AppConfig> _options)
+        public PersistAndRestoreService(IFilesService filesService, IConfiguration config)
         {
             _filesService = filesService;
-            _config = _options.Value;
+            _config = config.GetSection(nameof(AppConfig)).Get<AppConfig>();
         }
 
         public void PersistData()

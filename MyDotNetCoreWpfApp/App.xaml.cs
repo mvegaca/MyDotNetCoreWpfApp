@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyDotNetCoreWpfApp.Configuration;
+using Microsoft.Extensions.Hosting;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
@@ -19,36 +21,36 @@ namespace MyDotNetCoreWpfApp
     /// </summary>
     public partial class App : Application
     {
-        private const string _settingsFileName = "settings.json";
+        private IHost _host;
 
-        private IActivationService _activationService;
-        private INavigationService _navigationService;
         public App()
-        {                        
+        {
+            _host = Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration(BuildConfiguration)
+                .ConfigureServices(ConfigureServices)
+                .Build();
+
             DispatcherUnhandledException += OnDispatcherUnhandledException;
         }
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            var serviceProvider = ConfigureServices().BuildServiceProvider();
-            _activationService = serviceProvider.GetService<IActivationService>();
-            _navigationService = serviceProvider.GetService<INavigationService>();
             ConfigureNavigation();
 
-            await _activationService.ActivateAsync(e);
+            var activationService = _host.Services.GetService<IActivationService>();
+            await activationService.ActivateAsync(e);
         }
 
-        private static IServiceCollection ConfigureServices()
+        private void BuildConfiguration(IConfigurationBuilder configBuilder)
         {
-            var services = new ServiceCollection();
-            var config = new ConfigurationBuilder()
-                            .SetBasePath(Environment.CurrentDirectory)
-                            .AddJsonFile(_settingsFileName)
-                            .Build();
+            configBuilder
+                .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
+                .AddJsonFile("settings.json");
 
-            // Options
-            services.Configure<AppConfig>(config.GetSection(nameof(AppConfig)));
+        }
 
+        private void ConfigureServices(IServiceCollection services)
+        {
             // Services
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<INavigationService, NavigationService>();
@@ -68,19 +70,24 @@ namespace MyDotNetCoreWpfApp
 
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
-
-            return services;
         }
 
         private void ConfigureNavigation()
         {
-            _navigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
-            _navigationService.Configure(typeof(SecondaryViewModel).FullName, typeof(SecondaryPage));
-            _navigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
+            var navigationService = _host.Services.GetService<INavigationService>();
+
+            navigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
+            navigationService.Configure(typeof(SecondaryViewModel).FullName, typeof(SecondaryPage));
+            navigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
 
         private async void OnExit(object sender, ExitEventArgs e)
-            => await _activationService.ExitAsync();
+        {
+            var activationService = _host.Services.GetService<IActivationService>();
+            await activationService.ExitAsync();
+
+            _host.Dispose();
+        }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
