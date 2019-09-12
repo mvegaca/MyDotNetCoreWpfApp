@@ -77,7 +77,7 @@ namespace MyDotNetCoreWpfApp
             var navigationService = _host.Services.GetService<INavigationService>();
 
             navigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
-            navigationService.Configure(typeof(SecondaryViewModel).FullName, typeof(SecondaryPage));
+            navigationService.Configure(typeof(BlankViewModel).FullName, typeof(BlankPage));
             navigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
 
