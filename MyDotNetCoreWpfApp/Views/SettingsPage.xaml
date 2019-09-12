@@ -14,50 +14,74 @@
     <Page.Resources>
         <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="configuration:AppTheme" />
     </Page.Resources>
-    <StackPanel
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Text="Settings"
+            Style="{StaticResource PageHeaderTextBlockStyle}" />
+        <StackPanel
             x:Name="ContentArea"
-            Margin="{StaticResource MediumLeftTopRightBottomMargin}">
-        <TextBlock Text="Settings" />
+            Grid.Row="1"
+            Margin="{StaticResource MediumLeftRightMargin}">
 
-        <TextBlock Text="Personalization" Margin="{StaticResource SmallTopMargin}" />
-        <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
-            <TextBlock Text="Choose Theme" />
-            <StackPanel Margin="{StaticResource XSmallTopMargin}">
-                <RadioButton
-                    FontSize="15"
-                    GroupName="AppTheme"
-                    Content="Light"
-                    IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Light" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </RadioButton>
-                <RadioButton
-                    FontSize="15"
-                    GroupName="AppTheme"
-                    Content="Dark"
-                    Margin="{StaticResource XSmallTopMargin}"
-                    IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Dark" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </RadioButton>
-            </StackPanel>
-        </StackPanel>
-
-        <TextBlock Text="About this application" Margin="{StaticResource SmallTopMargin}" />
-        <StackPanel Margin="{StaticResource XSmallTopMargin}">
-            <TextBlock Text="{Binding VersionDescription, Mode=OneWay}" />
             <TextBlock
-                Text="Settings page placeholder text. Your app description goes here."
-                Margin="{StaticResource XSmallTopMargin}" />
-            <TextBlock Text="Privacy Statement">
-                    <Hyperlink NavigateUri="https://YourPrivacyUrlGoesHere/"/>
+                Text="Personalization"
+                Margin="{StaticResource SmallTopMargin}"
+                Style="{StaticResource SubtitleTextBlockStyle}" />
+            <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
+                <TextBlock
+                    Text="Choose Theme"
+                    Style="{StaticResource BodyTextBlockStyle}" />
+                <StackPanel Margin="{StaticResource XSmallTopMargin}">
+                    <RadioButton
+                        GroupName="AppTheme"
+                        Content="Light"
+                        FontSize="{StaticResource MediumFontSize}"
+                        IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Light}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Light" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+                    <RadioButton
+                        GroupName="AppTheme"
+                        Content="Dark"
+                        Margin="{StaticResource XSmallTopMargin}"
+                        FontSize="{StaticResource MediumFontSize}"
+                        IsChecked="{Binding Theme, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter=Dark}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SetThemeCommand}" CommandParameter="Dark" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock
+                Text="About this application"
+                Margin="{StaticResource SmallTopMargin}"
+                Style="{StaticResource SubtitleTextBlockStyle}" />
+            <TextBlock
+                Text="{Binding VersionDescription, Mode=OneWay}"
+                Margin="{StaticResource XSmallTopMargin}"
+                Style="{StaticResource BodyTextBlockStyle}" />
+            <TextBlock
+                Margin="{StaticResource XSmallTopMargin}"
+                Style="{StaticResource BodyTextBlockStyle}"
+                Text="Settings page placeholder text.  Your app description goes here." />
+
+            <TextBlock Margin="{StaticResource SmallTopMargin}">
+                <Hyperlink Command="{Binding PrivacyStatementCommand}">
+                    <TextBlock
+                        Text="Privacy Statement"
+                        Style="{StaticResource BodyTextBlockStyle}" />
+                </Hyperlink>
             </TextBlock>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Page>

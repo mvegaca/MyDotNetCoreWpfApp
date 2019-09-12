@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Input;
 using MyDotNetCoreWpfApp.Configuration;
 using MyDotNetCoreWpfApp.Contracts.Services;
@@ -13,8 +14,10 @@ namespace MyDotNetCoreWpfApp.ViewModels
         private string _versionDescription;
         private IThemeSelectorService _themeSelectorService;
         private ICommand _setThemeCommand;
+        private ICommand _privacyStatementCommand;
 
         public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new RelayCommand<string>(OnSetTheme));
+        public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new RelayCommand(OnPrivacyStatement));
 
         public AppTheme Theme
         {
@@ -53,6 +56,11 @@ namespace MyDotNetCoreWpfApp.ViewModels
         {
             var theme = (AppTheme)Enum.Parse(typeof(AppTheme), themeName);
             _themeSelectorService.SetTheme(theme);
+        }
+
+        private void OnPrivacyStatement()
+        {
+            Process.Start("https://YourPrivacyUrlGoesHere/");
         }
     }
 }
