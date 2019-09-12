@@ -16,10 +16,13 @@
         <TextBlock
             Text="Blank"
             Margin="{StaticResource MediumLeftMargin}"
-            Style="{StaticResource PageHeaderTextBlockStyle}" />
+            Style="{StaticResource PageTitleStyle}" />
         <Grid
             Grid.Row="1"
-            Margin="{StaticResource MediumLeftRightMargin}" Background="LightGray">
+            Margin="{StaticResource MediumLeftRightMargin}">
+            <Grid.Background>
+                <SolidColorBrush Color="{DynamicResource Gray10}" />
+            </Grid.Background>
             <!--
                 The LightGray background represents where you should place your content. 
                 Place your content here.

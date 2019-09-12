@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <TextBlock
             Text="Settings"
-            Style="{StaticResource PageHeaderTextBlockStyle}" />
+            Style="{StaticResource PageTitleStyle}" />
         <StackPanel
             x:Name="ContentArea"
             Grid.Row="1"
@@ -30,11 +30,11 @@
             <TextBlock
                 Text="Personalization"
                 Margin="{StaticResource SmallTopMargin}"
-                Style="{StaticResource SubtitleTextBlockStyle}" />
+                Style="{StaticResource SubtitleTextStyle}" />
             <StackPanel Margin="{StaticResource SmallTopBottomMargin}">
                 <TextBlock
                     Text="Choose Theme"
-                    Style="{StaticResource BodyTextBlockStyle}" />
+                    Style="{StaticResource BodyTextStyle}" />
                 <StackPanel Margin="{StaticResource XSmallTopMargin}">
                     <RadioButton
                         GroupName="AppTheme"
@@ -65,21 +65,21 @@
             <TextBlock
                 Text="About this application"
                 Margin="{StaticResource SmallTopMargin}"
-                Style="{StaticResource SubtitleTextBlockStyle}" />
+                Style="{StaticResource SubtitleTextStyle}" />
             <TextBlock
                 Text="{Binding VersionDescription, Mode=OneWay}"
                 Margin="{StaticResource XSmallTopMargin}"
-                Style="{StaticResource BodyTextBlockStyle}" />
+                Style="{StaticResource BodyTextStyle}" />
             <TextBlock
                 Margin="{StaticResource XSmallTopMargin}"
-                Style="{StaticResource BodyTextBlockStyle}"
+                Style="{StaticResource BodyTextStyle}"
                 Text="Settings page placeholder text.  Your app description goes here." />
 
             <TextBlock Margin="{StaticResource SmallTopMargin}">
                 <Hyperlink Command="{Binding PrivacyStatementCommand}">
                     <TextBlock
                         Text="Privacy Statement"
-                        Style="{StaticResource BodyTextBlockStyle}" />
+                        Style="{StaticResource BodyTextStyle}" />
                 </Hyperlink>
             </TextBlock>
         </StackPanel>
