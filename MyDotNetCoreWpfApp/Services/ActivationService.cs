@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Hosting;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.ViewModels;
@@ -9,7 +11,7 @@ using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    internal class ActivationService : IActivationService
+    internal class ActivationService : IHostedService
     {
         private IThemeSelectorService _themeSelectorService;
         private IPersistAndRestoreService _persistAndRestoreService;
@@ -25,7 +27,7 @@ namespace MyDotNetCoreWpfApp.Services
             _navigationService.Initialize(_shellWindow.GetNavigationFrame());
         }
 
-        public async Task ActivateAsync(StartupEventArgs activationArgs)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             // Consider user activationArgs...
             // Initialize services that you need before app activation
@@ -41,6 +43,12 @@ namespace MyDotNetCoreWpfApp.Services
             await StartupAsync();
         }
 
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await Task.CompletedTask;
+            _persistAndRestoreService.PersistData();
+        }
+
         private async Task InitializeAsync()
         {
             await Task.CompletedTask;
@@ -51,12 +59,6 @@ namespace MyDotNetCoreWpfApp.Services
         private async Task StartupAsync()
         {
             await Task.CompletedTask;
-        }
-
-        public async Task ExitAsync()
-        {
-            await Task.CompletedTask;
-            _persistAndRestoreService.PersistData();
         }
     }
 }

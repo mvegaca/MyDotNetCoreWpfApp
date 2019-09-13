@@ -23,12 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\BlankPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SettingsPage.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Update="Views\BlankPage.xaml.cs" />
+    <Compile Update="Views\SettingsPage.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
