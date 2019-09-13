@@ -2,8 +2,8 @@
 using System.Windows;
 using MahApps.Metro;
 using Microsoft.Win32;
-using MyDotNetCoreWpfApp.Configuration;
 using MyDotNetCoreWpfApp.Contracts.Services;
+using MyDotNetCoreWpfApp.Models;
 
 namespace MyDotNetCoreWpfApp.Services
 {

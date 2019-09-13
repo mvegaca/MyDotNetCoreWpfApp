@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.IO;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using MyDotNetCoreWpfApp.Configuration;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
-using MyDotNetCoreWpfApp.Core.Services;
-using MyDotNetCoreWpfApp.Helpers;
+using MyDotNetCoreWpfApp.Models;
 
 namespace MyDotNetCoreWpfApp.Services
 {
@@ -13,6 +12,8 @@ namespace MyDotNetCoreWpfApp.Services
     {
         private readonly IFilesService _filesService;
         private readonly AppConfig _config;
+
+        private string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         public PersistAndRestoreService(IFilesService filesService, IConfiguration config)
         {
@@ -24,17 +25,17 @@ namespace MyDotNetCoreWpfApp.Services
         {
             if (App.Current.Properties != null)
             {
-                var folderName = _config.FolderConfigurations;
-                var fileName = _config.FileNameAppProperties;
-                _filesService.Save(folderName, fileName, App.Current.Properties);
+                var folderPath = Path.Combine(_localAppData, _config.ConfigurationsFolder);
+                var fileName = _config.AppPropertiesFileName;
+                _filesService.Save(folderPath, fileName, App.Current.Properties);
             }
         }
 
         public void RestoreData()
         {
-            var folderName = _config.FolderConfigurations;
-            var fileName = _config.FileNameAppProperties;
-            var properties = _filesService.Read<IDictionary>(folderName, fileName);
+            var folderPath = Path.Combine(_localAppData, _config.ConfigurationsFolder);
+            var fileName = _config.AppPropertiesFileName;
+            var properties = _filesService.Read<IDictionary>(folderPath, fileName);
             if (properties != null)
             {
                 foreach (DictionaryEntry property in properties)

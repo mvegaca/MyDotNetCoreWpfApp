@@ -7,9 +7,9 @@ namespace MyDotNetCoreWpfApp.Core.Services
 {
     public class FilesService : IFilesService
     {
-        public T Read<T>(string folderPath, string filePath)
+        public T Read<T>(string folderPath, string fileName)
         {
-            var path = Path.Combine(folderPath, filePath);
+            var path = Path.Combine(folderPath, fileName);
             if (File.Exists(path))
             {
                 var json = File.ReadAllText(path);
@@ -30,11 +30,11 @@ namespace MyDotNetCoreWpfApp.Core.Services
             File.WriteAllText(Path.Combine(folderPath, fileName), fileContent, Encoding.UTF8);
         }
 
-        public void Delete(string folderPath, string filePath)
+        public void Delete(string folderPath, string fileName)
         {
-            if (filePath != null && File.Exists(Path.Combine(folderPath, filePath)))
+            if (fileName != null && File.Exists(Path.Combine(folderPath, fileName)))
             {
-                File.Delete(Path.Combine(folderPath, filePath));
+                File.Delete(Path.Combine(folderPath, fileName));
             }
         }
     }

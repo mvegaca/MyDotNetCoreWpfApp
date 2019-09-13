@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
@@ -25,10 +24,12 @@ namespace MyDotNetCoreWpfApp
 
         public App()
         {
+            var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
             _host = Host.CreateDefaultBuilder()
-                .ConfigureAppConfiguration(BuildConfiguration)
-                .ConfigureServices(ConfigureServices)
-                .Build();
+                    .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
+                    .ConfigureServices(ConfigureServices)
+                    .Build();
 
             DispatcherUnhandledException += OnDispatcherUnhandledException;
         }
@@ -39,14 +40,6 @@ namespace MyDotNetCoreWpfApp
 
             var activationService = _host.Services.GetService<IActivationService>();
             await activationService.ActivateAsync(e);
-        }
-
-        private void BuildConfiguration(IConfigurationBuilder configBuilder)
-        {
-            configBuilder
-                .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location))
-                .AddJsonFile("settings.json");
-
         }
 
         private void ConfigureServices(IServiceCollection services)

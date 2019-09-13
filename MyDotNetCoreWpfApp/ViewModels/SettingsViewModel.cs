@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Input;
-using MyDotNetCoreWpfApp.Configuration;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.ViewModels;
 using MyDotNetCoreWpfApp.Helpers;
+using MyDotNetCoreWpfApp.Models;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {

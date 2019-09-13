@@ -1,4 +1,4 @@
-﻿namespace MyDotNetCoreWpfApp.Configuration
+﻿namespace MyDotNetCoreWpfApp.Models
 {
     public enum AppTheme
     {

@@ -1,7 +1,0 @@
-{
-  "AppConfig": {
-    "configurationsPath": "MyDotNetCoreWpfApp\\Configurations",
-    "dataPath": "MyDotNetCoreWpfApp\\Data",
-    "fileNameAppProperties": "AppProperties.txt"
-  }
-}
