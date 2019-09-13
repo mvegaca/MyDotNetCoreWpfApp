@@ -29,6 +29,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
             set { Set(ref _selectedOptionsMenuItem, value); }
         }
 
+        // TODO WTS: Change the icons and titles for all HamburgerMenuItems here.
         public ObservableCollection<HamburgerMenuItem> MenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
         {
             new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", TargetPageType = typeof(MainViewModel) },
