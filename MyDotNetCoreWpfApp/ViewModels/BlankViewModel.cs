@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MyDotNetCoreWpfApp.Helpers;
+﻿using MyDotNetCoreWpfApp.Helpers;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {

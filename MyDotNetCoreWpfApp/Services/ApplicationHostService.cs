@@ -1,24 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using Microsoft.Extensions.Hosting;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.ViewModels;
-using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    internal class ActivationService : IHostedService
+    internal class ApplicationHostService : IHostedService
     {
         private IThemeSelectorService _themeSelectorService;
         private IPersistAndRestoreService _persistAndRestoreService;
         private INavigationService _navigationService;
         private IShellWindow _shellWindow;
 
-        public ActivationService(IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, INavigationService navigationService, IShellWindow shellWindow)
+        public ApplicationHostService(IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, INavigationService navigationService, IShellWindow shellWindow)
         {
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;

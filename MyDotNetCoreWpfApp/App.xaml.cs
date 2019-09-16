@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
@@ -30,7 +29,7 @@ namespace MyDotNetCoreWpfApp
             //TODO WTS: Register your services, viewmodels and pages here
 
             // Services
-            services.AddSingleton<IHostedService, ActivationService>();
+            services.AddSingleton<IHostedService, ApplicationHostService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IFilesService, FilesService>();
