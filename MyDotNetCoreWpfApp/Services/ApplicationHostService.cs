@@ -25,7 +25,6 @@ namespace MyDotNetCoreWpfApp.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            // Consider user activationArgs...
             // Initialize services that you need before app activation
             await InitializeAsync();
 
