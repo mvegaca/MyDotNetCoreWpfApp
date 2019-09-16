@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.ViewModels;
+using MyDotNetCoreWpfApp.ViewModels;
+using MyDotNetCoreWpfApp.Views;
 
 namespace MyDotNetCoreWpfApp.Services
 {
@@ -34,9 +36,13 @@ namespace MyDotNetCoreWpfApp.Services
                 _frame.Navigated += OnNavigated;
                 _frame.NavigationFailed += OnNavigationFailed;
             }
+
+            Configure(typeof(MainViewModel).FullName, typeof(MainPage));
+            Configure(typeof(BlankViewModel).FullName, typeof(BlankPage));
+            Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
 
-        public void Configure(string key, Type pageType)
+        private void Configure(string key, Type pageType)
         {
             lock (_pages)
             {

@@ -50,29 +50,16 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<SettingsPage>();
         }
 
-        private void ConfigureNavigation()
-        {
-            var navigationService = _host.Services.GetService<INavigationService>();
-
-            navigationService.Configure(typeof(MainViewModel).FullName, typeof(MainPage));
-            navigationService.Configure(typeof(BlankViewModel).FullName, typeof(BlankPage));
-            navigationService.Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
-        }
-
         private async void OnStartup(object sender, StartupEventArgs e)
         {
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
             
             // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
-            _host = Host.CreateDefaultBuilder()
-                    .ConfigureAppConfiguration(c => {
-                        c.SetBasePath(appLocation);
-                        c.AddCommandLine(e.Args);
-                    })
+            _host = Host.CreateDefaultBuilder(e.Args)
+                    .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
                     .ConfigureServices(ConfigureServices)
                     .Build();
 
-            ConfigureNavigation();
             await _host.StartAsync();
         }
 
