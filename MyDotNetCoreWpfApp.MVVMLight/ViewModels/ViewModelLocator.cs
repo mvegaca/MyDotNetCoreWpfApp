@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Ioc;
+﻿using GalaSoft.MvvmLight.Ioc;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
@@ -12,17 +10,11 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 {
     public class ViewModelLocator
     {
-        private IShellWindow _shell
-            => SimpleIoc.Default.GetInstance<IShellWindow>();
-
-        private IPersistAndRestoreService _persistAndRestoreService
-            => SimpleIoc.Default.GetInstance<IPersistAndRestoreService>();        
-
-        private IThemeSelectorService _themeSelectorService
-            => SimpleIoc.Default.GetInstance<IThemeSelectorService>();
-
-        public INavigationService NavigationService
+        private INavigationService _navigationService
             => SimpleIoc.Default.GetInstance<INavigationService>();
+
+        public IApplicationHostService ApplicationHostService
+            => SimpleIoc.Default.GetInstance<IApplicationHostService>();
 
         public ShellWindowViewModel ShellViewModel
             => SimpleIoc.Default.GetInstance<ShellWindowViewModel>();
@@ -44,41 +36,10 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
             SimpleIoc.Default.Register<IShellWindow, ShellWindow>();
             SimpleIoc.Default.Register<ShellWindowViewModel>();
+            SimpleIoc.Default.Register<IApplicationHostService, ApplicationHostService>();
             Register<MainViewModel, MainPage>();
             Register<BlankViewModel, BlankPage>();
             Register<SettingsViewModel, SettingsPage>();            
-        }
-
-        public async Task StartAsync()
-        {
-            // Tasks before activation
-            await InitializeAsync();
-
-            _shell.ShowWindow();
-            NavigationService.NavigateTo(typeof(MainViewModel).FullName);
-
-            // Tasks after activation
-            await StartupAsync();
-        }
-
-        internal async Task StopAsync()
-        {
-            await Task.CompletedTask;
-            _persistAndRestoreService.PersistData();
-        }
-
-        private async Task InitializeAsync()
-        {
-            var frame = _shell.GetNavigationFrame();
-            NavigationService.Initialize(frame);
-            _persistAndRestoreService.RestoreData();
-            _themeSelectorService.SetTheme();
-            await Task.CompletedTask;
-        }
-
-        private async Task StartupAsync()
-        {
-            await Task.CompletedTask;
         }
 
         private void Register<VM, V>()
@@ -87,7 +48,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
         {
             SimpleIoc.Default.Register<VM>();
             SimpleIoc.Default.Register<V>();
-            NavigationService.Configure(typeof(VM).FullName, typeof(V));
+            _navigationService.Configure(typeof(VM).FullName, typeof(V));
         }
     }
 }

@@ -11,12 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Helpers\" />
     <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Styles\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

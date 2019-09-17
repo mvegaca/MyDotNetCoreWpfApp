@@ -17,12 +17,12 @@ namespace MyDotNetCoreWpfApp.MVVMLight
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            await Locator.StartAsync();
+            await Locator.ApplicationHostService.StartAsync();
         }
 
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            await Locator.StopAsync();
+            await Locator.ApplicationHostService.StopAsync();
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
