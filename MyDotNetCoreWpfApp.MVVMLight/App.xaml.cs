@@ -20,8 +20,9 @@ namespace MyDotNetCoreWpfApp.MVVMLight
             await Locator.StartAsync();
         }
 
-        private void OnExit(object sender, ExitEventArgs e)
+        private async void OnExit(object sender, ExitEventArgs e)
         {
+            await Locator.StopAsync();
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

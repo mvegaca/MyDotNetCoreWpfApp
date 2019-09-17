@@ -92,7 +92,6 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
                 if (navigated)
                 {
                     _lastExtraDataUsed = parameter;
-                    _isNavigated = true;
                 }
             }
         }

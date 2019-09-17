@@ -6,6 +6,6 @@
 
         public const string DataFolder = "MyDotNetCoreWpfApp.MVVMLight\\Data";
 
-        public const string AppPropertiesFileName = "AppProperties.txt";
+        public const string AppPropertiesFileName = "AppProperties.json";
     }
 }

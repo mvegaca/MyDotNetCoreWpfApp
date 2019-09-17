@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
@@ -15,7 +16,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
             => SimpleIoc.Default.GetInstance<IShellWindow>();
 
         private IPersistAndRestoreService _persistAndRestoreService
-            => SimpleIoc.Default.GetInstance<IPersistAndRestoreService>();
+            => SimpleIoc.Default.GetInstance<IPersistAndRestoreService>();        
 
         private IThemeSelectorService _themeSelectorService
             => SimpleIoc.Default.GetInstance<IThemeSelectorService>();
@@ -58,6 +59,12 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 
             // Tasks after activation
             await StartupAsync();
+        }
+
+        internal async Task StopAsync()
+        {
+            await Task.CompletedTask;
+            _persistAndRestoreService.PersistData();
         }
 
         private async Task InitializeAsync()
