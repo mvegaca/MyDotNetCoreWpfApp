@@ -33,6 +33,12 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
         public MainViewModel MainViewModel
             => SimpleIoc.Default.GetInstance<MainViewModel>();
 
+        public BlankViewModel BlankViewModel
+            => SimpleIoc.Default.GetInstance<BlankViewModel>();
+
+        public SettingsViewModel SettingsViewModel
+            => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+
         public ViewModelLocator()
         {
             //SimpleIoc.Default.Register<IThemeSelectorService, ThemeSelectorService>();

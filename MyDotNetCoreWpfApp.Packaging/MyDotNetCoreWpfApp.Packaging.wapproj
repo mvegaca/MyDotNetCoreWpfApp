@@ -62,6 +62,7 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <PackageCertificateThumbprint>2EC84D81720078556A239644056F4F02760FD2BB</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <EntryPointProjectUniqueName>..\MyDotNetCoreWpfApp.MVVMLight\MyDotNetCoreWpfApp.MVVMLight.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AppxBundle>Always</AppxBundle>
@@ -106,6 +107,11 @@
     <Content Include="Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyDotNetCoreWpfApp.MVVMLight\MyDotNetCoreWpfApp.MVVMLight.csproj">
+      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>
