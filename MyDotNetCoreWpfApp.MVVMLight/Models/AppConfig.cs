@@ -2,10 +2,10 @@
 {
     public class AppConfig
     {
-        public string ConfigurationsFolder { get; set; }
+        public const string ConfigurationsFolder = "MyDotNetCoreWpfApp.MVVMLight\\Configurations";
 
-        public string DataFolder { get; set; }
+        public const string DataFolder = "MyDotNetCoreWpfApp.MVVMLight\\Data";
 
-        public string AppPropertiesFileName { get; set; }
+        public const string AppPropertiesFileName = "AppProperties.txt";
     }
 }

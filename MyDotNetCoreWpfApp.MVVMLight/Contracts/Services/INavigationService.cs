@@ -11,8 +11,6 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Contracts.Services
 
         void Initialize(Frame shellFrame);
 
-        bool IsNavigated();
-
         void Configure(string viewModelName, Type pageType);
     }
 }

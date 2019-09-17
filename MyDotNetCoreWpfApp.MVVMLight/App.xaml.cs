@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using MyDotNetCoreWpfApp.MVVMLight.ViewModels;
 
 namespace MyDotNetCoreWpfApp.MVVMLight
@@ -23,12 +17,11 @@ namespace MyDotNetCoreWpfApp.MVVMLight
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            await Locator.InitializeAsync(e.Args);
+            await Locator.StartAsync();
         }
 
         private void OnExit(object sender, ExitEventArgs e)
         {
-
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

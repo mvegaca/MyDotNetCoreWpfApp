@@ -22,15 +22,8 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0206" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0-rc1.19456.10" />
     <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

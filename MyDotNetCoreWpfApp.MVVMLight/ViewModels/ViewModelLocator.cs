@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
@@ -19,10 +11,14 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 {
     public class ViewModelLocator
     {
-        private IHost _host;
+        private IShellWindow _shell
+            => SimpleIoc.Default.GetInstance<IShellWindow>();
 
-        //public IActivationService ActivationService
-        //    => SimpleIoc.Default.GetInstance<IActivationService>();
+        private IPersistAndRestoreService _persistAndRestoreService
+            => SimpleIoc.Default.GetInstance<IPersistAndRestoreService>();
+
+        private IThemeSelectorService _themeSelectorService
+            => SimpleIoc.Default.GetInstance<IThemeSelectorService>();
 
         public INavigationService NavigationService
             => SimpleIoc.Default.GetInstance<INavigationService>();
@@ -41,32 +37,44 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 
         public ViewModelLocator()
         {
-            //SimpleIoc.Default.Register<IThemeSelectorService, ThemeSelectorService>();
-            //SimpleIoc.Default.Register<IFilesService, FilesService>();
-            //SimpleIoc.Default.Register<IPersistAndRestoreService, PersistAndRestoreService>();
-            //SimpleIoc.Default.Register<INavigationService, NavigationService>();
-            //SimpleIoc.Default.Register<IShellWindow, ShellWindow>();
-            //SimpleIoc.Default.Register<ShellWindowViewModel>();
+            SimpleIoc.Default.Register<IThemeSelectorService, ThemeSelectorService>();
+            SimpleIoc.Default.Register<IFilesService, FilesService>();
+            SimpleIoc.Default.Register<IPersistAndRestoreService, PersistAndRestoreService>();
+            SimpleIoc.Default.Register<INavigationService, NavigationService>();
+            SimpleIoc.Default.Register<IShellWindow, ShellWindow>();
+            SimpleIoc.Default.Register<ShellWindowViewModel>();
+            Register<MainViewModel, MainPage>();
+            Register<BlankViewModel, BlankPage>();
+            Register<SettingsViewModel, SettingsPage>();            
         }
 
-        public async Task InitializeAsync(string[] args)
+        public async Task StartAsync()
         {
-            var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            // Tasks before activation
+            await InitializeAsync();
 
-            // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
-            _host = Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
-                .ConfigureServices(ConfigureServices)
-                .Build();
+            _shell.ShowWindow();
+            NavigationService.NavigateTo(typeof(MainViewModel).FullName);
 
-            await _host.StartAsync();
+            // Tasks after activation
+            await StartupAsync();
         }
 
-        private void ConfigureServices(IServiceCollection services)
+        private async Task InitializeAsync()
         {
+            var frame = _shell.GetNavigationFrame();
+            NavigationService.Initialize(frame);
+            _persistAndRestoreService.RestoreData();
+            _themeSelectorService.SetTheme();
+            await Task.CompletedTask;
         }
 
-        public void Register<VM, V>()
+        private async Task StartupAsync()
+        {
+            await Task.CompletedTask;
+        }
+
+        private void Register<VM, V>()
             where VM : class
             where V : class
         {
