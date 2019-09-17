@@ -13,7 +13,6 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public class NavigationService : INavigationService
     {
-        private bool _isNavigated = false;
         private IServiceProvider _serviceProvider;
         private Frame _frame;
         private object _lastExtraDataUsed;
@@ -60,9 +59,6 @@ namespace MyDotNetCoreWpfApp.Services
             }
         }
 
-        public bool IsNavigated()
-            => _isNavigated;
-
         public void GoBack()
             => _frame.GoBack();
 
@@ -90,7 +86,6 @@ namespace MyDotNetCoreWpfApp.Services
                 if (navigated)
                 {
                     _lastExtraDataUsed = extraData;
-                    _isNavigated = true;
                 }
 
                 return navigated;

@@ -11,8 +11,6 @@ namespace MyDotNetCoreWpfApp.Contracts.Services
 
         void Initialize(Frame shellFrame);
         
-        bool IsNavigated();
-        
         bool Navigate(string pageKey, object extraData = null);
 
         void GoBack();

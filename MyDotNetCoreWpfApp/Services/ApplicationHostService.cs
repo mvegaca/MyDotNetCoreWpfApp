@@ -25,15 +25,11 @@ namespace MyDotNetCoreWpfApp.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            // Consider user activationArgs...
             // Initialize services that you need before app activation
             await InitializeAsync();
 
-            _shellWindow.ShowWindow();
-            if (!_navigationService.IsNavigated())
-            {
-                _navigationService.Navigate(typeof(MainViewModel).FullName);
-            }
+            _shellWindow.ShowWindow();            
+            _navigationService.Navigate(typeof(MainViewModel).FullName);
 
             // Tasks after activation
             await StartupAsync();
