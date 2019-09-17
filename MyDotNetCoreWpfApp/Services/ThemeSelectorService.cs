@@ -42,7 +42,7 @@ namespace MyDotNetCoreWpfApp.Services
             if (currentTheme == null || currentTheme.Name != theme.ToString())
             {
                 ThemeManager.ChangeTheme(Application.Current, $"{theme}.Blue");
-                App.Current.Properties["Theme"] = theme;
+                App.Current.Properties["Theme"] = theme.ToString();
                 return true;
             }
 

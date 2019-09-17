@@ -4,6 +4,7 @@
 
     <Style x:Key="BaseTextBlockStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="{StaticResource MediumFontSize}" />
+        <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Text}" />
     </Style>
 
     <Style x:Key="PageTitleStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
