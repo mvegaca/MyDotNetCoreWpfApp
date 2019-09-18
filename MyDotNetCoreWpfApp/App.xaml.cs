@@ -28,8 +28,10 @@ namespace MyDotNetCoreWpfApp
         {
             //TODO WTS: Register your services, viewmodels and pages here
 
+            //App Host
+            services.AddHostedService<ApplicationHostService>();
+
             // Services
-            services.AddSingleton<IHostedService, ApplicationHostService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IFilesService, FilesService>();
