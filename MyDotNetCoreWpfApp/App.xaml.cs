@@ -9,6 +9,7 @@ using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
+using MyDotNetCoreWpfApp.Models;
 using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
@@ -24,7 +25,7 @@ namespace MyDotNetCoreWpfApp
         {
         }
 
-        private void ConfigureServices(IServiceCollection services)
+        private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
             //TODO WTS: Register your services, viewmodels and pages here
 
@@ -49,6 +50,9 @@ namespace MyDotNetCoreWpfApp
 
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
+
+            //Configuration
+            services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
         }
 
         private async void OnStartup(object sender, StartupEventArgs e)

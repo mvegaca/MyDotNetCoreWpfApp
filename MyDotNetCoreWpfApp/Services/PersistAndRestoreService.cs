@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Models;
@@ -15,10 +16,10 @@ namespace MyDotNetCoreWpfApp.Services
 
         private string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        public PersistAndRestoreService(IFilesService filesService, IConfiguration config)
+        public PersistAndRestoreService(IFilesService filesService, IOptions<AppConfig> config)
         {
             _filesService = filesService;
-            _config = config.GetSection(nameof(AppConfig)).Get<AppConfig>();
+            _config = config.Value;
         }
 
         public void PersistData()
