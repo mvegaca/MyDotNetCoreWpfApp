@@ -1,5 +1,11 @@
-﻿using System.Windows;
+﻿using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Extensions.Configuration;
+using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
 using MyDotNetCoreWpfApp.MVVMLight.ViewModels;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Windows;
 
 namespace MyDotNetCoreWpfApp.MVVMLight
 {
@@ -17,12 +23,29 @@ namespace MyDotNetCoreWpfApp.MVVMLight
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
-            await Locator.ApplicationHostService.StartAsync();
+            AddConfiguration(e.Args);
+
+            var applicationHostService = SimpleIoc.Default.GetInstance<IApplicationHostService>();
+            await applicationHostService.StartAsync();
         }
 
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            await Locator.ApplicationHostService.StopAsync();
+            var applicationHostService = SimpleIoc.Default.GetInstance<IApplicationHostService>();
+            await applicationHostService.StopAsync();
+        }
+
+        private void AddConfiguration(string[] args)
+        {
+            var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(appLocation)
+                .AddCommandLine(args)
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Locator.AddConfiguration(configuration);
         }
 
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -34,3 +57,4 @@ namespace MyDotNetCoreWpfApp.MVVMLight
         }
     }
 }
+    

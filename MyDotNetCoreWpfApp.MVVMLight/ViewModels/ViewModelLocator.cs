@@ -1,8 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Extensions.Configuration;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Views;
+using MyDotNetCoreWpfApp.MVVMLight.Models;
 using MyDotNetCoreWpfApp.MVVMLight.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Views;
 
@@ -12,9 +14,6 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
     {
         private INavigationService _navigationService
             => SimpleIoc.Default.GetInstance<INavigationService>();
-
-        public IApplicationHostService ApplicationHostService
-            => SimpleIoc.Default.GetInstance<IApplicationHostService>();
 
         public ShellWindowViewModel ShellViewModel
             => SimpleIoc.Default.GetInstance<ShellWindowViewModel>();
@@ -39,7 +38,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
             SimpleIoc.Default.Register<IApplicationHostService, ApplicationHostService>();
             Register<MainViewModel, MainPage>();
             Register<BlankViewModel, BlankPage>();
-            Register<SettingsViewModel, SettingsPage>();            
+            Register<SettingsViewModel, SettingsPage>();
         }
 
         private void Register<VM, V>()
@@ -49,6 +48,17 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
             SimpleIoc.Default.Register<VM>();
             SimpleIoc.Default.Register<V>();
             _navigationService.Configure(typeof(VM).FullName, typeof(V));
+        }
+
+        public void AddConfiguration(IConfiguration configuration)
+        {
+            var appConfig = configuration
+                .GetSection(nameof(AppConfig))
+                .Get<AppConfig>();
+
+            //Register configurations to IoC
+            SimpleIoc.Default.Register(() => configuration);
+            SimpleIoc.Default.Register(() => appConfig);
         }
     }
 }

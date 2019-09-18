@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
@@ -54,5 +56,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
         {
             await Task.CompletedTask;
         }
+
+        
     }
 }
