@@ -4,7 +4,7 @@ using MyDotNetCoreWpfApp.ViewModels;
 namespace MyDotNetCoreWpfApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainPage.xaml
+    /// Interaction logic for BlankPage.xaml
     /// </summary>
     public partial class BlankPage : Page
     {

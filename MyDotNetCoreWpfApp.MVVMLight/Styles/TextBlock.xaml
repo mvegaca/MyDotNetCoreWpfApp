@@ -20,6 +20,4 @@
     <Style x:Key="BodyTextStyle" TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}">
     </Style>
 
-
-
 </ResourceDictionary>

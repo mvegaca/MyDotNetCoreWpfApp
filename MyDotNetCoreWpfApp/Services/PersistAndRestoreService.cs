@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
