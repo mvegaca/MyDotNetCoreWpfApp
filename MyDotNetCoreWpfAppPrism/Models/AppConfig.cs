@@ -2,12 +2,12 @@
 {
     public class AppConfig
     {
-        public const string ConfigurationsFolder = "MyDotNetCoreWpfApp.Prism\\Configurations";
+        public string ConfigurationsFolder { get; set; }
 
-        public const string DataFolder = "MyDotNetCoreWpfApp.Prism\\Data";
+        public string DataFolder { get; set; }
 
-        public const string AppPropertiesFileName = "AppProperties.json";
+        public string AppPropertiesFileName { get; set; }
 
-        public const string MainRegion = "MainRegion";
+        public string MainRegion { get; set; }
     }
 }

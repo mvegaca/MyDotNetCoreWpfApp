@@ -1,7 +1,11 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Reflection;
+using System.Windows;
+using Microsoft.Extensions.Configuration;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfAppPrism.Contracts.Services;
+using MyDotNetCoreWpfAppPrism.Models;
 using MyDotNetCoreWpfAppPrism.Services;
 using MyDotNetCoreWpfAppPrism.Views;
 using Prism.Ioc;
@@ -14,6 +18,8 @@ namespace MyDotNetCoreWpfAppPrism
     /// </summary>
     public partial class App : PrismApplication
     {
+        private string[] _startUpArgs;
+
         public App()
         {
         }
@@ -31,6 +37,12 @@ namespace MyDotNetCoreWpfAppPrism
             themeSelectorService.SetTheme();
         }
 
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            _startUpArgs = e.Args;
+            base.OnStartup(e);
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Core Services
@@ -45,6 +57,26 @@ namespace MyDotNetCoreWpfAppPrism
             containerRegistry.RegisterForNavigation<Main>();
             containerRegistry.RegisterForNavigation<Blank>();
             containerRegistry.RegisterForNavigation<Settings>();
+
+            var configuration = BuildConfiguration();
+
+            var appConfig = configuration
+                .GetSection(nameof(AppConfig))
+                .Get<AppConfig>();
+
+            //Register configurations to IoC
+            containerRegistry.RegisterInstance<IConfiguration>(configuration);
+            containerRegistry.RegisterInstance<AppConfig>(appConfig);
+        }
+
+        private IConfiguration BuildConfiguration()
+        {
+            var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            return new ConfigurationBuilder()
+                .SetBasePath(appLocation)
+                .AddJsonFile("appsettings.json")
+                .AddCommandLine(_startUpArgs)
+                .Build();
         }
 
         private void OnExit(object sender, ExitEventArgs e)

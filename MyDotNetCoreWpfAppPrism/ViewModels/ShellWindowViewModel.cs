@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using MahApps.Metro.Controls;
+using MyDotNetCoreWpfAppPrism.Helpers;
 using MyDotNetCoreWpfAppPrism.Models;
 using MyDotNetCoreWpfAppPrism.Views;
 using Prism.Commands;
@@ -13,6 +13,7 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
     public class ShellWindowViewModel : BindableBase
     {
         private IRegionManager _regionManager;
+        private AppConfig _config;
         private IRegionNavigationService _navigationService;
         private HamburgerMenuItem _selectedMenuItem;
         private HamburgerMenuItem _selectedOptionsMenuItem;
@@ -49,20 +50,21 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
 
         public DelegateCommand OptionsMenuItemInvokedCommand { get; private set; }
 
-        public ShellWindowViewModel(IRegionManager regionManager)
+        public ShellWindowViewModel(IRegionManager regionManager, AppConfig config)
         {
             _regionManager = regionManager;
+            _config = config;
             LoadedCommand = new DelegateCommand(OnLoaded);
             GoBackCommand = new DelegateCommand(OnGoBack, CanGoBack);
-            MenuItemInvokedCommand = new DelegateCommand(MenuItemInvoked);
-            OptionsMenuItemInvokedCommand = new DelegateCommand(OptionsMenuItemInvoked);
-        }                
+            MenuItemInvokedCommand = new DelegateCommand(() => RequestNavigate(SelectedMenuItem.Tag.ToString()));
+            OptionsMenuItemInvokedCommand = new DelegateCommand(() => RequestNavigate(SelectedOptionsMenuItem.Tag.ToString()));
+        }
 
         private void OnLoaded()
         {
-            _navigationService = _regionManager.Regions[AppConfig.MainRegion].NavigationService;
+            _navigationService = _regionManager.Regions[_config.MainRegion].NavigationService;
             _navigationService.Navigated += OnNavigated;
-            _navigationService.RequestNavigate(MenuItems.First().Tag.ToString());
+            SelectedMenuItem = MenuItems.First();
         }
 
         private bool CanGoBack()
@@ -71,11 +73,13 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         private void OnGoBack()
             => _navigationService.Journal.GoBack();
 
-        private void MenuItemInvoked()
-            => _navigationService.RequestNavigate(SelectedMenuItem.Tag.ToString());        
-
-        private void OptionsMenuItemInvoked()
-            => _navigationService.RequestNavigate(SelectedOptionsMenuItem.Tag.ToString());
+        private void RequestNavigate(string target)
+        {
+            if (_navigationService.CanNavigate(target))
+            {
+                _navigationService.RequestNavigate(target);
+            }
+        }
 
         private void OnNavigated(object sender, RegionNavigationEventArgs e)
         {
@@ -94,6 +98,6 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
             }
 
             GoBackCommand.RaiseCanExecuteChanged();
-        }        
+        }
     }
 }

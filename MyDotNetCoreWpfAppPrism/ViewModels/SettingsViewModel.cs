@@ -4,10 +4,11 @@ using MyDotNetCoreWpfAppPrism.Contracts.Services;
 using MyDotNetCoreWpfAppPrism.Models;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 
 namespace MyDotNetCoreWpfAppPrism.ViewModels
 {
-    public class SettingsViewModel : BindableBase
+    public class SettingsViewModel : BindableBase, INavigationAware
     {
         private AppTheme _theme;
         private string _versionDescription;
@@ -51,6 +52,19 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         private void OnPrivacyStatement()
         {
             Process.Start("https://YourPrivacyUrlGoesHere/");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Theme = _themeSelectorService.GetCurrentTheme();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+            =>  true;
+            //=> navigationContext.Uri.ToString() == GetType().Name.Replace("ViewModel", "");
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
     }
 }

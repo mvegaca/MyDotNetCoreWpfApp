@@ -9,10 +9,10 @@ namespace MyDotNetCoreWpfAppPrism.Views
     /// </summary>
     public partial class ShellWindow : MetroWindow
     {
-        public ShellWindow(IRegionManager regionManager)
+        public ShellWindow(IRegionManager regionManager, AppConfig config)
         {
             InitializeComponent();
-            RegionManager.SetRegionName(hamburgerMenuContentControl, AppConfig.MainRegion);
+            RegionManager.SetRegionName(hamburgerMenuContentControl, config.MainRegion);
             RegionManager.SetRegionManager(hamburgerMenuContentControl, regionManager);
         }
     }
