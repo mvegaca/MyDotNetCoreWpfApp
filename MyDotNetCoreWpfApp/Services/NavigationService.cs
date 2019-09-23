@@ -15,7 +15,7 @@ namespace MyDotNetCoreWpfApp.Services
     {
         private IServiceProvider _serviceProvider;
         private Frame _frame;
-        private object _lastExtraDataUsed;
+        private object _lastParameterUsed;
         private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
 
         public event EventHandler<string> Navigated;
@@ -33,7 +33,6 @@ namespace MyDotNetCoreWpfApp.Services
             {
                 _frame = shellFrame;
                 _frame.Navigated += OnNavigated;
-                _frame.NavigationFailed += OnNavigationFailed;
             }
 
             Configure(typeof(MainViewModel).FullName, typeof(MainPage));
@@ -62,7 +61,7 @@ namespace MyDotNetCoreWpfApp.Services
         public void GoBack()
             => _frame.GoBack();
 
-        public bool Navigate(string pageKey, object extraData = null)
+        public bool Navigate(string pageKey, object parameter = null, bool clearNavigation = false)
         {
             Type pageType;
             lock (_pages)
@@ -72,7 +71,7 @@ namespace MyDotNetCoreWpfApp.Services
                     throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?");
                 }
             }
-            if (_frame.Content?.GetType() != pageType || (extraData != null && !extraData.Equals(_lastExtraDataUsed)))
+            if (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed)))
             {
                 var page = _serviceProvider.GetService(pageType);
                 if (_frame.Content is FrameworkElement element)
@@ -82,10 +81,11 @@ namespace MyDotNetCoreWpfApp.Services
                         navigationAware.OnNavigatingFrom();
                     }
                 }
-                var navigated = _frame.Navigate(page, extraData);
+                _frame.Tag = clearNavigation;
+                var navigated = _frame.Navigate(page, parameter);
                 if (navigated)
                 {
-                    _lastExtraDataUsed = extraData;
+                    _lastParameterUsed = parameter;
                 }
 
                 return navigated;
@@ -96,6 +96,18 @@ namespace MyDotNetCoreWpfApp.Services
 
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
+            if (sender is Frame frame)
+            {
+                bool clearNavigation = (bool)frame.Tag;
+                if (clearNavigation)
+                {
+                    while (frame.CanGoBack)
+                    {
+                        frame.RemoveBackEntry();
+                    }
+                }
+            }
+
             if (e.Content is FrameworkElement element)
             {
                 if (element.DataContext is INavigationAware navigationAware)
@@ -105,10 +117,6 @@ namespace MyDotNetCoreWpfApp.Services
 
                 Navigated?.Invoke(sender, element.DataContext.GetType().FullName);
             }
-        }
-
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
         }
     }
 }

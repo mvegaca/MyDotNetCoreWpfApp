@@ -37,7 +37,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
             _themeSelectorService = themeSelectorService;
         }
 
-        public void OnNavigatedTo(object ExtraData)
+        public void OnNavigatedTo(object parameter)
         {
             VersionDescription = GetVersionDescription();
             Theme = _themeSelectorService.GetCurrentTheme();
