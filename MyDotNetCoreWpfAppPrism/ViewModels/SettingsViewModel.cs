@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using MyDotNetCoreWpfAppPrism.Contracts.Services;
 using MyDotNetCoreWpfAppPrism.Models;
 using Prism.Commands;
@@ -40,7 +41,9 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         private string GetVersionDescription()
         {
             var appName = "MyDotNetCoreWpfAppPrism";
-            return $"{appName} - {1}.{0}.{0}.{0}";
+            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            var versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
+            return $"{appName} - {versionInfo.FileVersion}";
         }
 
         private void OnSetTheme(string themeName)

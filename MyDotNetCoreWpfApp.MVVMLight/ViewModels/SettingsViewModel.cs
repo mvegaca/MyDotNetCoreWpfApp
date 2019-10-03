@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -49,8 +50,10 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 
         private string GetVersionDescription()
         {
-            var appName = "MyDotNetCoreWpfApp";
-            return $"{appName} - {1}.{0}.{0}.{0}";
+            var appName = "MyDotNetCoreWpfAppMVVMLight";
+            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
+            var versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
+            return $"{appName} - {versionInfo.FileVersion}";
         }
 
         private void OnSetTheme(string themeName)
