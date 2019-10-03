@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     DataContext="{Binding ShellViewModel, Source={StaticResource Locator}}"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     mc:Ignorable="d"
     ShowTitleBar="True"
     Title="MyDotNetCoreWpfApp" Height="450" Width="800">
@@ -16,10 +15,10 @@
                 Foreground="White"
                 Width="{Binding ElementName=hamburgerMenu, Path=CompactPaneLength}"
                 Command="{Binding GoBackCommand}">
-                <iconPacks:PackIconMaterial
-                    Kind="ArrowLeft"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+                <TextBlock
+                    Text="&#xE72B;"
+                    FontSize="14"
+                    FontFamily="Segoe MDL2 Assets" />
             </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>

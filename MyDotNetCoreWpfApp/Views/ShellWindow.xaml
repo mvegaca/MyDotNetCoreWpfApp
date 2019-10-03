@@ -15,10 +15,10 @@
                 Foreground="White"
                 Width="{Binding ElementName=hamburgerMenu, Path=CompactPaneLength}"
                 Command="{Binding GoBackCommand}">
-                <iconPacks:PackIconMaterial
-                    Kind="ArrowLeft"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center" />
+                <TextBlock
+                    Text="&#xE72B;"
+                    FontSize="14"
+                    FontFamily="Segoe MDL2 Assets" />
             </Button>
         </controls:WindowCommands>
     </controls:MetroWindow.LeftWindowCommands>
