@@ -51,7 +51,14 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
 
         private void OnPrivacyStatement()
         {
-            Process.Start("https://YourPrivacyUrlGoesHere/");
+            // There is an open Issue on this
+            // https://github.com/dotnet/corefx/issues/10361
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "https://YourPrivacyUrlGoesHere/",
+                UseShellExecute = true
+            };
+            Process.Start(psi);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -61,7 +68,6 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
             =>  true;
-            //=> navigationContext.Uri.ToString() == GetType().Name.Replace("ViewModel", "");
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {

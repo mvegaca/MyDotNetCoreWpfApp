@@ -60,7 +60,14 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         private void OnPrivacyStatement()
         {
-            Process.Start("https://YourPrivacyUrlGoesHere/");
+            // There is an open Issue on this
+            // https://github.com/dotnet/corefx/issues/10361
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "https://YourPrivacyUrlGoesHere/",
+                UseShellExecute = true
+            };
+            Process.Start(psi);
         }
     }
 }
