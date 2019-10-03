@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using MahApps.Metro.Controls;
 using MyDotNetCoreWpfAppPrism.Helpers;
 using MyDotNetCoreWpfAppPrism.Models;
@@ -17,6 +18,10 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         private IRegionNavigationService _navigationService;
         private HamburgerMenuItem _selectedMenuItem;
         private HamburgerMenuItem _selectedOptionsMenuItem;
+        private DelegateCommand _goBackCommand;
+        private ICommand _loadedCommand;
+        private ICommand _menuItemInvokedCommand;
+        private ICommand _optionsMenuItemInvokedCommand;
 
         public HamburgerMenuItem SelectedMenuItem
         {
@@ -42,22 +47,18 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
             new HamburgerMenuGlyphItem() { Label = "Settings", Glyph = "\uE713", Tag = typeof(Settings).Name }
         };
 
-        public DelegateCommand LoadedCommand { get; private set; }
+        public DelegateCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new DelegateCommand(OnGoBack, CanGoBack));
 
-        public DelegateCommand GoBackCommand { get; private set; }
+        public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new DelegateCommand(OnLoaded));
 
-        public DelegateCommand MenuItemInvokedCommand { get; private set; }
+        public ICommand MenuItemInvokedCommand => _menuItemInvokedCommand ?? (_menuItemInvokedCommand = new DelegateCommand(OnMenuItemInvoked));
 
-        public DelegateCommand OptionsMenuItemInvokedCommand { get; private set; }
+        public ICommand OptionsMenuItemInvokedCommand => _optionsMenuItemInvokedCommand ?? (_optionsMenuItemInvokedCommand = new DelegateCommand(OnOptionsMenuItemInvoked));
 
         public ShellWindowViewModel(IRegionManager regionManager, AppConfig config)
         {
             _regionManager = regionManager;
             _config = config;
-            LoadedCommand = new DelegateCommand(OnLoaded);
-            GoBackCommand = new DelegateCommand(OnGoBack, CanGoBack);
-            MenuItemInvokedCommand = new DelegateCommand(() => RequestNavigate(SelectedMenuItem.Tag.ToString()));
-            OptionsMenuItemInvokedCommand = new DelegateCommand(() => RequestNavigate(SelectedOptionsMenuItem.Tag.ToString()));
         }
 
         private void OnLoaded()
@@ -72,6 +73,12 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
 
         private void OnGoBack()
             => _navigationService.Journal.GoBack();
+
+        private void OnMenuItemInvoked()
+            => RequestNavigate(SelectedMenuItem.Tag.ToString());
+
+        private void OnOptionsMenuItemInvoked()
+            => RequestNavigate(SelectedOptionsMenuItem.Tag.ToString());
 
         private void RequestNavigate(string target)
         {

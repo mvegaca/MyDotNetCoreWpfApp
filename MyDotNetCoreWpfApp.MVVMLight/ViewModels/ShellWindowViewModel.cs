@@ -12,11 +12,11 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
     public class ShellWindowViewModel : ViewModelBase, IDisposable
     {
         private INavigationService _navigationService;
+        private HamburgerMenuItem _selectedMenuItem;
+        private HamburgerMenuItem _selectedOptionsMenuItem;
         private RelayCommand _goBackCommand;
         private ICommand _menuItemInvokedCommand;
         private ICommand _optionsMenuItemInvokedCommand;
-        private HamburgerMenuItem _selectedMenuItem;
-        private HamburgerMenuItem _selectedOptionsMenuItem;
 
         public HamburgerMenuItem SelectedMenuItem
         {
@@ -65,6 +65,12 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
         private void OnGoBack()
             => _navigationService.GoBack();
 
+        private void MenuItemInvoked()
+            => _navigationService.NavigateTo(SelectedMenuItem.TargetPageType.FullName);
+
+        private void OptionsMenuItemInvoked()
+            => _navigationService.NavigateTo(SelectedOptionsMenuItem.TargetPageType.FullName);
+
         private void OnNavigated(object sender, string viewModelName)
         {
             var item = MenuItems
@@ -83,11 +89,5 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 
             GoBackCommand.RaiseCanExecuteChanged();
         }
-
-        private void MenuItemInvoked()
-            => _navigationService.NavigateTo(SelectedMenuItem.TargetPageType.FullName);
-
-        private void OptionsMenuItemInvoked()
-            => _navigationService.NavigateTo(SelectedOptionsMenuItem.TargetPageType.FullName);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Windows.Input;
 using MyDotNetCoreWpfAppPrism.Contracts.Services;
 using MyDotNetCoreWpfAppPrism.Models;
 using Prism.Commands;
@@ -14,9 +15,8 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         private AppTheme _theme;
         private string _versionDescription;
         private IThemeSelectorService _themeSelectorService;
-
-        public DelegateCommand<string> SetThemeCommand { get; private set; }
-        public DelegateCommand PrivacyStatementCommand { get; private set; }
+        private ICommand _setThemeCommand;
+        private ICommand _privacyStatementCommand;
 
         public AppTheme Theme
         {
@@ -30,12 +30,25 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
             set { SetProperty(ref _versionDescription, value); }
         }
 
+        public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new DelegateCommand<string>(OnSetTheme));
+        public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new DelegateCommand(OnPrivacyStatement));
+
         public SettingsViewModel(IThemeSelectorService themeSelectorService)
         {
-            _themeSelectorService = themeSelectorService;
-            SetThemeCommand = new DelegateCommand<string>(OnSetTheme);
-            PrivacyStatementCommand = new DelegateCommand(OnPrivacyStatement);
-            GetVersionDescription();
+            _themeSelectorService = themeSelectorService;            
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Theme = _themeSelectorService.GetCurrentTheme();
+            VersionDescription = GetVersionDescription();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+            => true;
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
 
         private string GetVersionDescription()
@@ -62,18 +75,6 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
                 UseShellExecute = true
             };
             Process.Start(psi);
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            Theme = _themeSelectorService.GetCurrentTheme();
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-            =>  true;
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
         }
     }
 }
