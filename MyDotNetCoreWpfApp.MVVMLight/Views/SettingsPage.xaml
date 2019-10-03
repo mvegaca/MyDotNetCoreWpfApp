@@ -6,14 +6,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     DataContext="{Binding SettingsViewModel, Source={StaticResource Locator}}"
     xmlns:models="clr-namespace:MyDotNetCoreWpfApp.MVVMLight.Models"
-    xmlns:helpers="clr-namespace:MyDotNetCoreWpfApp.MVVMLight.Helpers"
+    xmlns:converters="clr-namespace:MyDotNetCoreWpfApp.MVVMLight.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     Style="{DynamicResource MetroPage}"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"
     Title="SettingsPage">
     <Page.Resources>
-        <helpers:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="models:AppTheme" />
+        <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" EnumType="models:AppTheme" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>

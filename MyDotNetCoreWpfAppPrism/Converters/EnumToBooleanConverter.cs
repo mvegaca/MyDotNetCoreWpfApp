@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace MyDotNetCoreWpfApp.Helpers
+namespace MyDotNetCoreWpfAppPrism.Converters
 {
     public class EnumToBooleanConverter : IValueConverter
     {
