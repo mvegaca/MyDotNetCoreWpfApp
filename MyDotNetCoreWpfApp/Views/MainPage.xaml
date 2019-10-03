@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:strings="clr-namespace:MyDotNetCoreWpfApp.Strings"
     Style="{DynamicResource MetroPage}"
     mc:Ignorable="d"
     d:DesignHeight="450" d:DesignWidth="800"      
@@ -14,9 +15,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
-            Text="Main"
+            Style="{StaticResource PageTitleStyle}"
             Margin="{StaticResource MediumLeftMargin}"
-            Style="{StaticResource PageTitleStyle}" />
+            Text="{x:Static strings:Resources.MainPageTitle}" />
         <Grid
             Grid.Row="1"
             Margin="{StaticResource MediumLeftRightMargin}"

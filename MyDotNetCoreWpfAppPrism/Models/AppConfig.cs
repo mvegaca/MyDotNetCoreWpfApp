@@ -7,5 +7,7 @@
         public string AppPropertiesFileName { get; set; }
 
         public string MainRegion { get; set; }
+
+        public string PrivacyStatement { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
 {
     public class SettingsViewModel : BindableBase, INavigationAware
     {
+        private AppConfig _config;
         private AppTheme _theme;
         private string _versionDescription;
         private IThemeSelectorService _themeSelectorService;
@@ -33,8 +34,9 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new DelegateCommand<string>(OnSetTheme));
         public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new DelegateCommand(OnPrivacyStatement));
 
-        public SettingsViewModel(IThemeSelectorService themeSelectorService)
+        public SettingsViewModel(AppConfig config, IThemeSelectorService themeSelectorService)
         {
+            _config = config;
             _themeSelectorService = themeSelectorService;            
         }
 
@@ -71,7 +73,7 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
             // https://github.com/dotnet/corefx/issues/10361
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = "https://YourPrivacyUrlGoesHere/",
+                FileName = _config.PrivacyStatement,
                 UseShellExecute = true
             };
             Process.Start(psi);
