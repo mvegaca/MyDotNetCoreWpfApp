@@ -79,6 +79,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MasterDetail.
+        /// </summary>
+        public static string MasterDetailPageTitle {
+            get {
+                return ResourceManager.GetString("MasterDetailPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings page placeholder text.  Your app description goes here..
         /// </summary>
         public static string SettingsPageAboutText {

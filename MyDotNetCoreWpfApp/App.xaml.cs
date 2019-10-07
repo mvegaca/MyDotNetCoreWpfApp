@@ -36,6 +36,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IFilesService, FilesService>();
+            services.AddSingleton<ISampleDataService, SampleDataService>();
             services.AddSingleton<IPersistAndRestoreService, PersistAndRestoreService>();
 
             // Views and ViewModels
@@ -47,6 +48,9 @@ namespace MyDotNetCoreWpfApp
 
             services.AddTransient<BlankViewModel>();
             services.AddTransient<BlankPage>();
+
+            services.AddTransient<MasterDetailViewModel>();
+            services.AddTransient<MasterDetailPage>();
 
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();

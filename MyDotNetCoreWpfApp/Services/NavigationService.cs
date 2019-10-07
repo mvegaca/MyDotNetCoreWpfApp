@@ -37,6 +37,7 @@ namespace MyDotNetCoreWpfApp.Services
 
             Configure(typeof(MainViewModel).FullName, typeof(MainPage));
             Configure(typeof(BlankViewModel).FullName, typeof(BlankPage));
+            Configure(typeof(MasterDetailViewModel).FullName, typeof(MasterDetailPage));
             Configure(typeof(SettingsViewModel).FullName, typeof(SettingsPage));
         }
 

@@ -50,6 +50,9 @@
     <Page Update="Styles\_FontSizes.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\MasterDetailPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\BlankPage.xaml">
       <SubType>Designer</SubType>
     </Page>
