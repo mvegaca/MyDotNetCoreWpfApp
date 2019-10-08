@@ -150,4 +150,22 @@
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="WebViewPageBackButtonTooltip" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="WebViewPageFaildedMessage" xml:space="preserve">
+    <value>Page failed to load. Check connection and retry.</value>
+  </data>
+  <data name="WebViewPageForwardButtonTooltip" xml:space="preserve">
+    <value>Forward</value>
+  </data>
+  <data name="WebViewPageLoadingText" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="WebViewPageOpenInBrowserButtonTooltip" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="WebViewPageRefreshButtonTooltip" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 </root>

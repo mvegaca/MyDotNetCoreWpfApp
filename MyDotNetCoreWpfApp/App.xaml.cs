@@ -52,6 +52,9 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<MasterDetailViewModel>();
             services.AddTransient<MasterDetailPage>();
 
+            services.AddTransient<WebViewViewModel>();
+            services.AddTransient<WebViewPage>();
+
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
 

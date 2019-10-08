@@ -158,5 +158,59 @@ namespace MyDotNetCoreWpfApp.Strings {
                 return ResourceManager.GetString("SettingsPageTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string WebViewPageBackButtonTooltip {
+            get {
+                return ResourceManager.GetString("WebViewPageBackButtonTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page failed to load. Check connection and retry..
+        /// </summary>
+        public static string WebViewPageFaildedMessage {
+            get {
+                return ResourceManager.GetString("WebViewPageFaildedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forward.
+        /// </summary>
+        public static string WebViewPageForwardButtonTooltip {
+            get {
+                return ResourceManager.GetString("WebViewPageForwardButtonTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading....
+        /// </summary>
+        public static string WebViewPageLoadingText {
+            get {
+                return ResourceManager.GetString("WebViewPageLoadingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open in browser.
+        /// </summary>
+        public static string WebViewPageOpenInBrowserButtonTooltip {
+            get {
+                return ResourceManager.GetString("WebViewPageOpenInBrowserButtonTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string WebViewPageRefreshButtonTooltip {
+            get {
+                return ResourceManager.GetString("WebViewPageRefreshButtonTooltip", resourceCulture);
+            }
+        }
     }
 }

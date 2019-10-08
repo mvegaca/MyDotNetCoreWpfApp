@@ -34,7 +34,8 @@ namespace MyDotNetCoreWpfApp.ViewModels
         {
             new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", TargetPageType = typeof(MainViewModel) },
             new HamburgerMenuGlyphItem() { Label = "Blank", Glyph = "\uE8A5", TargetPageType = typeof(BlankViewModel) },
-            new HamburgerMenuGlyphItem() { Label = "MasterDetail", Glyph = "\uE8A5", TargetPageType = typeof(MasterDetailViewModel) }
+            new HamburgerMenuGlyphItem() { Label = "MasterDetail", Glyph = "\uE8A5", TargetPageType = typeof(MasterDetailViewModel) },
+            new HamburgerMenuGlyphItem() { Label = "WebView", Glyph = "\uE8A5", TargetPageType = typeof(WebViewViewModel) }
         };
 
         public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()

@@ -18,10 +18,8 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock
                     Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontSize="25"
                     Text="{Binding Symbol}"
-                    FontFamily="Segoe MDL2 Assets"
+                    Style="{StaticResource MediumIconStyle}"
                     Margin="{StaticResource XSmallLeftMargin}" />
                 <StackPanel
                     Grid.Column="1"
@@ -40,12 +38,8 @@
                 <StackPanel HorizontalAlignment="Left" Margin="{StaticResource MediumLeftTopRightBottomMargin}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                         <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="48"
                             Text="{Binding Symbol}"
-                            FontFamily="Segoe MDL2 Assets"
-                            Foreground="{DynamicResource MahApps.Brushes.Text}" />
+                            Style="{StaticResource BigIconStyle}" />
                         <TextBlock
                             Margin="{StaticResource SmallLeftMargin}"
                             VerticalAlignment="Center"

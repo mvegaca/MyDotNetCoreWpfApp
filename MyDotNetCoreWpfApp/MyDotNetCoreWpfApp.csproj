@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +15,7 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0-preview9.19423.4" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview9.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,10 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Styles\Button.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\TextBlock.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\_FontSizes.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\WebViewPage.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MasterDetailPage.xaml">
