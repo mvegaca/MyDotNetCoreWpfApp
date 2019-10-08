@@ -7,8 +7,8 @@
     DataContext="{Binding ShellViewModel, Source={StaticResource Locator}}"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
     mc:Ignorable="d"
-    ShowTitleBar="True"
-    Title="MyDotNetCoreWpfApp" Height="450" Width="800">
+    Style="{StaticResource CustomMetroWindow}"
+    Title="MyDotNetCoreWpfApp">
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
             <Button

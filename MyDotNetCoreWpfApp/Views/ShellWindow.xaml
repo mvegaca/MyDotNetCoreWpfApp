@@ -5,10 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     mc:Ignorable="d"
-    ShowTitleBar="True"
-    Title="MyDotNetCoreWpfApp" Height="450" Width="800">
+    Style="{StaticResource CustomMetroWindow}"
+    Title="MyDotNetCoreWpfApp">
     <controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands>
             <Button
@@ -30,7 +29,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock
-                    Grid.Column="0"
+                    Grid.Column="0"                    
                     FontSize="16"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
