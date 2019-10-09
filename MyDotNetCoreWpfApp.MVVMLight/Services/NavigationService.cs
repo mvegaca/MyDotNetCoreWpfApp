@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.ViewModels;
-using MyDotNetCoreWpfApp.MVVMLight.Helpers;
 
 namespace MyDotNetCoreWpfApp.MVVMLight.Services
 {

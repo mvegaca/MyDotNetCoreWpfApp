@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace MyDotNetCoreWpfApp.Helpers
+﻿namespace System.Windows.Controls
 {
     public static class FrameExtensions
     {

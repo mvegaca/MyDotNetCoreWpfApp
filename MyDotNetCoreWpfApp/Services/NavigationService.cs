@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.ViewModels;
-using MyDotNetCoreWpfApp.Helpers;
 
 namespace MyDotNetCoreWpfApp.Services
 {
