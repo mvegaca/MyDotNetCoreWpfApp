@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using GalaSoft.MvvmLight.Ioc;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.ViewModels;
+using MyDotNetCoreWpfApp.MVVMLight.Helpers;
 
 namespace MyDotNetCoreWpfApp.MVVMLight.Services
 {
     public class NavigationService : INavigationService
     {
-        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
+        private IPageService _pageService;
         private Frame _frame;
         private object _lastParameterUsed;
 
@@ -34,22 +32,9 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
             }
         }
 
-        public void Configure(string viewModelName, Type pageType)
+        public NavigationService(IPageService pageService)
         {
-            lock (_pages)
-            {
-                if (_pages.ContainsKey(viewModelName))
-                {
-                    throw new ArgumentException($"The key {viewModelName} is already configured in NavigationService");
-                }
-
-                if (_pages.Any(p => p.Value == pageType))
-                {
-                    throw new ArgumentException($"This type is already configured with key {_pages.First(p => p.Value == pageType).Key}");
-                }
-
-                _pages.Add(viewModelName, pageType);
-            }
+            _pageService = pageService;
         }
 
         public void Initialize(Frame shellFrame)
@@ -72,27 +57,18 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 
         public void NavigateTo(string pageKey, object parameter, bool clearNavigation)
         {
-            Type pageType;
-            lock (_pages)
-            {
-                if (!_pages.TryGetValue(pageKey, out pageType))
-                {
-                    throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?");
-                }
-            }
+            var pageType = _pageService.GetPageType(pageKey);
 
             if (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed)))
             {
-                var page = SimpleIoc.Default.GetInstance(pageType);
-                if (_frame.Content is FrameworkElement element)
+                var dataContext = _frame.GetDataContext();
+                if (dataContext is INavigationAware navigationAware)
                 {
-                    if (element.DataContext is INavigationAware navigationAware)
-                    {
-                        navigationAware.OnNavigatingFrom();
-                    }
+                    navigationAware.OnNavigatingFrom();
                 }
 
                 _frame.Tag = clearNavigation;
+                var page = _pageService.GetPage(pageKey);
                 var navigated = _frame.Navigate(page, parameter);
                 if (navigated)
                 {
@@ -103,26 +79,21 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 
         private void OnNavigated(object sender, NavigationEventArgs e)
         {
-            if (e.Content is FrameworkElement element)
-            {
-                if (element.DataContext is INavigationAware navigationAware)
-                {
-                    navigationAware.OnNavigatedTo(e.ExtraData);
-                }
-
-                Navigated?.Invoke(sender, element.DataContext.GetType().FullName);
-            }
-
             if (sender is Frame frame)
             {
                 bool clearNavigation = (bool)frame.Tag;
                 if (clearNavigation)
                 {
-                    while (frame.CanGoBack)
-                    {
-                        frame.RemoveBackEntry();
-                    }
+                    frame.CleanNavigation();
                 }
+
+                var dataContext = frame.GetDataContext();
+                if (dataContext is INavigationAware navigationAware)
+                {
+                    navigationAware.OnNavigatedTo(e.ExtraData);
+                }
+
+                Navigated?.Invoke(sender, dataContext.GetType().FullName);
             }
         }
     }

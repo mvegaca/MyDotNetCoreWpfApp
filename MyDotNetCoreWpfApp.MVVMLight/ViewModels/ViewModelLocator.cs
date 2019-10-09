@@ -1,4 +1,6 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using System.Windows.Controls;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Extensions.Configuration;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
@@ -12,8 +14,8 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 {
     public class ViewModelLocator
     {
-        private INavigationService NavigationService
-            => SimpleIoc.Default.GetInstance<INavigationService>();
+        private IPageService PageService
+            => SimpleIoc.Default.GetInstance<IPageService>();
 
         public ShellWindowViewModel ShellViewModel
             => SimpleIoc.Default.GetInstance<ShellWindowViewModel>();
@@ -32,6 +34,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
             SimpleIoc.Default.Register<IThemeSelectorService, ThemeSelectorService>();
             SimpleIoc.Default.Register<IFilesService, FilesService>();
             SimpleIoc.Default.Register<IPersistAndRestoreService, PersistAndRestoreService>();
+            SimpleIoc.Default.Register<IPageService, PageService>();
             SimpleIoc.Default.Register<INavigationService, NavigationService>();
             SimpleIoc.Default.Register<IShellWindow, ShellWindow>();
             SimpleIoc.Default.Register<ShellWindowViewModel>();
@@ -42,12 +45,12 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
         }
 
         private void Register<VM, V>()
-            where VM : class
-            where V : class
+            where VM : ViewModelBase
+            where V : Page
         {
             SimpleIoc.Default.Register<VM>();
             SimpleIoc.Default.Register<V>();
-            NavigationService.Configure(typeof(VM).FullName, typeof(V));
+            PageService.Configure<VM, V>();
         }
 
         public void AddConfiguration(IConfiguration configuration)

@@ -33,6 +33,7 @@ namespace MyDotNetCoreWpfApp
             services.AddHostedService<ApplicationHostService>();
 
             // Services
+            services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IFilesService, FilesService>();

@@ -11,8 +11,6 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Contracts.Services
 
         void Initialize(Frame shellFrame);
 
-        void Configure(string viewModelName, Type pageType);
-
         void NavigateTo(string pageKey, object parameter, bool clearNavigation);
     }
 }
