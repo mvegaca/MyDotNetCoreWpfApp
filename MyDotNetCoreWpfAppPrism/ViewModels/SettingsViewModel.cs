@@ -32,12 +32,13 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         }
 
         public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new DelegateCommand<string>(OnSetTheme));
+
         public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new DelegateCommand(OnPrivacyStatement));
 
         public SettingsViewModel(AppConfig config, IThemeSelectorService themeSelectorService)
         {
             _config = config;
-            _themeSelectorService = themeSelectorService;            
+            _themeSelectorService = themeSelectorService;
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

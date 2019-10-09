@@ -14,7 +14,7 @@ using Prism.Unity;
 namespace MyDotNetCoreWpfAppPrism
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for App.xaml.
     /// </summary>
     public partial class App : PrismApplication
     {
@@ -52,7 +52,7 @@ namespace MyDotNetCoreWpfAppPrism
             containerRegistry.Register<IThemeSelectorService, ThemeSelectorService>();
             containerRegistry.Register<IPersistAndRestoreService, PersistAndRestoreService>();
 
-            // Views            
+            // Views
             containerRegistry.RegisterForNavigation<ShellWindow>();
             containerRegistry.RegisterForNavigation<Main>();
             containerRegistry.RegisterForNavigation<Blank>();
@@ -64,7 +64,7 @@ namespace MyDotNetCoreWpfAppPrism
                 .GetSection(nameof(AppConfig))
                 .Get<AppConfig>();
 
-            //Register configurations to IoC
+            // Register configurations to IoC
             containerRegistry.RegisterInstance<IConfiguration>(configuration);
             containerRegistry.RegisterInstance<AppConfig>(appConfig);
         }

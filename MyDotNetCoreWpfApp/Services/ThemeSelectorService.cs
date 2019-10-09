@@ -9,7 +9,7 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public class ThemeSelectorService : IThemeSelectorService
     {
-        private bool _isHighContrastActive
+        private bool IsHighContrastActive
                         => SystemParameters.HighContrast;
 
         public ThemeSelectorService()
@@ -19,9 +19,9 @@ namespace MyDotNetCoreWpfApp.Services
 
         public bool SetTheme(AppTheme? theme = null)
         {
-            if (_isHighContrastActive)
+            if (IsHighContrastActive)
             {
-                //TODO: Set high contrast theme name
+                // TODO: Set high contrast theme name
             }
             else if (theme == null)
             {

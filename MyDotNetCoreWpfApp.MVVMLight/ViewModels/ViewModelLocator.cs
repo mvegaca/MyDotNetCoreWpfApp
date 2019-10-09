@@ -12,7 +12,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 {
     public class ViewModelLocator
     {
-        private INavigationService _navigationService
+        private INavigationService NavigationService
             => SimpleIoc.Default.GetInstance<INavigationService>();
 
         public ShellWindowViewModel ShellViewModel
@@ -47,7 +47,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
         {
             SimpleIoc.Default.Register<VM>();
             SimpleIoc.Default.Register<V>();
-            _navigationService.Configure(typeof(VM).FullName, typeof(V));
+            NavigationService.Configure(typeof(VM).FullName, typeof(V));
         }
 
         public void AddConfiguration(IConfiguration configuration)
@@ -56,7 +56,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
                 .GetSection(nameof(AppConfig))
                 .Get<AppConfig>();
 
-            //Register configurations to IoC
+            // Register configurations to IoC
             SimpleIoc.Default.Register(() => configuration);
             SimpleIoc.Default.Register(() => appConfig);
         }

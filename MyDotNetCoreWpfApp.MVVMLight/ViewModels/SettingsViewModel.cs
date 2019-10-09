@@ -32,6 +32,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
         }
 
         public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new RelayCommand<string>(OnSetTheme));
+
         public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new RelayCommand(OnPrivacyStatement));
 
         public SettingsViewModel(AppConfig config, IThemeSelectorService themeSelectorService)

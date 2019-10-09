@@ -56,7 +56,5 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
         {
             await Task.CompletedTask;
         }
-
-        
     }
 }

@@ -1,16 +1,15 @@
-﻿using GalaSoft.MvvmLight.Ioc;
+﻿using System.IO;
+using System.Reflection;
+using System.Windows;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Extensions.Configuration;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
 using MyDotNetCoreWpfApp.MVVMLight.ViewModels;
-using System;
-using System.IO;
-using System.Reflection;
-using System.Windows;
 
 namespace MyDotNetCoreWpfApp.MVVMLight
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for App.xaml.
     /// </summary>
     public partial class App : Application
     {
@@ -51,10 +50,9 @@ namespace MyDotNetCoreWpfApp.MVVMLight
         private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             // TODO WTS: Please handle the exception as appropriate to your scenario
-            // For more info see https://docs.microsoft.com/dotnet/api/system.windows.application.dispatcherunhandledexception?view=netcore-3.0 
+            // For more info see https://docs.microsoft.com/dotnet/api/system.windows.application.dispatcherunhandledexception?view=netcore-3.0
 
             // e.Handled = true;
         }
     }
 }
-    

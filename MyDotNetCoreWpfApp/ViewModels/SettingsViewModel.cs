@@ -20,6 +20,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
         private ICommand _privacyStatementCommand;
 
         public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new RelayCommand<string>(OnSetTheme));
+
         public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new RelayCommand(OnPrivacyStatement));
 
         public AppTheme Theme

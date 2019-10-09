@@ -1,10 +1,9 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
-using CommunityToolkit = Microsoft.Toolkit.Wpf.UI.Controls;
-using MyDotNetCoreWpfApp.Helpers;
-using System.Diagnostics;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using System.Threading.Tasks;
+using MyDotNetCoreWpfApp.Helpers;
+using CommunityToolkit = Microsoft.Toolkit.Wpf.UI.Controls;
 
 namespace MyDotNetCoreWpfApp.ViewModels
 {
@@ -33,8 +32,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public bool IsLoading
         {
-            get { return _isLoading; }
-
+            get => _isLoading;
             set
             {
                 Set(ref _isLoading, value);
@@ -44,8 +42,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public bool IsShowingFailedMessage
         {
-            get { return _isShowingFailedMessage; }
-
+            get => _isShowingFailedMessage;
             set
             {
                 Set(ref _isShowingFailedMessage, value);

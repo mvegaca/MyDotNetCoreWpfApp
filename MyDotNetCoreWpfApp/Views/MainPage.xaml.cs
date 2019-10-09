@@ -12,6 +12,6 @@ namespace MyDotNetCoreWpfApp.Views
         {
             InitializeComponent();
             DataContext = viewModel;
-        }        
+        }
     }
 }

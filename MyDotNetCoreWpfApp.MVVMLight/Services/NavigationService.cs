@@ -12,9 +12,9 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 {
     public class NavigationService : INavigationService
     {
+        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
         private Frame _frame;
         private object _lastParameterUsed;
-        private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
 
         public event EventHandler<string> Navigated;
 
@@ -80,6 +80,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
                     throw new ArgumentException($"Page not found: {pageKey}. Did you forget to call NavigationService.Configure?");
                 }
             }
+
             if (_frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParameterUsed)))
             {
                 var page = SimpleIoc.Default.GetInstance(pageType);
@@ -90,6 +91,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
                         navigationAware.OnNavigatingFrom();
                     }
                 }
+
                 _frame.Tag = clearNavigation;
                 var navigated = _frame.Navigate(page, parameter);
                 if (navigated)

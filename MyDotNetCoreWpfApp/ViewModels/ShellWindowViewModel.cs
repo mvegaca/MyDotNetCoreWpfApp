@@ -85,7 +85,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
             {
                 SelectedOptionsMenuItem = OptionMenuItems
                         .OfType<HamburgerMenuItem>()
-                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName); ;
+                        .FirstOrDefault(i => viewModelName == i.TargetPageType.FullName);
             }
 
             GoBackCommand.OnCanExecuteChanged();
