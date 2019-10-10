@@ -55,10 +55,10 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
 
         public ICommand OptionsMenuItemInvokedCommand => _optionsMenuItemInvokedCommand ?? (_optionsMenuItemInvokedCommand = new DelegateCommand(OnOptionsMenuItemInvoked));
 
-        public ShellWindowViewModel(IRegionManager regionManager, AppConfig config)
+        public ShellWindowViewModel(AppConfig config, IRegionManager regionManager)
         {
-            _regionManager = regionManager;
             _config = config;
+            _regionManager = regionManager;
         }
 
         private void OnLoaded()

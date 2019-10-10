@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 using Microsoft.Extensions.Configuration;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
@@ -82,11 +83,11 @@ namespace MyDotNetCoreWpfAppPrism
             persistAndRestoreService.PersistData();
         }
 
-        private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            // TODO WTS: Handle the exception before the application will be closed
-            // Do whatever you need in case of an unhandled exception was thrown
-            // Mark exception as handled
+            // TODO WTS: Please handle the exception as appropriate to your scenario
+            // For more info see https://docs.microsoft.com/dotnet/api/system.windows.application.dispatcherunhandledexception?view=netcore-3.0
+
             // e.Handled = true;
         }
     }
