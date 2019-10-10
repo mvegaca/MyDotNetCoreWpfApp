@@ -25,6 +25,19 @@ namespace MyDotNetCoreWpfApp
         {
         }
 
+        private async void OnStartup(object sender, StartupEventArgs e)
+        {
+            var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
+            // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
+            _host = Host.CreateDefaultBuilder(e.Args)
+                    .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
+                    .ConfigureServices(ConfigureServices)
+                    .Build();
+
+            await _host.StartAsync();
+        }
+
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
             // TODO WTS: Register your services, viewmodels and pages here
@@ -61,19 +74,6 @@ namespace MyDotNetCoreWpfApp
 
             // Configuration
             services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
-        }
-
-        private async void OnStartup(object sender, StartupEventArgs e)
-        {
-            var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-            // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
-            _host = Host.CreateDefaultBuilder(e.Args)
-                    .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
-                    .ConfigureServices(ConfigureServices)
-                    .Build();
-
-            await _host.StartAsync();
         }
 
         private async void OnExit(object sender, ExitEventArgs e)

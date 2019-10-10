@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Services;
 using MyDotNetCoreWpfApp.MVVMLight.Contracts.Views;
 using MyDotNetCoreWpfApp.MVVMLight.ViewModels;
@@ -12,25 +7,26 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 {
     public class ApplicationHostService : IApplicationHostService
     {
-        private readonly IShellWindow _shell;
         private readonly INavigationService _navigationService;
-        private readonly IPersistAndRestoreService _persistAndRestoreService;
         private readonly IThemeSelectorService _themeSelectorService;
+        private readonly IPersistAndRestoreService _persistAndRestoreService;
+        private readonly IShellWindow _shellWindow;
 
-        public ApplicationHostService(IShellWindow shell, INavigationService navigationService, IPersistAndRestoreService persistAndRestoreService, IThemeSelectorService themeSelectorService)
+        public ApplicationHostService(INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IShellWindow shellWindow)
         {
-            _shell = shell;
             _navigationService = navigationService;
-            _persistAndRestoreService = persistAndRestoreService;
             _themeSelectorService = themeSelectorService;
+            _persistAndRestoreService = persistAndRestoreService;
+            _shellWindow = shellWindow;
+            _navigationService.Initialize(_shellWindow.GetNavigationFrame());
         }
 
         public async Task StartAsync()
         {
-            // Tasks before activation
+            // Initialize services that you need before app activation
             await InitializeAsync();
 
-            _shell.ShowWindow();
+            _shellWindow.ShowWindow();
             _navigationService.NavigateTo(typeof(MainViewModel).FullName);
 
             // Tasks after activation
@@ -45,11 +41,9 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 
         private async Task InitializeAsync()
         {
-            var frame = _shell.GetNavigationFrame();
-            _navigationService.Initialize(frame);
+            await Task.CompletedTask;
             _persistAndRestoreService.RestoreData();
             _themeSelectorService.SetTheme();
-            await Task.CompletedTask;
         }
 
         private async Task StartupAsync()

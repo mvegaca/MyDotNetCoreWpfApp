@@ -19,10 +19,6 @@ namespace MyDotNetCoreWpfApp.ViewModels
         private ICommand _setThemeCommand;
         private ICommand _privacyStatementCommand;
 
-        public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new RelayCommand<string>(OnSetTheme));
-
-        public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new RelayCommand(OnPrivacyStatement));
-
         public AppTheme Theme
         {
             get { return _theme; }
@@ -34,6 +30,10 @@ namespace MyDotNetCoreWpfApp.ViewModels
             get { return _versionDescription; }
             set { Set(ref _versionDescription, value); }
         }
+
+        public ICommand SetThemeCommand => _setThemeCommand ?? (_setThemeCommand = new RelayCommand<string>(OnSetTheme));
+
+        public ICommand PrivacyStatementCommand => _privacyStatementCommand ?? (_privacyStatementCommand = new RelayCommand(OnPrivacyStatement));
 
         public SettingsViewModel(IOptions<AppConfig> config, IThemeSelectorService themeSelectorService)
         {
