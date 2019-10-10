@@ -10,8 +10,8 @@ namespace MyDotNetCoreWpfAppPrism.Services
     public class PersistAndRestoreService : IPersistAndRestoreService
     {
         private readonly IFilesService _filesService;
-        private AppConfig _config;
-        private string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private readonly AppConfig _config;
+        private readonly string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         public PersistAndRestoreService(IFilesService filesService, AppConfig config)
         {

@@ -9,7 +9,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 {
     public class NavigationService : INavigationService
     {
-        private IPageService _pageService;
+        private readonly IPageService _pageService;
         private Frame _frame;
         private object _lastParameterUsed;
 

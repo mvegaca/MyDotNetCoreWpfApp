@@ -9,10 +9,10 @@ namespace MyDotNetCoreWpfApp.Services
 {
     internal class ApplicationHostService : IHostedService
     {
-        private IThemeSelectorService _themeSelectorService;
-        private IPersistAndRestoreService _persistAndRestoreService;
-        private INavigationService _navigationService;
-        private IShellWindow _shellWindow;
+        private readonly IThemeSelectorService _themeSelectorService;
+        private readonly IPersistAndRestoreService _persistAndRestoreService;
+        private readonly INavigationService _navigationService;
+        private readonly IShellWindow _shellWindow;
 
         public ApplicationHostService(IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, INavigationService navigationService, IShellWindow shellWindow)
         {

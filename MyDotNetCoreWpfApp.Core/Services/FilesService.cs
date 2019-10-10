@@ -16,7 +16,7 @@ namespace MyDotNetCoreWpfApp.Core.Services
                 return JsonConvert.DeserializeObject<T>(json);
             }
 
-            return default(T);
+            return default;
         }
 
         public void Save<T>(string folderPath, string fileName, T content)

@@ -4,12 +4,9 @@ using MyDotNetCoreWpfApp.ViewModels;
 
 namespace MyDotNetCoreWpfApp.Views
 {
-    /// <summary>
-    /// Interaction logic for BlankPage.xaml
-    /// </summary>
     public partial class WebViewPage : Page
     {
-        private WebViewViewModel _viewModel;
+        private readonly WebViewViewModel _viewModel;
 
         public WebViewPage(WebViewViewModel viewModel)
         {

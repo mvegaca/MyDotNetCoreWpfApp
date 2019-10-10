@@ -11,7 +11,7 @@ namespace MyDotNetCoreWpfApp.MVVMLight.ViewModels
 {
     public class ShellWindowViewModel : ViewModelBase, IDisposable
     {
-        private INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
         private HamburgerMenuItem _selectedMenuItem;
         private HamburgerMenuItem _selectedOptionsMenuItem;
         private RelayCommand _goBackCommand;

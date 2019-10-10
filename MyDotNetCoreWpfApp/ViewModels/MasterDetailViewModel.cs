@@ -9,7 +9,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class MasterDetailViewModel : Observable, INavigationAware
     {
-        private ISampleDataService _sampleDataService;
+        private readonly ISampleDataService _sampleDataService;
         private SampleOrder _selected;
 
         public SampleOrder Selected

@@ -12,10 +12,10 @@ namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class SettingsViewModel : Observable, INavigationAware
     {
-        private AppConfig _config;
+        private readonly AppConfig _config;
+        private readonly IThemeSelectorService _themeSelectorService;
         private AppTheme _theme;
         private string _versionDescription;
-        private IThemeSelectorService _themeSelectorService;
         private ICommand _setThemeCommand;
         private ICommand _privacyStatementCommand;
 

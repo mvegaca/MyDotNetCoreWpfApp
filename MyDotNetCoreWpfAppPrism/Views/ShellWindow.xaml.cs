@@ -4,9 +4,6 @@ using Prism.Regions;
 
 namespace MyDotNetCoreWpfAppPrism.Views
 {
-    /// <summary>
-    /// Interaction logic for ShellWindow.xaml
-    /// </summary>
     public partial class ShellWindow : MetroWindow
     {
         public ShellWindow(IRegionManager regionManager, AppConfig config)

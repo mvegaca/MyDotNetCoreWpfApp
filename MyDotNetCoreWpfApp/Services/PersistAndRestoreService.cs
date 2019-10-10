@@ -12,8 +12,7 @@ namespace MyDotNetCoreWpfApp.Services
     {
         private readonly IFilesService _filesService;
         private readonly AppConfig _config;
-
-        private string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private readonly string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
         public PersistAndRestoreService(IFilesService filesService, IOptions<AppConfig> config)
         {

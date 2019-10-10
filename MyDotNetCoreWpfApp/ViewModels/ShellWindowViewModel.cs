@@ -10,7 +10,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
 {
     public class ShellWindowViewModel : Observable, IDisposable
     {
-        private INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
         private HamburgerMenuItem _selectedMenuItem;
         private HamburgerMenuItem _selectedOptionsMenuItem;
         private RelayCommand _goBackCommand;

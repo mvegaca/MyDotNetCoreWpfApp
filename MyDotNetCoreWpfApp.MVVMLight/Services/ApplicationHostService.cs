@@ -12,10 +12,10 @@ namespace MyDotNetCoreWpfApp.MVVMLight.Services
 {
     public class ApplicationHostService : IApplicationHostService
     {
-        private IShellWindow _shell;
-        private INavigationService _navigationService;
-        private IPersistAndRestoreService _persistAndRestoreService;
-        private IThemeSelectorService _themeSelectorService;
+        private readonly IShellWindow _shell;
+        private readonly INavigationService _navigationService;
+        private readonly IPersistAndRestoreService _persistAndRestoreService;
+        private readonly IThemeSelectorService _themeSelectorService;
 
         public ApplicationHostService(IShellWindow shell, INavigationService navigationService, IPersistAndRestoreService persistAndRestoreService, IThemeSelectorService themeSelectorService)
         {

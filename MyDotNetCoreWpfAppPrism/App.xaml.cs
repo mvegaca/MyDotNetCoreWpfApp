@@ -13,9 +13,6 @@ using Prism.Unity;
 
 namespace MyDotNetCoreWpfAppPrism
 {
-    /// <summary>
-    /// Interaction logic for App.xaml.
-    /// </summary>
     public partial class App : PrismApplication
     {
         private string[] _startUpArgs;

@@ -8,9 +8,6 @@ using MyDotNetCoreWpfApp.MVVMLight.ViewModels;
 
 namespace MyDotNetCoreWpfApp.MVVMLight
 {
-    /// <summary>
-    /// Interaction logic for App.xaml.
-    /// </summary>
     public partial class App : Application
     {
         public ViewModelLocator Locator
