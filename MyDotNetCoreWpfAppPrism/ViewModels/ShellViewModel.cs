@@ -11,7 +11,7 @@ using Prism.Regions;
 
 namespace MyDotNetCoreWpfAppPrism.ViewModels
 {
-    public class ShellWindowViewModel : BindableBase
+    public class ShellViewModel : BindableBase
     {
         private readonly AppConfig _config;
         private readonly IRegionManager _regionManager;
@@ -38,13 +38,13 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         // TODO WTS: Change the icons and titles for all HamburgerMenuItems here.
         public ObservableCollection<HamburgerMenuItem> MenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
         {
-            new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", Tag = typeof(Main).Name },
-            new HamburgerMenuGlyphItem() { Label = "Blank", Glyph = "\uE8A5", Tag = typeof(Blank).Name }
+            new HamburgerMenuGlyphItem() { Label = "Main", Glyph = "\uE8A5", Tag = typeof(MainPage).Name },
+            new HamburgerMenuGlyphItem() { Label = "Blank", Glyph = "\uE8A5", Tag = typeof(BlankPage).Name }
         };
 
         public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()
         {
-            new HamburgerMenuGlyphItem() { Label = "Settings", Glyph = "\uE713", Tag = typeof(Settings).Name }
+            new HamburgerMenuGlyphItem() { Label = "Settings", Glyph = "\uE713", Tag = typeof(SettingsPage).Name }
         };
 
         public DelegateCommand GoBackCommand => _goBackCommand ?? (_goBackCommand = new DelegateCommand(OnGoBack, CanGoBack));
@@ -52,10 +52,11 @@ namespace MyDotNetCoreWpfAppPrism.ViewModels
         public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new DelegateCommand(OnLoaded));
 
         public ICommand MenuItemInvokedCommand => _menuItemInvokedCommand ?? (_menuItemInvokedCommand = new DelegateCommand(OnMenuItemInvoked));
+        public ICommand MenuItemInvokedCommand => _menuItemInvokedCommand ?? (_menuItemInvokedCommand = new DelegateCommand(OnMenuItemInvoked));
 
         public ICommand OptionsMenuItemInvokedCommand => _optionsMenuItemInvokedCommand ?? (_optionsMenuItemInvokedCommand = new DelegateCommand(OnOptionsMenuItemInvoked));
 
-        public ShellWindowViewModel(AppConfig config, IRegionManager regionManager)
+        public ShellViewModel(AppConfig config, IRegionManager regionManager)
         {
             _config = config;
             _regionManager = regionManager;

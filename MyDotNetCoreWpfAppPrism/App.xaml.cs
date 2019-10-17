@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
@@ -10,6 +11,7 @@ using MyDotNetCoreWpfAppPrism.Models;
 using MyDotNetCoreWpfAppPrism.Services;
 using MyDotNetCoreWpfAppPrism.Views;
 using Prism.Ioc;
+using Prism.Mvvm;
 using Prism.Unity;
 
 namespace MyDotNetCoreWpfAppPrism
@@ -23,7 +25,7 @@ namespace MyDotNetCoreWpfAppPrism
         }
 
         protected override Window CreateShell()
-            => Container.Resolve<ShellWindow>();
+            => Container.Resolve<ShellPage>();
 
         public override void Initialize()
         {
@@ -51,10 +53,10 @@ namespace MyDotNetCoreWpfAppPrism
             containerRegistry.Register<IPersistAndRestoreService, PersistAndRestoreService>();
 
             // Views
-            containerRegistry.RegisterForNavigation<ShellWindow>();
-            containerRegistry.RegisterForNavigation<Main>();
-            containerRegistry.RegisterForNavigation<Blank>();
-            containerRegistry.RegisterForNavigation<Settings>();
+            containerRegistry.RegisterForNavigation<ShellPage>();
+            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<BlankPage>();
+            containerRegistry.RegisterForNavigation<SettingsPage>();
 
             var configuration = BuildConfiguration();
 
@@ -75,6 +77,18 @@ namespace MyDotNetCoreWpfAppPrism
                 .AddJsonFile("appsettings.json")
                 .AddCommandLine(_startUpArgs)
                 .Build();
+        }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            base.ConfigureViewModelLocator();
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
+            {
+                var viewName = viewType.FullName;
+                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+                var viewModelName = $"{viewName[0..^4]}ViewModel, {viewAssemblyName}";
+                return Type.GetType(viewModelName);
+            });
         }
 
         private void OnExit(object sender, ExitEventArgs e)

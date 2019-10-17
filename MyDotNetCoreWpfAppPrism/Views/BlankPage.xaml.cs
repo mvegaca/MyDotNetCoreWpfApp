@@ -2,9 +2,9 @@
 
 namespace MyDotNetCoreWpfAppPrism.Views
 {
-    public partial class Main : UserControl
+    public partial class BlankPage : UserControl
     {
-        public Main()
+        public BlankPage()
         {
             InitializeComponent();
         }

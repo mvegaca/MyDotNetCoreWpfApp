@@ -4,9 +4,9 @@ using Prism.Regions;
 
 namespace MyDotNetCoreWpfAppPrism.Views
 {
-    public partial class ShellWindow : MetroWindow
+    public partial class ShellPage : MetroWindow
     {
-        public ShellWindow(IRegionManager regionManager, AppConfig config)
+        public ShellPage(IRegionManager regionManager, AppConfig config)
         {
             InitializeComponent();
             RegionManager.SetRegionName(hamburgerMenuContentControl, config.MainRegion);

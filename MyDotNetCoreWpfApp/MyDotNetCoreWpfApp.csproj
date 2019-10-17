@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0490" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0531" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.0.0-preview9.19423.4" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="6.0.0-preview9.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
