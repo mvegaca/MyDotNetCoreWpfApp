@@ -58,7 +58,6 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IFileService, FileService>();
 
             // Services
-            services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IPersistAndRestoreService, PersistAndRestoreService>();

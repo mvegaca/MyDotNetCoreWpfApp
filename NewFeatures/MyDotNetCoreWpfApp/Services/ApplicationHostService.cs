@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Models;
 using MyDotNetCoreWpfApp.ViewModels;
+using Windows.ApplicationModel.Background;
 
 namespace MyDotNetCoreWpfApp.Services
 {
@@ -21,11 +23,10 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IThemeSelectorService _themeSelectorService;
         private readonly IIdentityService _identityService;
         private readonly IUserDataService _userDataService;
-        private readonly IBackgroundTaskService _backgroundTaskService;
         private readonly AppConfig _config;
         private IShellWindow _shellWindow;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService)
+        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
@@ -34,7 +35,6 @@ namespace MyDotNetCoreWpfApp.Services
             _identityService = identityService;
             _userDataService = userDataService;
             _config = config.Value;
-            _backgroundTaskService = backgroundTaskService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -65,12 +65,29 @@ namespace MyDotNetCoreWpfApp.Services
             _persistAndRestoreService.RestoreData();
             _themeSelectorService.SetTheme();
             _userDataService.Initialize();
-            await _backgroundTaskService.RegisterBackgroundTasksAsync();
+            await Task.CompletedTask;
         }
 
         private async Task StartupAsync()
         {
+            RegisterBackgroundTaskAsync("MyBackgroundTask");
             await Task.CompletedTask;
+        }
+
+        private void RegisterBackgroundTaskAsync(string triggerName)
+        {
+            var current = BackgroundTaskRegistration.AllTasks
+                .FirstOrDefault(b => b.Value.Name == triggerName).Value;
+
+            if (current is null)
+            {
+                var builder = new BackgroundTaskBuilder();
+                builder.Name = triggerName;
+                builder.SetTrigger(new MaintenanceTrigger(15, false));
+                builder.TaskEntryPoint = "MyBackgroundTaskRuntimeComponent.MyBackgroundTask";
+                builder.Register();
+                System.Diagnostics.Debug.WriteLine("BGTask registered:" + triggerName);
+            }
         }
     }
 }
