@@ -21,10 +21,11 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IThemeSelectorService _themeSelectorService;
         private readonly IIdentityService _identityService;
         private readonly IUserDataService _userDataService;
+        private readonly IBackgroundTaskService _backgroundTaskService;
         private readonly AppConfig _config;
         private IShellWindow _shellWindow;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config)
+        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
@@ -33,6 +34,7 @@ namespace MyDotNetCoreWpfApp.Services
             _identityService = identityService;
             _userDataService = userDataService;
             _config = config.Value;
+            _backgroundTaskService = backgroundTaskService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -62,8 +64,8 @@ namespace MyDotNetCoreWpfApp.Services
         {
             _persistAndRestoreService.RestoreData();
             _themeSelectorService.SetTheme();
-            await Task.CompletedTask;
             _userDataService.Initialize();
+            await _backgroundTaskService.RegisterBackgroundTasksAsync();
         }
 
         private async Task StartupAsync()
