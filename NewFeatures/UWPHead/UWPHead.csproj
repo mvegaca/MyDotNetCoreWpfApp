@@ -162,9 +162,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HttpPing\HttpPing.csproj">
-      <Project>{ccc6785a-0a17-407c-b211-9cbdbad6e525}</Project>
-      <Name>HttpPing</Name>
+    <ProjectReference Include="..\MyBackgroundTaskRuntimeComponent\MyBackgroundTaskRuntimeComponent.csproj">
+      <Project>{79fc6381-539b-4759-8966-1153c40782ee}</Project>
+      <Name>MyBackgroundTaskRuntimeComponent</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

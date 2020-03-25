@@ -86,7 +86,6 @@ namespace MyDotNetCoreWpfApp.Services
                 builder.SetTrigger(new MaintenanceTrigger(15, false));
                 builder.TaskEntryPoint = "MyBackgroundTaskRuntimeComponent.MyBackgroundTask";
                 builder.Register();
-                System.Diagnostics.Debug.WriteLine("BGTask registered:" + triggerName);
             }
         }
     }

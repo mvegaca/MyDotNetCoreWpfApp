@@ -46,7 +46,7 @@
       </uap:VisualElements>
 
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="HttpPing.SiteVerifier">
+        <Extension Category="windows.backgroundTasks" EntryPoint="MyBackgroundTaskRuntimeComponent.MyBackgroundTask">
           <BackgroundTasks>
             <Task Type="timer" />
           </BackgroundTasks>

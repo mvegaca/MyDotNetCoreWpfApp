@@ -58,6 +58,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IFileService, FileService>();
 
             // Services
+            services.AddSingleton<IToastNotificationService, ToastNotificationService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IPersistAndRestoreService, PersistAndRestoreService>();
