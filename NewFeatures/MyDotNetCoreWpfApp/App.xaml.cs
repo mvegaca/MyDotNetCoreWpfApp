@@ -62,9 +62,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IIdentityService, IdentityService>();
             services.AddSingleton<IFileService, FileService>();
 
-            // Services
-            services.AddSingleton<INotificationsService, NotificationsService>();
-            services.AddSingleton<INotificationsService, NotificationsService>();
+            // Services            
             services.AddSingleton<IToastNotificationService, ToastNotificationService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<ISystemService, SystemService>();
