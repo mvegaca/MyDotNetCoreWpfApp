@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 using MahApps.Metro.Controls;
 
@@ -23,5 +24,13 @@ namespace MyDotNetCoreWpfApp.Views
 
         public void CloseWindow()
             => Close();
+
+        public void ShowConversation()
+        {
+        }
+
+        public void ShowImage(string imageUrl)
+        {
+        }
     }
 }

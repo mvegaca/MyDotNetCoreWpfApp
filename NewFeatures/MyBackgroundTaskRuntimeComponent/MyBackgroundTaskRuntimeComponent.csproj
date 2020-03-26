@@ -111,15 +111,12 @@
     <Compile Include="MyBackgroundTask.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting">
+      <Version>3.1.3</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MyDotNetCoreWpfApp.Core\MyDotNetCoreWpfApp.Core.csproj">
-      <Project>{899c480f-d576-422f-aacd-9d06c77ba13d}</Project>
-      <Name>MyDotNetCoreWpfApp.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
