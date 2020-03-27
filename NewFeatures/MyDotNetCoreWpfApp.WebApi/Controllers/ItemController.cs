@@ -17,9 +17,9 @@ namespace MyDotNetCoreWpfApp.WebApi.Controllers
     // For more info on claims and role-based autorization see
     // https://docs.microsoft.com/aspnet/core/security/authorization/claims?view=aspnetcore-2.2
     // https://docs.microsoft.com/aspnet/core/security/authorization/roles?view=aspnetcore-2.2
+    //[Authorize(Roles = "OrderReaders")]
     [Route("api/[controller]")]
-    [Authorize(Policy = "SampleClaimPolicy")]
-    [Authorize(Roles = "OrderReaders")]
+    [Authorize(Policy = "SampleClaimPolicy")]    
     [ApiController]
     public class ItemController : ControllerBase
     {

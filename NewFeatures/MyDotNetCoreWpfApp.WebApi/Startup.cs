@@ -25,6 +25,7 @@ namespace MyDotNetCoreWpfApp.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddMvcOptions(o => o.EnableEndpointRouting = false);
             services.ProtectWebApiWithJwtBearer(Configuration);
             services.AddSingleton<IItemRepository, ItemRepository>();
 
@@ -45,9 +46,12 @@ namespace MyDotNetCoreWpfApp.WebApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+            // TODO PoC:
+            // We should use UseEndpoints instead of UseMvc
+            // https://devblogs.microsoft.com/aspnet/asp-net-core-updates-in-net-core-3-0-preview-4/
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
