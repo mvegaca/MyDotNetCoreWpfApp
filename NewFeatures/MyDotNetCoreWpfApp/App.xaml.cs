@@ -33,16 +33,11 @@ namespace MyDotNetCoreWpfApp
 
             // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
             _host = Host.CreateDefaultBuilder(e.Args)
-                    .ConfigureAppConfiguration(c =>
-                    {
-                        c.SetBasePath(appLocation);
-                        c.AddCommandLine(e.Args);
-                    })
+                    .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
                     .ConfigureServices(ConfigureServices)
                     .Build();
 
             await _host.StartAsync();
-            base.OnStartup(e);
         }
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -58,12 +53,13 @@ namespace MyDotNetCoreWpfApp
             });
 
             // Core Services
+            services.AddTransient<IHttpDataService, HttpDataService>();
             services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
             services.AddSingleton<IIdentityService, IdentityService>();
             services.AddSingleton<IFileService, FileService>();
 
-            // Services            
-            services.AddSingleton<IToastNotificationService, ToastNotificationService>();
+            // Services
+            services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IPersistAndRestoreService, PersistAndRestoreService>();
@@ -90,7 +86,6 @@ namespace MyDotNetCoreWpfApp
             await _host.StopAsync();
             _host.Dispose();
             _host = null;
-            base.OnExit(e);
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

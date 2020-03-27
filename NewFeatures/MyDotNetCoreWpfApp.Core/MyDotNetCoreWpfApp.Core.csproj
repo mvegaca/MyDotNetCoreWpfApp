@@ -4,9 +4,6 @@
     <RootNamespace>MyDotNetCoreWpfApp.Core</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.1" />
     <PackageReference Include="Microsoft.Identity.Client" Version="4.7.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

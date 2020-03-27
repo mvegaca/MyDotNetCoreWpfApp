@@ -29,6 +29,10 @@ namespace MyDotNetCoreWpfApp.Core.Contracts.Services
 
         Task<string> GetAccessTokenForGraphAsync();
 
+        void InitializeWebApi(string resourceId, string webApiScope);
+
+        Task<string> GetAccessTokenForWebApiAsync();
+
         Task<string> GetAccessTokenAsync(string[] scopes);
 
         Task<bool> AcquireTokenSilentAsync();

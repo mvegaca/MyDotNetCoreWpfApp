@@ -2,6 +2,10 @@
 {
     public class AppConfig
     {
+        public string ResourceId { get; set; }
+
+        public string WebApiScope { get; set; }
+
         public string UserFileName { get; set; }
 
         public string IdentityClientId { get; set; }

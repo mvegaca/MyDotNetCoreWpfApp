@@ -16,7 +16,6 @@ namespace MyDotNetCoreWpfApp.Services
     public class ApplicationHostService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IConfigurationProvider _configurationProvider;
         private readonly INavigationService _navigationService;
         private readonly IPersistAndRestoreService _persistAndRestoreService;
         private readonly IThemeSelectorService _themeSelectorService;
@@ -26,10 +25,9 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly AppConfig _config;
         private IShellWindow _shellWindow;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, IConfigurationProvider configurationProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService)
+        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService)
         {
             _serviceProvider = serviceProvider;
-            _configurationProvider = configurationProvider;
             _navigationService = navigationService;
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
@@ -45,6 +43,7 @@ namespace MyDotNetCoreWpfApp.Services
             await InitializeAsync();
             
             _identityService.InitializeWithAadAndPersonalMsAccounts(_config.IdentityClientId, "http://localhost");
+            _identityService.InitializeWebApi(_config.ResourceId, _config.WebApiScope);
             await _identityService.AcquireTokenSilentAsync();
 
             _shellWindow = _serviceProvider.GetService(typeof(IShellWindow)) as IShellWindow;
@@ -72,7 +71,7 @@ namespace MyDotNetCoreWpfApp.Services
 
         private async Task StartupAsync()
         {
-            await _backgroundTaskService.RegisterBackbroundTasksAsync();
+            //await _backgroundTaskService.RegisterBackbroundTasksAsync();
             await Task.CompletedTask;
         }
     }

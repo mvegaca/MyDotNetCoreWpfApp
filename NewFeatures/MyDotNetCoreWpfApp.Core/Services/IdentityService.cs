@@ -33,6 +33,11 @@ namespace MyDotNetCoreWpfApp.Core.Services
         */
         private readonly string[] _graphScopes = new string[] { "user.read" };
         private readonly IIdentityCacheService _identityCacheService;
+
+        // TODO WTS: Follow these steps to configure access to the Web Api on your client application registration,
+        // update the App.config's ResourceId and WebApiScope.
+        // https://docs.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-permissions-to-access-web-apis
+        private string[] _webApiScopes;
         private bool _integratedAuthAvailable;
         private IPublicClientApplication _client;
         private AuthenticationResult _authenticationResult;
@@ -92,6 +97,7 @@ namespace MyDotNetCoreWpfApp.Core.Services
             {
                 var accounts = await _client.GetAccountsAsync();
                 _authenticationResult = await _client.AcquireTokenInteractive(_graphScopes)
+                                                     .WithExtraScopesToConsent(_webApiScopes)
                                                      .WithAccount(accounts.FirstOrDefault())
                                                      .ExecuteAsync();
                 if (!IsAuthorized())
@@ -153,7 +159,14 @@ namespace MyDotNetCoreWpfApp.Core.Services
             }
         }
 
+        public void InitializeWebApi(string resourceId, string webApiScope)
+        {
+            _webApiScopes = new string[] { $"{resourceId}/{webApiScope}" };
+    }
+
         public async Task<string> GetAccessTokenForGraphAsync() => await GetAccessTokenAsync(_graphScopes);
+
+        public async Task<string> GetAccessTokenForWebApiAsync() => await GetAccessTokenAsync(_webApiScopes);
 
         // All sensitive data in your app should be retrieven using access tokens.
         // This method provides you with an access token to secure calls to the Microsoft Graph or other protected API.
@@ -256,6 +269,6 @@ namespace MyDotNetCoreWpfApp.Core.Services
                     }
                 });
             }
-        }
+        }        
     }
 }
