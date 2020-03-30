@@ -72,17 +72,6 @@ namespace MyDotNetCoreWpfApp.Tests.MSTest
         {
         }
 
-        [TestMethod]
-        public void TestFileService()
-        {
-            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var folderPath = Path.Combine(localAppData, "UnitTests");
-            var fileService = _host.Services.GetService(typeof(IFileService)) as IFileService;
-            fileService.Save(folderPath, "UnitTest1.json", "Lorem ipsum dolor sit amet");
-            var cacheData = fileService.Read<string>(folderPath, "UnitTest1.json");
-            Assert.IsTrue(cacheData.Equals("Lorem ipsum dolor sit amet"));
-        }
-
         // TODO WTS: Add tests for functionality you add to MainViewModel.
         [TestMethod]
         public void TestMainViewModelCreation()
@@ -91,7 +80,7 @@ namespace MyDotNetCoreWpfApp.Tests.MSTest
             Assert.IsNotNull(vm);
         }
 
-        // TODO WTS: Add tests for functionality you add to MainViewModel.
+        // TODO WTS: Add tests for functionality you add to SettingsViewModel.
         [TestMethod]
         public void TestSettingsViewModelCreation()
         {
