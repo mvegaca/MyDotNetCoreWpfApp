@@ -1,50 +1,43 @@
-﻿using System.IO;
+using System;
+using System.IO;
+using System.Net.Http;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Threading;
-
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.Models;
 using MyDotNetCoreWpfApp.Services;
+using MyDotNetCoreWpfApp.Tests.MSTest.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
 
-namespace MyDotNetCoreWpfApp
+namespace MyDotNetCoreWpfApp.Tests.MSTest
 {
-    // For more inforation about application lifecyle events see https://docs.microsoft.com/dotnet/framework/wpf/app-development/application-management-overview
-    public partial class App : Application
+    // Read more about unit testing best practices with .NET Core and .NET Standard
+    // https://docs.microsoft.com/dotnet/core/testing/
+    // https://docs.microsoft.com/dotnet/core/testing/unit-testing-best-practices    
+    [TestClass]
+    public class UnitTest1
     {
-        public IHost _host;
+        private IHost _host;
 
-        public App()
-        {
-        }
-
-        private async void OnStartup(object sender, StartupEventArgs e)
+        public UnitTest1()
         {
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-            // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
-            _host = Host.CreateDefaultBuilder(e.Args)
+            _host = Host.CreateDefaultBuilder()
                     .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
                     .ConfigureServices(ConfigureServices)
                     .Build();
-            await _host.StartAsync();
         }
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {
-            // TODO WTS: Register your services, viewmodels and pages here
-
-            // App Host
-            services.AddHostedService<ApplicationHostService>();
             services.AddSingleton<IIdentityCacheService, IdentityCacheService>();
             services.AddHttpClient("msgraph", client =>
             {
@@ -62,37 +55,48 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IPersistAndRestoreService, PersistAndRestoreService>();
-            services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
-            services.AddSingleton<IPageService, PageService>();
-            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IThemeSelectorService, MockThemeSelectorService>();
 
             // Views and ViewModels
             services.AddTransient<IShellWindow, ShellWindow>();
             services.AddTransient<ShellViewModel>();
-
             services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
-
             services.AddTransient<SettingsViewModel>();
-            services.AddTransient<SettingsPage>();
 
             // Configuration
             services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
         }
 
-        private async void OnExit(object sender, ExitEventArgs e)
+        [TestMethod]
+        public void TestMethod1()
         {
-            await _host.StopAsync();
-            _host.Dispose();
-            _host = null;
         }
 
-        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        [TestMethod]
+        public void TestFileService()
         {
-            // TODO WTS: Please handle the exception as appropriate to your scenario
-            // For more info see https://docs.microsoft.com/dotnet/api/system.windows.application.dispatcherunhandledexception?view=netcore-3.0
+            var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var folderPath = Path.Combine(localAppData, "UnitTests");
+            var fileService = _host.Services.GetService(typeof(IFileService)) as IFileService;
+            fileService.Save(folderPath, "UnitTest1.json", "Lorem ipsum dolor sit amet");
+            var cacheData = fileService.Read<string>(folderPath, "UnitTest1.json");
+            Assert.IsTrue(cacheData.Equals("Lorem ipsum dolor sit amet"));
+        }
 
-            // e.Handled = true;
+        // TODO WTS: Add tests for functionality you add to MainViewModel.
+        [TestMethod]
+        public void TestMainViewModelCreation()
+        {
+            var vm = _host.Services.GetService(typeof(MainViewModel));
+            Assert.IsNotNull(vm);
+        }
+
+        // TODO WTS: Add tests for functionality you add to MainViewModel.
+        [TestMethod]
+        public void TestSettingsViewModelCreation()
+        {
+            var vm = _host.Services.GetService(typeof(SettingsViewModel)) as SettingsViewModel;            
+            Assert.IsNotNull(vm);
         }
     }
 }

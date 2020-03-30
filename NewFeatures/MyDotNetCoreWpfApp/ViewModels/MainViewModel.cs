@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyDotNetCoreWpfApp.Contracts.ViewModels;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Models;
@@ -21,8 +22,11 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public async void OnNavigatedTo(object parameter)
         {
-            var token = await _identityService.GetAccessTokenForWebApiAsync();
-            var data = await _httpDataService.GetAsync<IEnumerable<SampleOrder>>("api/orders", token);
+            //// TODO WTS: Uncomment the following code to test the Secured Web API
+            /// You must also set multiple startup projects (App + WebAPI)
+            //var token = await _identityService.GetAccessTokenForWebApiAsync();
+            //var data = await _httpDataService.GetAsync<IEnumerable<SampleOrder>>("api/orders", token);
+            await Task.CompletedTask;
         }
 
         public void OnNavigatedFrom()
