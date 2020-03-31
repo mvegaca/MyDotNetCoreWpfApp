@@ -492,5 +492,11 @@ namespace MyDotNetCoreWpfApp.Core.Services
 
             return AllCompanies();
         }
+
+        public async Task<IEnumerable<SampleOrder>> GetDataGridAsync()
+        {
+            await Task.CompletedTask;
+            return AllOrders();
+        }
     }
 }

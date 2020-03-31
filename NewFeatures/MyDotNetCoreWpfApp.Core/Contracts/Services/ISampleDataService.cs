@@ -7,5 +7,7 @@ namespace MyDotNetCoreWpfApp.Core.Contracts.Services
     public interface ISampleDataService
     {
         Task<IEnumerable<SampleCompany>> GetWebApiSampleDataAsync();
+
+        Task<IEnumerable<SampleOrder>> GetDataGridAsync();
     }
 }

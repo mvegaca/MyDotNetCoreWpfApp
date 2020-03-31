@@ -55,6 +55,7 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<IHttpDataService, HttpDataService>();
             services.AddSingleton<IMicrosoftGraphService, MicrosoftGraphService>();
             services.AddSingleton<IIdentityService, IdentityService>();
+            services.AddTransient<ISampleDataService, SampleDataService>();
             services.AddSingleton<IFileService, FileService>();
 
             // Services
@@ -77,6 +78,9 @@ namespace MyDotNetCoreWpfApp
 
             services.AddTransient<WhatsNewWindow>();
             services.AddTransient<WhatsNewViewModel>();
+
+            services.AddTransient<DataGridViewModel>();
+            services.AddTransient<DataGridPage>();
 
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();

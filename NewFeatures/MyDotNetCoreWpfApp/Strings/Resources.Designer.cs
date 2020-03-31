@@ -79,6 +79,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DataGrid.
+        /// </summary>
+        public static string DataGridPageTitle {
+            get {
+                return ResourceManager.GetString("DataGridPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Authentication.
         /// </summary>
         public static string DialogAuthenticationTitle {
@@ -262,6 +271,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         public static string Shell_LogIn {
             get {
                 return ResourceManager.GetString("Shell_LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DataGrid.
+        /// </summary>
+        public static string ShellDataGridPage {
+            get {
+                return ResourceManager.GetString("ShellDataGridPage", resourceCulture);
             }
         }
         
