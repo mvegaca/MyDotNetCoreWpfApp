@@ -58,6 +58,8 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IFileService, FileService>();
 
             // Services
+            services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
+            services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();
             services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<ISystemService, SystemService>();
@@ -69,6 +71,12 @@ namespace MyDotNetCoreWpfApp
             // Views and ViewModels
             services.AddTransient<IShellWindow, ShellWindow>();
             services.AddTransient<ShellViewModel>();
+
+            services.AddTransient<FirstRunWindow>();
+            services.AddTransient<FirstRunViewModel>();
+
+            services.AddTransient<WhatsNewWindow>();
+            services.AddTransient<WhatsNewViewModel>();
 
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();

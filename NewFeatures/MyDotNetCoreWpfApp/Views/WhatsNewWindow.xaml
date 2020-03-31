@@ -1,0 +1,47 @@
+﻿<controls:MetroWindow
+    x:Class="MyDotNetCoreWpfApp.Views.WhatsNewWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:strings="clr-namespace:MyDotNetCoreWpfApp.Strings"
+    mc:Ignorable="d"
+    Title="{x:Static strings:Resources.WhatsNew_TitleText}"
+    Height="550" Width="400">
+    <controls:MetroWindow.TitleTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <Image
+                    Width="20"
+                    Height="20"
+                    Stretch="Fill"
+                    VerticalAlignment="Center"
+                    Source="/Assets/WindowTitleLogo.png" 
+                    Margin="{StaticResource SmallLeftMargin}" />
+                <TextBlock
+                    Margin="{StaticResource SmallLeftMargin}"
+                    VerticalAlignment="Center"
+                    Text="{Binding}" />
+            </StackPanel>
+        </DataTemplate>
+    </controls:MetroWindow.TitleTemplate>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" Padding="{StaticResource MediumLeftTopRightMargin}">
+            <StackPanel>
+                <TextBlock
+                    Style="{StaticResource BodyTextStyle}"
+                    Text="{x:Static strings:Resources.WhatsNew_BodyText}" />
+            </StackPanel>
+        </ScrollViewer>
+        <Button
+            Grid.Row="1"
+            Command="{Binding CloseWindowCommand}"
+            Margin="{StaticResource SmallLeftTopRightBottomMargin}"
+            Content="{x:Static strings:Resources.WhatsNew_PrimaryButtonText}"/>
+    </Grid>
+</controls:MetroWindow>

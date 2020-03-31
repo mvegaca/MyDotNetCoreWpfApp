@@ -4,12 +4,15 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>MyDotNetCoreWpfApp</RootNamespace>
     <UseWPF>true</UseWPF>
+    <Version>1.0.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\DefaultIcon.png" />
+    <None Remove="Assets\WindowTitleLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\DefaultIcon.png" />
+    <Resource Include="Assets\WindowTitleLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Strings\Resources.Designer.cs">

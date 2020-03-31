@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -22,10 +21,12 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IIdentityService _identityService;
         private readonly IUserDataService _userDataService;
         private readonly IBackgroundTaskService _backgroundTaskService;
+        private readonly IFirstRunWindowService _firstRunWindowService;
+        private readonly IWhatsNewWindowService _whatsNewWindowService;
         private readonly AppConfig _config;
         private IShellWindow _shellWindow;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService)
+        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
@@ -35,6 +36,8 @@ namespace MyDotNetCoreWpfApp.Services
             _userDataService = userDataService;
             _config = config.Value;
             _backgroundTaskService = backgroundTaskService;
+            _firstRunWindowService = firstRunWindowService;
+            _whatsNewWindowService = whatsNewWindowService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -72,6 +75,8 @@ namespace MyDotNetCoreWpfApp.Services
         private async Task StartupAsync()
         {
             //await _backgroundTaskService.RegisterBackbroundTasksAsync();
+            _firstRunWindowService.ShowIfAppropriate();
+            _whatsNewWindowService.ShowIfAppropriate();
             await Task.CompletedTask;
         }
     }
