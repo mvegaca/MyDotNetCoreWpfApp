@@ -86,7 +86,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public void OnNavigatedTo(object parameter)
         {
-            VersionDescription = GetVersionDescription();
+            VersionDescription = $"MyDotNetCoreWpfApp - {_systemService.GetVersion()}";
             Theme = _themeSelectorService.GetCurrentTheme();
             _identityService.LoggedIn += OnLoggedIn;
             _identityService.LoggedOut += OnLoggedOut;
@@ -105,14 +105,6 @@ namespace MyDotNetCoreWpfApp.ViewModels
             _identityService.LoggedIn -= OnLoggedIn;
             _identityService.LoggedOut -= OnLoggedOut;
             _userDataService.UserDataUpdated -= OnUserDataUpdated;
-        }
-
-        private string GetVersionDescription()
-        {
-            var appName = "MyDotNetCoreWpfApp";
-            string assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var versionInfo = FileVersionInfo.GetVersionInfo(assemblyLocation);
-            return $"{appName} - {versionInfo.FileVersion}";
         }
 
         private void OnSetTheme(string themeName)

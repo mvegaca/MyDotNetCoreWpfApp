@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="1c17c4fc-051c-4215-8d35-78df68c14c84" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>UWPHead</DisplayName>
-    <PublisherDisplayName>rmpab</PublisherDisplayName>
+    <PublisherDisplayName>mvega</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
