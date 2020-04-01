@@ -8,9 +8,9 @@
   IgnorableNamespaces="mp uap rescap genTemplate">
 
   <Identity
-    Name="MyDotNetCoreWpfApp.Packaging"
+    Name="MyDotNetCoreWpfApp"
     Publisher="CN=mvega"
-    Version="1.0.2.0" />
+    Version="1.0.3.0" />
 
   <Properties>
     <DisplayName>MyDotNetCoreWpfApp.Packaging</DisplayName>
@@ -32,8 +32,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="MyDotNetCoreWpfApp.Packaging"
-        Description="MyDotNetCoreWpfApp.Packaging"
+        DisplayName="ms-resource:AppDisplayName"
+        Description="ms-resource:AppDescription"
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
