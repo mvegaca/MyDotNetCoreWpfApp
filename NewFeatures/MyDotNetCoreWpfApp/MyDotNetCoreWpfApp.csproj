@@ -43,4 +43,9 @@
       <Name>MyDotNetCoreWpfApp.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\ContentGridDetailPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

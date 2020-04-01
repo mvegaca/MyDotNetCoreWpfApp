@@ -9,5 +9,7 @@ namespace MyDotNetCoreWpfApp.Core.Contracts.Services
         Task<IEnumerable<SampleCompany>> GetWebApiSampleDataAsync();
 
         Task<IEnumerable<SampleOrder>> GetDataGridAsync();
+
+        Task<IEnumerable<SampleOrder>> GetContentGridDataAsync();
     }
 }

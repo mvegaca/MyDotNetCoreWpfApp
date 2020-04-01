@@ -82,6 +82,12 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<DataGridViewModel>();
             services.AddTransient<DataGridPage>();
 
+            services.AddTransient<ContentGridViewModel>();
+            services.AddTransient<ContentGridPage>();
+
+            services.AddTransient<ContentGridDetailViewModel>();
+            services.AddTransient<ContentGridDetailPage>();
+
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
 

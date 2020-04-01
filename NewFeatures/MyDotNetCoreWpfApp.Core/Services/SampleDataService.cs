@@ -498,5 +498,11 @@ namespace MyDotNetCoreWpfApp.Core.Services
             await Task.CompletedTask;
             return AllOrders();
         }
+
+        public async Task<IEnumerable<SampleOrder>> GetContentGridDataAsync()
+        {
+            await Task.CompletedTask;
+            return AllOrders();
+        }
     }
 }

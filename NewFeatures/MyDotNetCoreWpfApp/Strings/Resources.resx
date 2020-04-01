@@ -175,6 +175,12 @@
   <data name="MainPageTitle" xml:space="preserve">
     <value>Main</value>
   </data>
+  <data name="ShellContentGridPage" xml:space="preserve">
+    <value>ContentGrid</value>
+  </data>
+  <data name="ContentGridPageTitle" xml:space="preserve">
+    <value>ContentGrid</value>
+  </data>
   <data name="AppDisplayName" xml:space="preserve">
     <value>MyDotNetCoreWpfApp</value>
   </data>

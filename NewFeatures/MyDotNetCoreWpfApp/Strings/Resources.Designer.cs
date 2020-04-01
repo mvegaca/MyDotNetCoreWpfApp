@@ -79,6 +79,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ContentGrid.
+        /// </summary>
+        public static string ContentGridPageTitle {
+            get {
+                return ResourceManager.GetString("ContentGridPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataGrid.
         /// </summary>
         public static string DataGridPageTitle {
@@ -271,6 +280,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         public static string Shell_LogIn {
             get {
                 return ResourceManager.GetString("Shell_LogIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ContentGrid.
+        /// </summary>
+        public static string ShellContentGridPage {
+            get {
+                return ResourceManager.GetString("ShellContentGridPage", resourceCulture);
             }
         }
         

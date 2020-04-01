@@ -19,6 +19,8 @@ namespace MyDotNetCoreWpfApp.Services
         {
             _serviceProvider = serviceProvider;
             Configure<MainViewModel, MainPage>();
+            Configure<ContentGridViewModel, ContentGridPage>();
+            Configure<ContentGridDetailViewModel, ContentGridDetailPage>();
             Configure<DataGridViewModel, DataGridPage>();
             Configure<SettingsViewModel, SettingsPage>();
         }
