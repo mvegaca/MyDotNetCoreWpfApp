@@ -22,6 +22,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
         private readonly IIdentityService _identityService;
         private readonly IThemeSelectorService _themeSelectorService;
         private readonly ISystemService _systemService;
+        private readonly IApplicationInfoService _applicationInfoService;
         private AppTheme _theme;
         private string _versionDescription;
         private bool _isBusy;
@@ -75,18 +76,19 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(OnLogOut, () => !IsBusy));
 
-        public SettingsViewModel(IOptions<AppConfig> config, IThemeSelectorService themeSelectorService, ISystemService systemService, IUserDataService userDataService, IIdentityService identityService)
+        public SettingsViewModel(IOptions<AppConfig> config, IThemeSelectorService themeSelectorService, ISystemService systemService, IUserDataService userDataService, IIdentityService identityService, IApplicationInfoService applicationInfoService)
         {
             _config = config.Value;
             _themeSelectorService = themeSelectorService;
             _systemService = systemService;
+            _applicationInfoService = applicationInfoService;
             _userDataService = userDataService;
             _identityService = identityService;
         }
 
         public void OnNavigatedTo(object parameter)
         {
-            VersionDescription = $"MyDotNetCoreWpfApp - {_systemService.GetVersion()}";
+            VersionDescription = $"MyDotNetCoreWpfApp - {_applicationInfoService.GetVersion()}";
             Theme = _themeSelectorService.GetCurrentTheme();
             _identityService.LoggedIn += OnLoggedIn;
             _identityService.LoggedOut += OnLoggedOut;

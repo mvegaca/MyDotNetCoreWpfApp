@@ -11,14 +11,14 @@ namespace MyDotNetCoreWpfApp.Services
     public class WhatsNewWindowService : IWhatsNewWindowService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ISystemService _systemService;
+        private readonly IApplicationInfoService _applicationInfoService;
         private const string CurrentVersionKey = "currentVersion";
         private bool _shown = false;
 
-        public WhatsNewWindowService(IServiceProvider serviceProvider, ISystemService systemService)
+        public WhatsNewWindowService(IServiceProvider serviceProvider, IApplicationInfoService applicationInfoService)
         {
             _serviceProvider = serviceProvider;
-            _systemService = systemService;
+            _applicationInfoService = applicationInfoService;
         }
 
         public void ShowIfAppropriate()
@@ -33,7 +33,7 @@ namespace MyDotNetCoreWpfApp.Services
 
         private bool DetectIfAppUpdated()
         {
-            var currentVersion = _systemService.GetVersion().ToString();
+            var currentVersion = _applicationInfoService.GetVersion().ToString();
             if (!App.Current.Properties.Contains(CurrentVersionKey))            
             {
                 App.Current.Properties[CurrentVersionKey] = currentVersion;

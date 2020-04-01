@@ -63,6 +63,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();
             services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
+            services.AddSingleton<IApplicationInfoService, ApplicationInfoService>();
             services.AddSingleton<ISystemService, SystemService>();
             services.AddSingleton<IPersistAndRestoreService, PersistAndRestoreService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
