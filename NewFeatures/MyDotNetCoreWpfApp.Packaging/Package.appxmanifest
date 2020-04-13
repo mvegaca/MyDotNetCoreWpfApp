@@ -5,7 +5,9 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:genTemplate="http://schemas.microsoft.com/appx/developer/windowsTemplateStudio"
-  IgnorableNamespaces="mp uap rescap genTemplate">
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  IgnorableNamespaces="mp uap rescap genTemplate com desktop">
 
   <Identity
     Name="MyDotNetCoreWpfApp"
@@ -47,6 +49,19 @@
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
+        <!--Register COM CLSID LocalServer32 registry key-->
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="MyDotNetCoreWpfApp.exe" Arguments="-ToastActivated" DisplayName="Toast activator">
+              <com:Class Id="50cfb67f-bc8a-477d-938c-93cf6bfb3320" DisplayName="Toast activator"/>
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+
+        <!--Specify which CLSID to activate when toast clicked-->
+        <desktop:Extension Category="windows.toastNotificationActivation">
+          <desktop:ToastNotificationActivation ToastActivatorCLSID="50cfb67f-bc8a-477d-938c-93cf6bfb3320"/>
+        </desktop:Extension>
       </Extensions>
 
     </Application>

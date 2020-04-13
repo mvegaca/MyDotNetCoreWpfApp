@@ -23,10 +23,11 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IBackgroundTaskService _backgroundTaskService;
         private readonly IFirstRunWindowService _firstRunWindowService;
         private readonly IWhatsNewWindowService _whatsNewWindowService;
+        private readonly IToastNotificationsService _toastNotificationsService;
         private readonly AppConfig _config;
         private IShellWindow _shellWindow;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService)
+        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IToastNotificationsService toastNotificationsService)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
@@ -38,6 +39,7 @@ namespace MyDotNetCoreWpfApp.Services
             _backgroundTaskService = backgroundTaskService;
             _firstRunWindowService = firstRunWindowService;
             _whatsNewWindowService = whatsNewWindowService;
+            _toastNotificationsService = toastNotificationsService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -77,6 +79,7 @@ namespace MyDotNetCoreWpfApp.Services
             //await _backgroundTaskService.RegisterBackbroundTasksAsync();
             _firstRunWindowService.ShowIfAppropriate();
             _whatsNewWindowService.ShowIfAppropriate();
+            _toastNotificationsService.ShowToastNotificationSample();
             await Task.CompletedTask;
         }
     }

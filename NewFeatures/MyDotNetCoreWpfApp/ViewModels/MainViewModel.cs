@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
+using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.ViewModels;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
-using MyDotNetCoreWpfApp.Core.Models;
 using MyDotNetCoreWpfApp.Helpers;
 
 namespace MyDotNetCoreWpfApp.ViewModels
@@ -12,12 +11,17 @@ namespace MyDotNetCoreWpfApp.ViewModels
     {
         private readonly IIdentityService _identityService;
         private readonly IHttpDataService _httpDataService;
+        private readonly IToastNotificationsService _toastNotificationsService;
+        private ICommand _showToastCommand;
 
-        public MainViewModel(IIdentityService identityService, IHttpDataService httpDataService)
+        public ICommand ShowToastCommand => _showToastCommand ?? (_showToastCommand = new RelayCommand(OnShowToast));
+
+        public MainViewModel(IIdentityService identityService, IHttpDataService httpDataService, IToastNotificationsService toastNotificationsService)
         {
             _identityService = identityService;
             _httpDataService = httpDataService;
             _httpDataService.Initialize("mainViewModel", "http://localhost:53848");
+            _toastNotificationsService = toastNotificationsService;
         }
 
         public async void OnNavigatedTo(object parameter)
@@ -31,6 +35,11 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public void OnNavigatedFrom()
         {
+        }
+
+        private void OnShowToast()
+        {
+            _toastNotificationsService.ShowToastNotificationSample();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
@@ -21,7 +22,7 @@ namespace MyDotNetCoreWpfApp
     // For more inforation about application lifecyle events see https://docs.microsoft.com/dotnet/framework/wpf/app-development/application-management-overview
     public partial class App : Application
     {
-        public IHost _host;
+        public IHost ApplicationHost { get; private set; }
 
         public App()
         {
@@ -29,14 +30,25 @@ namespace MyDotNetCoreWpfApp
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
+            // Register AUMID, COM server, and activator
+            DesktopNotificationManagerCompat.RegisterAumidAndComServer<ToastNotificationActivator>("MyDotNetCoreWpfApp");
+            DesktopNotificationManagerCompat.RegisterActivator<ToastNotificationActivator>();
+
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
             // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
-            _host = Host.CreateDefaultBuilder(e.Args)
+            ApplicationHost = Host.CreateDefaultBuilder(e.Args)
                     .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
                     .ConfigureServices(ConfigureServices)
                     .Build();
-            await _host.StartAsync();
+
+            if (e.Args.Contains(DesktopNotificationManagerCompat.TOAST_ACTIVATED_LAUNCH_ARG))
+            {
+                // ToastNotificationActivator code will run after this completes and will show a window if necessary.
+                return;
+            }
+            
+            await ApplicationHost.StartAsync();            
         }
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -61,6 +73,7 @@ namespace MyDotNetCoreWpfApp
             // Services
             services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
             services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();
+            services.AddSingleton<IToastNotificationsService, ToastNotificationsService>();
             services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<IApplicationInfoService, ApplicationInfoService>();
@@ -101,9 +114,9 @@ namespace MyDotNetCoreWpfApp
 
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            await _host.StopAsync();
-            _host.Dispose();
-            _host = null;
+            await ApplicationHost.StopAsync();
+            ApplicationHost.Dispose();
+            ApplicationHost = null;
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
