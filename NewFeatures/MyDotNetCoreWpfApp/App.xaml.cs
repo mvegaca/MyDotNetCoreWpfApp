@@ -1,6 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -13,6 +15,7 @@ using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.Models;
+using MyDotNetCoreWpfApp.Notifications;
 using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
@@ -22,11 +25,17 @@ namespace MyDotNetCoreWpfApp
     // For more inforation about application lifecyle events see https://docs.microsoft.com/dotnet/framework/wpf/app-development/application-management-overview
     public partial class App : Application
     {
-        public IHost ApplicationHost { get; private set; }
+        private IHost _host;
 
         public App()
         {
         }
+        
+        public IServiceProvider Services
+            => _host.Services;
+
+        public async Task StartAsync()
+            => await _host.StartAsync();
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
@@ -35,20 +44,19 @@ namespace MyDotNetCoreWpfApp
             DesktopNotificationManagerCompat.RegisterActivator<ToastNotificationActivator>();
 
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
             // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
-            ApplicationHost = Host.CreateDefaultBuilder(e.Args)
+            _host = Host.CreateDefaultBuilder(e.Args)
                     .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
                     .ConfigureServices(ConfigureServices)
                     .Build();
 
-            if (e.Args.Contains(DesktopNotificationManagerCompat.TOAST_ACTIVATED_LAUNCH_ARG))
+            if (e.Args.Contains(DesktopNotificationManagerCompat.ToastActivatedLaunchArg))
             {
                 // ToastNotificationActivator code will run after this completes and will show a window if necessary.
                 return;
             }
-            
-            await ApplicationHost.StartAsync();            
+
+            await _host.StartAsync();
         }
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -114,9 +122,9 @@ namespace MyDotNetCoreWpfApp
 
         private async void OnExit(object sender, ExitEventArgs e)
         {
-            await ApplicationHost.StopAsync();
-            ApplicationHost.Dispose();
-            ApplicationHost = null;
+            await _host.StopAsync();
+            _host.Dispose();
+            _host = null;
         }
 
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

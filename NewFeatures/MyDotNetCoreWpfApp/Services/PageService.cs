@@ -14,6 +14,7 @@ namespace MyDotNetCoreWpfApp.Services
     {
         private readonly Dictionary<string, Type> _pages = new Dictionary<string, Type>();
         private readonly IServiceProvider _serviceProvider;
+        private string _defaultNavigation;
 
         public PageService(IServiceProvider serviceProvider)
         {
@@ -23,6 +24,8 @@ namespace MyDotNetCoreWpfApp.Services
             Configure<ContentGridDetailViewModel, ContentGridDetailPage>();
             Configure<DataGridViewModel, DataGridPage>();
             Configure<SettingsViewModel, SettingsPage>();
+
+            ConfigureDefaultNavigation(typeof(MainViewModel).FullName);
         }
 
         public Type GetPageType(string key)
@@ -66,5 +69,11 @@ namespace MyDotNetCoreWpfApp.Services
                 _pages.Add(key, type);
             }
         }
+
+        public void ConfigureDefaultNavigation(string key, object navigationParameters = null)
+        => _defaultNavigation = key;
+
+        public string GetDefaultNavigation()
+         => _defaultNavigation;
     }
 }

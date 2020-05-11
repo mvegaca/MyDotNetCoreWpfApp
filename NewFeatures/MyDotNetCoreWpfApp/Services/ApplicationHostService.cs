@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
@@ -8,6 +9,7 @@ using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Models;
+using MyDotNetCoreWpfApp.Notifications;
 using MyDotNetCoreWpfApp.ViewModels;
 
 namespace MyDotNetCoreWpfApp.Services
@@ -16,6 +18,7 @@ namespace MyDotNetCoreWpfApp.Services
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly INavigationService _navigationService;
+        private readonly IPageService _pageService;
         private readonly IPersistAndRestoreService _persistAndRestoreService;
         private readonly IThemeSelectorService _themeSelectorService;
         private readonly IIdentityService _identityService;
@@ -27,10 +30,11 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly AppConfig _config;
         private IShellWindow _shellWindow;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IToastNotificationsService toastNotificationsService)
+        public ApplicationHostService(IServiceProvider serviceProvider, INavigationService navigationService, IPageService pageService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IToastNotificationsService toastNotificationsService)
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
+            _pageService = pageService;
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
             _identityService = identityService;
@@ -46,7 +50,7 @@ namespace MyDotNetCoreWpfApp.Services
         {
             // Initialize services that you need before app activation
             await InitializeAsync();
-            
+
             _identityService.InitializeWithAadAndPersonalMsAccounts(_config.IdentityClientId, "http://localhost");
             _identityService.InitializeWebApi(_config.ResourceId, _config.WebApiScope);
             await _identityService.AcquireTokenSilentAsync();
@@ -54,7 +58,8 @@ namespace MyDotNetCoreWpfApp.Services
             _shellWindow = _serviceProvider.GetService(typeof(IShellWindow)) as IShellWindow;
             _navigationService.Initialize(_shellWindow.GetNavigationFrame());
             _shellWindow.ShowWindow();
-            _navigationService.NavigateTo(typeof(MainViewModel).FullName);
+
+            _navigationService.NavigateTo(_pageService.GetDefaultNavigation());
 
             // Tasks after activation
             await StartupAsync();
