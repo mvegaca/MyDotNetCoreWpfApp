@@ -7,6 +7,9 @@
     <Version>1.0.0.0</Version>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Services\ActivationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\DefaultIcon.png" />
     <None Remove="Assets\WindowTitleLogo.png" />
   </ItemGroup>
@@ -35,7 +38,7 @@
   <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="6.1.0-preview1.2" />
     <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.18362.2005" />
     <PackageReference Include="QueryString.NET" Version="1.0.0" />
   </ItemGroup>

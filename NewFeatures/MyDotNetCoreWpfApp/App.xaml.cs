@@ -9,7 +9,9 @@ using System.Windows.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.Toolkit.Uwp.Notifications;
+using MyDotNetCoreWpfApp.Activation;
+using MyDotNetCoreWpfApp.Contracts.Activation;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
@@ -26,16 +28,19 @@ namespace MyDotNetCoreWpfApp
     public partial class App : Application
     {
         private IHost _host;
-
-        public App()
-        {
-        }
         
         public IServiceProvider Services
             => _host.Services;
 
-        public async Task StartAsync()
-            => await _host.StartAsync();
+        public App()
+        {
+        }
+
+        public async Task ActivateAsync(string[] args)
+        {
+            var activationService = _host.Services.GetService(typeof(IHostedService)) as IActivationService;
+            await activationService.ActivateAsync(args);
+        }
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
@@ -57,6 +62,8 @@ namespace MyDotNetCoreWpfApp
             }
 
             await _host.StartAsync();
+            var activationService = _host.Services.GetService(typeof(IHostedService)) as IActivationService;
+            await activationService.ActivateAsync(e.Args);
         }
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -79,6 +86,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IFileService, FileService>();
 
             // Services
+            services.AddTransient<IDefaultActivationHandler, DefaultActivationHandler>();
             services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
             services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();
             services.AddSingleton<IToastNotificationsService, ToastNotificationsService>();

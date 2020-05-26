@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using MyDotNetCoreWpfApp.Contracts.Services;
-using MyDotNetCoreWpfApp.ViewModels;
+using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace MyDotNetCoreWpfApp.Notifications
 {
@@ -18,32 +17,8 @@ namespace MyDotNetCoreWpfApp.Notifications
         public override async void OnActivated(string arguments, NotificationUserInput userInput, string appUserModelId)
         {
             await Application.Current.Dispatcher.InvokeAsync(async () =>
-            {                
-
-                if (IsApplicationStarted)
-                {
-                    App.Current.MainWindow.Activate();
-                    if (App.Current.MainWindow.WindowState == WindowState.Minimized)
-                    {
-                        App.Current.MainWindow.WindowState = WindowState.Normal;
-                    }
-
-                    if (arguments == "ToastContentActivationParams")
-                    {
-                        var navigationService = ((App)Application.Current).Services.GetService(typeof(INavigationService)) as INavigationService;
-                        navigationService.NavigateTo(typeof(SettingsViewModel).FullName);
-                    }
-                }
-                else
-                {
-                    if (arguments == "ToastContentActivationParams")
-                    {
-                        var pageService = ((App)Application.Current).Services.GetService(typeof(IPageService)) as IPageService;
-                        pageService.ConfigureDefaultNavigation(typeof(SettingsViewModel).FullName);
-                    }
-
-                    await ((App)Application.Current).StartAsync();
-                }
+            {
+                await ((App)Application.Current).ActivateAsync(new string[] { arguments });
             });
         }
     }

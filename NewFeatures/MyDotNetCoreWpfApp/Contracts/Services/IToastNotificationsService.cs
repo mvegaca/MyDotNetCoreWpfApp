@@ -1,8 +1,9 @@
-﻿using Windows.UI.Notifications;
+﻿using MyDotNetCoreWpfApp.Contracts.Activation;
+using Windows.UI.Notifications;
 
 namespace MyDotNetCoreWpfApp.Contracts.Services
 {
-    public interface IToastNotificationsService
+    public interface IToastNotificationsService : IActivationHandler
     {
         void ShowToastNotification(ToastNotification toastNotification);
 
