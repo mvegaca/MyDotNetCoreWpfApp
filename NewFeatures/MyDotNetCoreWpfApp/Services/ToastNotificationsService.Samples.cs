@@ -10,7 +10,7 @@ namespace MyDotNetCoreWpfApp.Services
         {
         }
 
-        public override void ShowToastNotificationSample()
+        public void ShowToastNotificationSample()
         {
             // Create the toast content
             var content = new ToastContent()

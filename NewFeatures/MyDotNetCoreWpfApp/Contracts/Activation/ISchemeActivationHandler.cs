@@ -1,6 +1,6 @@
 ﻿namespace MyDotNetCoreWpfApp.Contracts.Activation
 {
-    public abstract class ISchemeActivationHandler : IActivationHandler<string[]>
+    public interface ISchemeActivationHandler : IActivationHandler
     {
     }
 }

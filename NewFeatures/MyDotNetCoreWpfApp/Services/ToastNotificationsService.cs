@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Uwp.Notifications;
-using MyDotNetCoreWpfApp.Arguments;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.ViewModels;
@@ -13,26 +12,29 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public partial class ToastNotificationsService : IToastNotificationsService
     {
+        private readonly IConfiguration _config;
         private readonly IServiceProvider _serviceProvider;
         private readonly INavigationService _navigationService;
 
         private bool IsApplicationStarted
             => App.Current.Windows.Count > 0;
 
-        public ToastNotificationsService(IServiceProvider serviceProvider, INavigationService navigationService)
+        public ToastNotificationsService(IConfiguration config, IServiceProvider serviceProvider, INavigationService navigationService)
         {
+            _config = config;
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
         }
 
-        protected override bool CanHandleInternal(ToastNotificationArguments args)
+        public void ShowToastNotification(ToastNotification toastNotification)
         {
-
-            // args.Contains("ToastContentActivationParams");
-            return base.CanHandleInternal(args);
+            DesktopNotificationManagerCompat.CreateToastNotifier().Show(toastNotification);
         }
 
-        protected override async Task HandleInternalAsync(ToastNotificationArguments args)
+        public bool CanHandle()
+            => !string.IsNullOrEmpty(_config[App.ToastNotificationArgs]);
+
+        public async Task HandleAsync()
         {
             if (IsApplicationStarted)
             {
@@ -53,11 +55,6 @@ namespace MyDotNetCoreWpfApp.Services
             }
 
             await Task.CompletedTask;
-        }
-
-        public override void ShowToastNotification(ToastNotification toastNotification)
-        {
-            DesktopNotificationManagerCompat.CreateToastNotifier().Show(toastNotification);
         }
     }
 }

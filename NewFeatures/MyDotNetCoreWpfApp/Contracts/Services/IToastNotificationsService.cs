@@ -1,10 +1,9 @@
-﻿using MyDotNetCoreWpfApp.Arguments;
-using MyDotNetCoreWpfApp.Contracts.Activation;
+﻿using MyDotNetCoreWpfApp.Contracts.Activation;
 using Windows.UI.Notifications;
 
 namespace MyDotNetCoreWpfApp.Contracts.Services
 {
-    public abstract class IToastNotificationsService : IActivationHandler<ToastNotificationArguments>
+    public interface IToastNotificationsService : IActivationHandler
     {
         public abstract void ShowToastNotification(ToastNotification toastNotification);
 

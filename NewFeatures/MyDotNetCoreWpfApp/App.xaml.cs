@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -27,20 +28,20 @@ namespace MyDotNetCoreWpfApp
     // For more inforation about application lifecyle events see https://docs.microsoft.com/dotnet/framework/wpf/app-development/application-management-overview
     public partial class App : Application
     {
+        public const string ToastNotificationArgs = "ToastNotificationArgs";
+        public const string SchemeActivationUriArgs = "SchemeActivationUriArgs";
+
         private IHost _host;
-        
-        public IServiceProvider Services
-            => _host.Services;
 
         public App()
         {
         }
 
-        public async Task ActivateAsync(string[] args)
-        {
-            var activationService = _host.Services.GetService(typeof(IHostedService)) as IActivationService;
-            await activationService.ActivateAsync(args);
-        }
+        public T GetService<T>() where T : class
+            => _host.Services.GetService(typeof(T)) as T;
+
+        public async Task StartAsync()
+            => await _host.StartAsync();
 
         private async void OnStartup(object sender, StartupEventArgs e)
         {
@@ -48,10 +49,18 @@ namespace MyDotNetCoreWpfApp
             DesktopNotificationManagerCompat.RegisterAumidAndComServer<ToastNotificationActivator>("MyDotNetCoreWpfApp");
             DesktopNotificationManagerCompat.RegisterActivator<ToastNotificationActivator>();
 
+            // TODO: Register arguments you want to use on App initialization
+            var activationArgs = new Dictionary<string, string>
+            {
+                { ToastNotificationArgs, string.Empty},
+            };
+            
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+
             // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
             _host = Host.CreateDefaultBuilder(e.Args)
                     .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
+                    .ConfigureHostConfiguration(c => c.AddInMemoryCollection(activationArgs))
                     .ConfigureServices(ConfigureServices)
                     .Build();
 
@@ -62,8 +71,6 @@ namespace MyDotNetCoreWpfApp
             }
 
             await _host.StartAsync();
-            var activationService = _host.Services.GetService(typeof(IHostedService)) as IActivationService;
-            await activationService.ActivateAsync(e.Args);
         }
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -92,7 +99,7 @@ namespace MyDotNetCoreWpfApp
 
             // Services
             services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
-            services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();            
+            services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();
             services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<IApplicationInfoService, ApplicationInfoService>();

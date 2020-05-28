@@ -49,10 +49,10 @@ namespace MyDotNetCoreWpfApp.Models
             var uriBuilder = new UriBuilder($"{ProtocolName}:{pageKey}");
             var query = HttpUtility.ParseQueryString(string.Empty);
 
-            foreach (var parameter in Parameters)
-            {
-                query.Set(parameter.Key, parameter.Value);
-            }
+            //foreach (var parameter in Parameters)
+            //{
+            //    query.Set(parameter.Key, parameter.Value);
+            //}
 
             uriBuilder.Query = query.ToString();
             return new Uri(uriBuilder.ToString());

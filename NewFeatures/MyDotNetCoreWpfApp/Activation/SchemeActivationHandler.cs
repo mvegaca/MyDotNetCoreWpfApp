@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using MyDotNetCoreWpfApp.Contracts.Activation;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
@@ -13,21 +14,23 @@ namespace MyDotNetCoreWpfApp.Activation
 {
     public class SchemeActivationHandler : ISchemeActivationHandler
     {
+        private readonly IConfiguration _config;
         private readonly IServiceProvider _serviceProvider;
         private readonly INavigationService _navigationService;
 
         private bool IsApplicationStarted
             => App.Current.Windows.Count > 0;
 
-        public SchemeActivationHandler(IServiceProvider serviceProvider, INavigationService navigationService)
+        public SchemeActivationHandler(IConfiguration config, IServiceProvider serviceProvider, INavigationService navigationService)
         {
+            _config = config;
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
         }
 
-        protected override async Task HandleInternalAsync(string[] args)
+        public async Task HandleAsync()
         {
-            var uri = new Uri(args.First());
+            var uri = new Uri(_config[App.SchemeActivationUriArgs]);
             // Create data from activation Uri in ProtocolActivatedEventArgs
             var data = new SchemeActivationData(uri);
             if (data.IsValid)
@@ -53,8 +56,7 @@ namespace MyDotNetCoreWpfApp.Activation
             await Task.CompletedTask;
         }
 
-        protected override bool CanHandleInternal(string[] args)
-            => args.Any(a => Uri.TryCreate(a, UriKind.RelativeOrAbsolute, out var activationUri));
-        
+        public bool CanHandle()
+            => Uri.TryCreate(_config[App.SchemeActivationUriArgs], UriKind.RelativeOrAbsolute, out var activationUri);
     }
 }

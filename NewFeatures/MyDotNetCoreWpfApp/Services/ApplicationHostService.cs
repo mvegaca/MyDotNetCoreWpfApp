@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MyDotNetCoreWpfApp.Activation;
 using MyDotNetCoreWpfApp.Contracts.Activation;
@@ -13,7 +14,7 @@ using Windows.UI.Text.Core;
 
 namespace MyDotNetCoreWpfApp.Services
 {
-    public class ApplicationHostService : IActivationService
+    public class ApplicationHostService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IDefaultActivationHandler _defaultActivationHandler;
@@ -51,7 +52,14 @@ namespace MyDotNetCoreWpfApp.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            await Task.CompletedTask;
+            // Initialize services that you need before app activation
+            await InitializeAsync();
+
+            await HandleActivationAsync();
+
+            // Tasks after activation
+            await StartupAsync();
+            _isInitialized = true;
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
@@ -59,17 +67,6 @@ namespace MyDotNetCoreWpfApp.Services
             await Task.CompletedTask;
         }
 
-        public async Task ActivateAsync(object activationArgs)
-        {
-            // Initialize services that you need before app activation
-            await InitializeAsync();
-
-            await HandleActivationAsync(activationArgs);
-
-            // Tasks after activation
-            await StartupAsync();
-            _isInitialized = true;
-        }
 
         private async Task InitializeAsync()
         {
@@ -97,19 +94,19 @@ namespace MyDotNetCoreWpfApp.Services
             }
         }
 
-        private async Task HandleActivationAsync(object activationArgs)
+        private async Task HandleActivationAsync()
         {
             var activationHandler = GetActivationHandlers()
-                                        .FirstOrDefault(h => h.CanHandle(activationArgs));
+                                        .FirstOrDefault(h => h.CanHandle());
 
             if (activationHandler != null)
             {
-                await activationHandler.HandleAsync(activationArgs);
+                await activationHandler.HandleAsync();
             }
 
-            if (_defaultActivationHandler.CanHandle(activationArgs))
+            if (_defaultActivationHandler.CanHandle())
             {
-                await _defaultActivationHandler.HandleAsync(activationArgs);
+                await _defaultActivationHandler.HandleAsync();
             }
         }
 
