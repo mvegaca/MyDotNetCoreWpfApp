@@ -17,7 +17,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
     // TODO WTS: Change the URL for your privacy policy in the appsettings.json file, currently set to https://YourPrivacyUrlGoesHere
     public class SettingsViewModel : Observable, INavigationAware
     {
-        private readonly AppConfig _config;
+        private readonly AppConfig _appConfig;
         private readonly IUserDataService _userDataService;
         private readonly IIdentityService _identityService;
         private readonly IThemeSelectorService _themeSelectorService;
@@ -76,9 +76,9 @@ namespace MyDotNetCoreWpfApp.ViewModels
 
         public RelayCommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(OnLogOut, () => !IsBusy));
 
-        public SettingsViewModel(IOptions<AppConfig> config, IThemeSelectorService themeSelectorService, ISystemService systemService, IUserDataService userDataService, IIdentityService identityService, IApplicationInfoService applicationInfoService)
+        public SettingsViewModel(IOptions<AppConfig> appConfig, IThemeSelectorService themeSelectorService, ISystemService systemService, IUserDataService userDataService, IIdentityService identityService, IApplicationInfoService applicationInfoService)
         {
-            _config = config.Value;
+            _appConfig = appConfig.Value;
             _themeSelectorService = themeSelectorService;
             _systemService = systemService;
             _applicationInfoService = applicationInfoService;
@@ -116,7 +116,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
         }
 
         private void OnPrivacyStatement()
-            => _systemService.OpenInWebBrowser(_config.PrivacyStatement);
+            => _systemService.OpenInWebBrowser(_appConfig.PrivacyStatement);
 
         private async void OnLogIn()
         {

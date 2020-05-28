@@ -29,10 +29,10 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IFirstRunWindowService _firstRunWindowService;
         private readonly IWhatsNewWindowService _whatsNewWindowService;
         private readonly IUserActivityService _userActivityService;
-        private readonly AppConfig _config;
+        private readonly AppConfig _appConfig;
         private bool _isInitialized;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, IDefaultActivationHandler defaultActivationHandler, IToastNotificationsService toastNotificationsService, ISchemeActivationHandler schemeActivationHandler, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> config, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IUserActivityService userActivityService)
+        public ApplicationHostService(IServiceProvider serviceProvider, IDefaultActivationHandler defaultActivationHandler, IToastNotificationsService toastNotificationsService, ISchemeActivationHandler schemeActivationHandler, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IUserActivityService userActivityService, IOptions<AppConfig> appConfig)
         {
             _serviceProvider = serviceProvider;
             _defaultActivationHandler = defaultActivationHandler;
@@ -42,12 +42,12 @@ namespace MyDotNetCoreWpfApp.Services
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
             _identityService = identityService;
-            _userDataService = userDataService;
-            _config = config.Value;
+            _userDataService = userDataService;            
             _backgroundTaskService = backgroundTaskService;
             _firstRunWindowService = firstRunWindowService;
             _whatsNewWindowService = whatsNewWindowService;
             _userActivityService = userActivityService;
+            _appConfig = appConfig.Value;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -75,8 +75,8 @@ namespace MyDotNetCoreWpfApp.Services
                 _persistAndRestoreService.RestoreData();
                 _themeSelectorService.SetTheme();
                 _userDataService.Initialize();
-                _identityService.InitializeWithAadAndPersonalMsAccounts(_config.IdentityClientId, "http://localhost");
-                _identityService.InitializeWebApi(_config.ResourceId, _config.WebApiScope);
+                _identityService.InitializeWithAadAndPersonalMsAccounts(_appConfig.IdentityClientId, "http://localhost");
+                _identityService.InitializeWebApi(_appConfig.ResourceId, _appConfig.WebApiScope);
                 await _identityService.AcquireTokenSilentAsync();
             }
         }

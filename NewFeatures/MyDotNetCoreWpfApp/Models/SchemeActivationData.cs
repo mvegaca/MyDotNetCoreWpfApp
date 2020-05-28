@@ -10,7 +10,7 @@ namespace MyDotNetCoreWpfApp.Models
         // More details about this functionality can be found at https://github.com/Microsoft/WindowsTemplateStudio/blob/master/docs/UWP/features/deep-linking.md
         // TODO WTS: Change the image in Assets/Logo.png to one for display if the OS asks the user which app to launch.
         // Also update this protocol name with the same value as package.appxmanifest.
-        private const string ProtocolName = "wtswpfapp";
+        public const string ProtocolName = "wtswpfapp";
 
         public string ViewModelName { get; private set; }
 
@@ -49,10 +49,10 @@ namespace MyDotNetCoreWpfApp.Models
             var uriBuilder = new UriBuilder($"{ProtocolName}:{pageKey}");
             var query = HttpUtility.ParseQueryString(string.Empty);
 
-            //foreach (var parameter in Parameters)
-            //{
-            //    query.Set(parameter.Key, parameter.Value);
-            //}
+            foreach (var parameter in Parameters)
+            {
+                query.Set(parameter.Key, parameter.Value);
+            }
 
             uriBuilder.Query = query.ToString();
             return new Uri(uriBuilder.ToString());

@@ -53,14 +53,18 @@ namespace MyDotNetCoreWpfApp
             var activationArgs = new Dictionary<string, string>
             {
                 { ToastNotificationArgs, string.Empty},
+                { SchemeActivationUriArgs, GetSchemeActivationArgs(e.Args) }
             };
-            
+
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
 
-            // For more information about .NET generic host see  https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
+            // For more information about .NET generic host see https://docs.microsoft.com/aspnet/core/fundamentals/host/generic-host?view=aspnetcore-3.0
             _host = Host.CreateDefaultBuilder(e.Args)
-                    .ConfigureAppConfiguration(c => c.SetBasePath(appLocation))
-                    .ConfigureHostConfiguration(c => c.AddInMemoryCollection(activationArgs))
+                    .ConfigureAppConfiguration(c =>
+                    {
+                        c.SetBasePath(appLocation);
+                        c.AddInMemoryCollection(activationArgs);
+                    })
                     .ConfigureServices(ConfigureServices)
                     .Build();
 
@@ -72,6 +76,9 @@ namespace MyDotNetCoreWpfApp
 
             await _host.StartAsync();
         }
+
+        private string GetSchemeActivationArgs(string[] args)
+            => args.FirstOrDefault(a => a.StartsWith(SchemeActivationData.ProtocolName));
 
         private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
         {

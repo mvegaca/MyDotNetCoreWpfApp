@@ -31,7 +31,6 @@ namespace MyDotNetCoreWpfApp.Activation
         public async Task HandleAsync()
         {
             var uri = new Uri(_config[App.SchemeActivationUriArgs]);
-            // Create data from activation Uri in ProtocolActivatedEventArgs
             var data = new SchemeActivationData(uri);
             if (data.IsValid)
             {
@@ -57,6 +56,6 @@ namespace MyDotNetCoreWpfApp.Activation
         }
 
         public bool CanHandle()
-            => Uri.TryCreate(_config[App.SchemeActivationUriArgs], UriKind.RelativeOrAbsolute, out var activationUri);
+            => !string.IsNullOrEmpty(_config[App.SchemeActivationUriArgs]);
     }
 }

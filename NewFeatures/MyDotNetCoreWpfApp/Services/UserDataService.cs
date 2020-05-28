@@ -18,18 +18,18 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IFileService _fileService;
         private readonly IIdentityService _identityService;
         private readonly IMicrosoftGraphService _microsoftGraphService;
-        private readonly AppConfig _config;
+        private readonly AppConfig _appConfig;
         private readonly string _localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         private UserViewModel _user;
 
         public event EventHandler<UserViewModel> UserDataUpdated;
 
-        public UserDataService(IFileService fileService, IIdentityService identityService, IMicrosoftGraphService microsoftGraphService, IOptions<AppConfig> config)
+        public UserDataService(IFileService fileService, IIdentityService identityService, IMicrosoftGraphService microsoftGraphService, IOptions<AppConfig> appConfig)
         {
             _fileService = fileService;
             _identityService = identityService;
             _microsoftGraphService = microsoftGraphService;
-            _config = config.Value;
+            _appConfig = appConfig.Value;
         }
 
         public void Initialize()
@@ -61,15 +61,15 @@ namespace MyDotNetCoreWpfApp.Services
         private void OnLoggedOut(object sender, EventArgs e)
         {
             _user = null;
-            var folderPath = Path.Combine(_localAppData, _config.ConfigurationsFolder);
-            var fileName = _config.UserFileName;
+            var folderPath = Path.Combine(_localAppData, _appConfig.ConfigurationsFolder);
+            var fileName = _appConfig.UserFileName;
             _fileService.Save<User>(folderPath, fileName, null);
         }
 
         private UserViewModel GetUserFromCache()
         {
-            var folderPath = Path.Combine(_localAppData, _config.ConfigurationsFolder);
-            var fileName = _config.UserFileName;
+            var folderPath = Path.Combine(_localAppData, _appConfig.ConfigurationsFolder);
+            var fileName = _appConfig.UserFileName;
             var cacheData = _fileService.Read<User>(folderPath, fileName);
             return GetUserViewModelFromData(cacheData);
         }
@@ -86,8 +86,8 @@ namespace MyDotNetCoreWpfApp.Services
             if (userData != null)
             {
                 userData.Photo = await _microsoftGraphService.GetUserPhoto(accessToken);
-                var folderPath = Path.Combine(_localAppData, _config.ConfigurationsFolder);
-                var fileName = _config.UserFileName;
+                var folderPath = Path.Combine(_localAppData, _appConfig.ConfigurationsFolder);
+                var fileName = _appConfig.UserFileName;
                 _fileService.Save<User>(folderPath, fileName, userData);
             }
 
