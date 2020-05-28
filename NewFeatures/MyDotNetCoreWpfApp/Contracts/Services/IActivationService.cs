@@ -5,6 +5,6 @@ namespace MyDotNetCoreWpfApp.Contracts.Services
 {
     public interface IActivationService : IHostedService
     {
-        Task ActivateAsync(string[] activationArgs);
+        Task ActivateAsync(object activationArgs);
     }
 }

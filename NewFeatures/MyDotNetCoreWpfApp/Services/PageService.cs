@@ -22,6 +22,7 @@ namespace MyDotNetCoreWpfApp.Services
             Configure<ContentGridViewModel, ContentGridPage>();
             Configure<ContentGridDetailViewModel, ContentGridDetailPage>();
             Configure<DataGridViewModel, DataGridPage>();
+            Configure<SchemeActivationSampleViewModel, SchemeActivationSamplePage>();
             Configure<SettingsViewModel, SettingsPage>();
         }
 

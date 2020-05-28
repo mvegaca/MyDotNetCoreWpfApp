@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-
 using MyDotNetCoreWpfApp.ViewModels;
 
 namespace MyDotNetCoreWpfApp.Views

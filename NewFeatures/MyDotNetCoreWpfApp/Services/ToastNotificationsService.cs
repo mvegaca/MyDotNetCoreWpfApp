@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
+using MyDotNetCoreWpfApp.Arguments;
 using MyDotNetCoreWpfApp.Contracts.Services;
 using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.ViewModels;
@@ -24,10 +25,14 @@ namespace MyDotNetCoreWpfApp.Services
             _navigationService = navigationService;
         }
 
-        public bool CanHandle(string[] args)
-            => args.Contains("ToastContentActivationParams");
+        protected override bool CanHandleInternal(ToastNotificationArguments args)
+        {
 
-        public async Task HandleAsync(string[] args)
+            // args.Contains("ToastContentActivationParams");
+            return base.CanHandleInternal(args);
+        }
+
+        protected override async Task HandleInternalAsync(ToastNotificationArguments args)
         {
             if (IsApplicationStarted)
             {
@@ -50,7 +55,7 @@ namespace MyDotNetCoreWpfApp.Services
             await Task.CompletedTask;
         }
 
-        public void ShowToastNotification(ToastNotification toastNotification)
+        public override void ShowToastNotification(ToastNotification toastNotification)
         {
             DesktopNotificationManagerCompat.CreateToastNotifier().Show(toastNotification);
         }

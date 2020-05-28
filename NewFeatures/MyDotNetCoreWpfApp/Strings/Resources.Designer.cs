@@ -167,6 +167,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SchemeActivationSample.
+        /// </summary>
+        public static string SchemeActivationSamplePageTitle {
+            get {
+                return ResourceManager.GetString("SchemeActivationSamplePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings page placeholder text.  Your app description goes here..
         /// </summary>
         public static string SettingsPageAboutText {
@@ -307,6 +316,15 @@ namespace MyDotNetCoreWpfApp.Strings {
         public static string ShellMainPage {
             get {
                 return ResourceManager.GetString("ShellMainPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SchemeActivationSample.
+        /// </summary>
+        public static string ShellSchemeActivationSamplePage {
+            get {
+                return ResourceManager.GetString("ShellSchemeActivationSamplePage", resourceCulture);
             }
         }
         

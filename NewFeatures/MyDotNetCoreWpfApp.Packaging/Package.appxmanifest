@@ -62,6 +62,13 @@
         <desktop:Extension Category="windows.toastNotificationActivation">
           <desktop:ToastNotificationActivation ToastActivatorCLSID="50cfb67f-bc8a-477d-938c-93cf6bfb3320"/>
         </desktop:Extension>
+
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="wtswpfapp">
+            <uap:Logo>Assets\Icon.png</uap:Logo>
+            <uap:DisplayName>MyDotNetCoreWpfApp</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
 
     </Application>

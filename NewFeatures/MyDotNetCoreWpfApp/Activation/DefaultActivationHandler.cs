@@ -18,10 +18,10 @@ namespace MyDotNetCoreWpfApp.Activation
             _navigationService = navigationService;
         }
 
-        public bool CanHandle(string[] args)
+        protected override bool CanHandleInternal(string[] args)
             => App.Current.Windows.Count == 0;
 
-        public async Task HandleAsync(string[] args)
+        protected override async Task HandleInternalAsync(string[] args)
         {
             var shellWindow = _serviceProvider.GetService(typeof(IShellWindow)) as IShellWindow;
             _navigationService.Initialize(shellWindow.GetNavigationFrame());

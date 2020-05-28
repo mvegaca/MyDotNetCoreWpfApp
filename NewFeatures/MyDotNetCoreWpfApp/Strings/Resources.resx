@@ -228,4 +228,10 @@ Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Ma
   <data name="ShellDataGridPage" xml:space="preserve">
     <value>DataGrid</value>
   </data>
+  <data name="ShellSchemeActivationSamplePage" xml:space="preserve">
+    <value>SchemeActivationSample</value>
+  </data>
+  <data name="SchemeActivationSamplePageTitle" xml:space="preserve">
+    <value>SchemeActivationSample</value>
+  </data>
 </root>

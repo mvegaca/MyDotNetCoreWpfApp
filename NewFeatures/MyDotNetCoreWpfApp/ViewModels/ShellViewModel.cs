@@ -48,6 +48,7 @@ namespace MyDotNetCoreWpfApp.ViewModels
             new HamburgerMenuGlyphItem() { Label = Resources.ShellMainPage, Glyph = "\uE8A5", TargetPageType = typeof(MainViewModel) },
             new HamburgerMenuGlyphItem() { Label = Resources.ShellContentGridPage, Glyph = "\uE8A5", TargetPageType = typeof(ContentGridViewModel) },
             new HamburgerMenuGlyphItem() { Label = Resources.ShellDataGridPage, Glyph = "\uE8A5", TargetPageType = typeof(DataGridViewModel) },
+            new HamburgerMenuGlyphItem() { Label = Resources.ShellSchemeActivationSamplePage, Glyph = "\uE8A5", TargetPageType = typeof(SchemeActivationSampleViewModel) },
         };
 
         public ObservableCollection<HamburgerMenuItem> OptionMenuItems { get; } = new ObservableCollection<HamburgerMenuItem>()

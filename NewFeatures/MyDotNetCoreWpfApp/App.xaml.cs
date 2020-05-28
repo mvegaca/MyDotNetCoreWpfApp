@@ -85,11 +85,14 @@ namespace MyDotNetCoreWpfApp
             services.AddTransient<ISampleDataService, SampleDataService>();
             services.AddSingleton<IFileService, FileService>();
 
-            // Services
-            services.AddTransient<IDefaultActivationHandler, DefaultActivationHandler>();
-            services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
-            services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();
+            // Activation Handlers
+            services.AddSingleton<IDefaultActivationHandler, DefaultActivationHandler>();
             services.AddSingleton<IToastNotificationsService, ToastNotificationsService>();
+            services.AddSingleton<ISchemeActivationHandler, SchemeActivationHandler>();
+
+            // Services
+            services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
+            services.AddSingleton<IFirstRunWindowService, FirstRunWindowService>();            
             services.AddSingleton<IBackgroundTaskService, BackgroundTaskService>();
             services.AddSingleton<IUserDataService, UserDataService>();
             services.AddSingleton<IApplicationInfoService, ApplicationInfoService>();
@@ -98,6 +101,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IUserActivityService, UserActivityService>();
 
             // Views and ViewModels
             services.AddTransient<IShellWindow, ShellWindow>();
@@ -108,6 +112,9 @@ namespace MyDotNetCoreWpfApp
 
             services.AddTransient<WhatsNewWindow>();
             services.AddTransient<WhatsNewViewModel>();
+
+            services.AddTransient<SchemeActivationSampleViewModel>();
+            services.AddTransient<SchemeActivationSamplePage>();
 
             services.AddTransient<DataGridViewModel>();
             services.AddTransient<DataGridPage>();
