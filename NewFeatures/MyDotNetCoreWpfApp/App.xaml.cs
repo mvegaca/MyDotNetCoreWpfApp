@@ -18,19 +18,16 @@ using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Core.Services;
 using MyDotNetCoreWpfApp.Models;
-using MyDotNetCoreWpfApp.Notifications;
 using MyDotNetCoreWpfApp.Services;
 using MyDotNetCoreWpfApp.ViewModels;
 using MyDotNetCoreWpfApp.Views;
+using Windows.UI.Notifications;
 
 namespace MyDotNetCoreWpfApp
 {
     // For more inforation about application lifecyle events see https://docs.microsoft.com/dotnet/framework/wpf/app-development/application-management-overview
     public partial class App : Application
     {
-        public const string ToastNotificationArgs = "ToastNotificationArgs";
-        public const string SchemeActivationUriArgs = "SchemeActivationUriArgs";
-
         private IHost _host;
 
         public App()
@@ -52,8 +49,8 @@ namespace MyDotNetCoreWpfApp
             // TODO: Register arguments you want to use on App initialization
             var activationArgs = new Dictionary<string, string>
             {
-                { ToastNotificationArgs, string.Empty},
-                { SchemeActivationUriArgs, GetSchemeActivationArgs(e.Args) }
+                { ToastNotificationActivationHandler.ActivationArguments, string.Empty},
+                { SchemeActivationHandler.ActivationArguments, GetSchemeActivationArgs(e.Args) }
             };
 
             var appLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -100,9 +97,8 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IFileService, FileService>();
 
             // Activation Handlers
-            services.AddSingleton<IDefaultActivationHandler, DefaultActivationHandler>();
-            services.AddSingleton<IToastNotificationsService, ToastNotificationsService>();
-            services.AddSingleton<ISchemeActivationHandler, SchemeActivationHandler>();
+            services.AddSingleton<IActivationHandler, SchemeActivationHandler>();
+            services.AddSingleton<IActivationHandler, ToastNotificationActivationHandler>();
 
             // Services
             services.AddSingleton<IWhatsNewWindowService, WhatsNewWindowService>();
@@ -116,6 +112,7 @@ namespace MyDotNetCoreWpfApp
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IUserActivityService, UserActivityService>();
+            services.AddSingleton<IToastNotificationsService, ToastNotificationsService>();
 
             // Views and ViewModels
             services.AddTransient<IShellWindow, ShellWindow>();

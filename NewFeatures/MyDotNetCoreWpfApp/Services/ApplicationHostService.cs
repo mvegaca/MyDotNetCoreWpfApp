@@ -8,8 +8,10 @@ using Microsoft.Extensions.Options;
 using MyDotNetCoreWpfApp.Activation;
 using MyDotNetCoreWpfApp.Contracts.Activation;
 using MyDotNetCoreWpfApp.Contracts.Services;
+using MyDotNetCoreWpfApp.Contracts.Views;
 using MyDotNetCoreWpfApp.Core.Contracts.Services;
 using MyDotNetCoreWpfApp.Models;
+using MyDotNetCoreWpfApp.ViewModels;
 using Windows.UI.Text.Core;
 
 namespace MyDotNetCoreWpfApp.Services
@@ -17,9 +19,7 @@ namespace MyDotNetCoreWpfApp.Services
     public class ApplicationHostService : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IDefaultActivationHandler _defaultActivationHandler;
-        private readonly IToastNotificationsService _toastNotificationsService;
-        private readonly ISchemeActivationHandler _schemeActivationHandler;
+        private readonly IEnumerable<IActivationHandler> _activationHandlers;
         private readonly INavigationService _navigationService;
         private readonly IPersistAndRestoreService _persistAndRestoreService;
         private readonly IThemeSelectorService _themeSelectorService;
@@ -29,25 +29,25 @@ namespace MyDotNetCoreWpfApp.Services
         private readonly IFirstRunWindowService _firstRunWindowService;
         private readonly IWhatsNewWindowService _whatsNewWindowService;
         private readonly IUserActivityService _userActivityService;
+        private readonly IToastNotificationsService _toastNotificationsService;
         private readonly AppConfig _appConfig;
         private bool _isInitialized;
 
-        public ApplicationHostService(IServiceProvider serviceProvider, IDefaultActivationHandler defaultActivationHandler, IToastNotificationsService toastNotificationsService, ISchemeActivationHandler schemeActivationHandler, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IUserActivityService userActivityService, IOptions<AppConfig> appConfig)
+        public ApplicationHostService(IServiceProvider serviceProvider, IEnumerable<IActivationHandler> activationHandlers, INavigationService navigationService, IThemeSelectorService themeSelectorService, IPersistAndRestoreService persistAndRestoreService, IIdentityService identityService, IUserDataService userDataService, IOptions<AppConfig> appConfig, IBackgroundTaskService backgroundTaskService, IFirstRunWindowService firstRunWindowService, IWhatsNewWindowService whatsNewWindowService, IUserActivityService userActivityService, IToastNotificationsService toastNotificationsService)
         {
             _serviceProvider = serviceProvider;
-            _defaultActivationHandler = defaultActivationHandler;
-            _toastNotificationsService = toastNotificationsService;
-            _schemeActivationHandler = schemeActivationHandler;
+            _activationHandlers = activationHandlers;
             _navigationService = navigationService;
             _themeSelectorService = themeSelectorService;
             _persistAndRestoreService = persistAndRestoreService;
             _identityService = identityService;
-            _userDataService = userDataService;            
+            _userDataService = userDataService;
+            _appConfig = appConfig.Value;
             _backgroundTaskService = backgroundTaskService;
             _firstRunWindowService = firstRunWindowService;
             _whatsNewWindowService = whatsNewWindowService;
             _userActivityService = userActivityService;
-            _appConfig = appConfig.Value;
+            _toastNotificationsService = toastNotificationsService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -96,7 +96,7 @@ namespace MyDotNetCoreWpfApp.Services
 
         private async Task HandleActivationAsync()
         {
-            var activationHandler = GetActivationHandlers()
+            var activationHandler = _activationHandlers
                                         .FirstOrDefault(h => h.CanHandle());
 
             if (activationHandler != null)
@@ -104,16 +104,13 @@ namespace MyDotNetCoreWpfApp.Services
                 await activationHandler.HandleAsync();
             }
 
-            if (_defaultActivationHandler.CanHandle())
+            if (App.Current.Windows.Count == 0)
             {
-                await _defaultActivationHandler.HandleAsync();
+                var shellWindow = _serviceProvider.GetService(typeof(IShellWindow)) as IShellWindow;
+                _navigationService.Initialize(shellWindow.GetNavigationFrame());
+                shellWindow.ShowWindow();
+                _navigationService.NavigateTo(typeof(MainViewModel).FullName);
             }
-        }
-
-        private IEnumerable<IActivationHandler> GetActivationHandlers()
-        {
-            yield return _toastNotificationsService;
-            yield return _schemeActivationHandler;
         }
     }
 }

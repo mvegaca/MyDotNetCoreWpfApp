@@ -6,10 +6,6 @@ namespace MyDotNetCoreWpfApp.Services
 {
     public partial class ToastNotificationsService
     {
-        public ToastNotificationsService()
-        {
-        }
-
         public void ShowToastNotificationSample()
         {
             // Create the toast content

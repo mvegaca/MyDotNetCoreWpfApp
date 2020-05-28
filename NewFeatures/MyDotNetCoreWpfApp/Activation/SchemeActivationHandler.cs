@@ -12,8 +12,10 @@ using MyDotNetCoreWpfApp.Models;
 
 namespace MyDotNetCoreWpfApp.Activation
 {
-    public class SchemeActivationHandler : ISchemeActivationHandler
+    public class SchemeActivationHandler : IActivationHandler
     {
+        public const string ActivationArguments = "SchemeActivationArguments";
+
         private readonly IConfiguration _config;
         private readonly IServiceProvider _serviceProvider;
         private readonly INavigationService _navigationService;
@@ -30,7 +32,7 @@ namespace MyDotNetCoreWpfApp.Activation
 
         public async Task HandleAsync()
         {
-            var uri = new Uri(_config[App.SchemeActivationUriArgs]);
+            var uri = new Uri(_config[ActivationArguments]);
             var data = new SchemeActivationData(uri);
             if (data.IsValid)
             {
@@ -56,6 +58,6 @@ namespace MyDotNetCoreWpfApp.Activation
         }
 
         public bool CanHandle()
-            => !string.IsNullOrEmpty(_config[App.SchemeActivationUriArgs]);
+            => !string.IsNullOrEmpty(_config[ActivationArguments]);
     }
 }

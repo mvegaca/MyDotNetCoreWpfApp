@@ -4,7 +4,7 @@ using System.Windows;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Uwp.Notifications;
 
-namespace MyDotNetCoreWpfApp.Notifications
+namespace MyDotNetCoreWpfApp.Activation
 {
     // The GUID CLSID must be unique to your app. Create a new GUID if copying this code.
     [ClassInterface(ClassInterfaceType.None)]
@@ -18,9 +18,9 @@ namespace MyDotNetCoreWpfApp.Notifications
             {
                 var app = Application.Current as App;
                 var config = app.GetService<IConfiguration>();
-                config[App.ToastNotificationArgs] = arguments;
+                config[ToastNotificationActivationHandler.ActivationArguments] = arguments;
                 await app.StartAsync();
             });
-        }
+        }        
     }
 }

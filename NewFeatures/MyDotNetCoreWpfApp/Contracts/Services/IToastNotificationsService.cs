@@ -3,7 +3,7 @@ using Windows.UI.Notifications;
 
 namespace MyDotNetCoreWpfApp.Contracts.Services
 {
-    public interface IToastNotificationsService : IActivationHandler
+    public interface IToastNotificationsService
     {
         public abstract void ShowToastNotification(ToastNotification toastNotification);
 
